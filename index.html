@@ -6,21 +6,20 @@
   <title>Dimitri Orfanos — R&D Engineer</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Cormorant:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500&display=swap" rel="stylesheet" />
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
     :root {
-      --bg:           #F6F3EE;
-      --surface:      #EFEAE1;
-      --text:         #17150E;
-      --text-muted:   #6A6660;
+      --bg:           #FFFFFF;
+      --surface:      #F5F5F5;
+      --text:         #111111;
+      --text-muted:   #666666;
       --accent:       #1D4D3E;
       --accent-light: #2A6B56;
-      --border:       #DEDAD3;
-      --white:        #FDFAF5;
+      --border:       #E0E0E0;
 
-      --font-display: 'Cormorant', Georgia, serif;
+      --font-display: 'Syne', system-ui, sans-serif;
       --font-body:    'DM Sans', system-ui, sans-serif;
 
       --max-w:  1160px;
@@ -47,7 +46,7 @@
       align-items: center;
       justify-content: space-between;
       padding: 1.25rem var(--pad-x);
-      background: rgba(246, 243, 238, 0.88);
+      background: rgba(255, 255, 255, 0.90);
       backdrop-filter: blur(12px);
       -webkit-backdrop-filter: blur(12px);
       border-bottom: 1px solid transparent;
@@ -58,8 +57,8 @@
 
     .nav-logo {
       font-family: var(--font-display);
-      font-weight: 500;
-      font-size: 1.15rem;
+      font-weight: 600;
+      font-size: 1rem;
       letter-spacing: 0.02em;
       color: var(--text);
       text-decoration: none;
@@ -74,7 +73,7 @@
     .nav-links a {
       font-size: 0.78rem;
       font-weight: 400;
-      letter-spacing: 0.12em;
+      letter-spacing: 0.1em;
       text-transform: uppercase;
       color: var(--text-muted);
       text-decoration: none;
@@ -91,16 +90,6 @@
       justify-content: flex-end;
       padding: 0 var(--pad-x) 5rem;
       position: relative;
-      overflow: hidden;
-    }
-
-    .hero-bg {
-      position: absolute;
-      inset: 0;
-      background:
-        radial-gradient(ellipse 60% 50% at 80% 25%, rgba(29,77,62,0.07) 0%, transparent 70%),
-        radial-gradient(ellipse 40% 40% at 15% 75%, rgba(184,109,53,0.05) 0%, transparent 60%);
-      pointer-events: none;
     }
 
     .hero-meta {
@@ -108,7 +97,7 @@
       letter-spacing: 0.16em;
       text-transform: uppercase;
       color: var(--text-muted);
-      margin-bottom: 1.5rem;
+      margin-bottom: 1.25rem;
       display: flex;
       align-items: center;
       gap: 1rem;
@@ -125,18 +114,13 @@
 
     .hero-name {
       font-family: var(--font-display);
-      font-weight: 300;
-      font-size: clamp(4rem, 10vw, 9rem);
-      line-height: 0.95;
-      letter-spacing: -0.02em;
+      font-weight: 700;
+      font-size: clamp(3.5rem, 9vw, 8rem);
+      line-height: 1;
+      letter-spacing: -0.03em;
       color: var(--text);
       margin-bottom: 2.5rem;
       animation: fadeUp 0.8s 0.1s ease both;
-    }
-
-    .hero-name em {
-      font-style: italic;
-      color: var(--accent);
     }
 
     .hero-footer {
@@ -155,10 +139,7 @@
       line-height: 1.75;
     }
 
-    .hero-btns {
-      display: flex;
-      gap: 0.75rem;
-    }
+    .hero-btns { display: flex; gap: 0.75rem; }
 
     /* ── BUTTONS ─────────────────────────────────────── */
     .btn {
@@ -175,12 +156,11 @@
       text-decoration: none;
       transition: all 0.2s;
       cursor: pointer;
-      border: none;
     }
 
     .btn-primary {
       background: var(--accent);
-      color: var(--white);
+      color: #fff;
       border: 1px solid var(--accent);
     }
     .btn-primary:hover { background: var(--accent-light); border-color: var(--accent-light); }
@@ -222,10 +202,10 @@
 
     .section-title {
       font-family: var(--font-display);
-      font-size: clamp(2.2rem, 5vw, 3.75rem);
-      font-weight: 400;
+      font-size: clamp(2rem, 5vw, 3.25rem);
+      font-weight: 700;
       line-height: 1.1;
-      letter-spacing: -0.02em;
+      letter-spacing: -0.03em;
       margin-bottom: 3rem;
     }
 
@@ -265,7 +245,7 @@
 
     .about-stat-value {
       font-family: var(--font-display);
-      font-size: 1rem;
+      font-size: 0.9rem;
       font-weight: 500;
       color: var(--text);
       text-align: right;
@@ -286,8 +266,8 @@
     .projects-grid {
       display: grid;
       grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-      border: 1.5px solid var(--border);
-      gap: 1.5px;
+      border: 1px solid var(--border);
+      gap: 1px;
       background: var(--border);
     }
 
@@ -297,25 +277,25 @@
       display: flex;
       flex-direction: column;
       gap: 0.85rem;
-      transition: background 0.25s;
+      transition: background 0.2s;
       text-decoration: none;
       color: inherit;
     }
 
-    .project-card:hover { background: var(--bg); }
+    .project-card:hover { background: #fff; }
 
     .project-number {
       font-family: var(--font-display);
-      font-size: 0.85rem;
-      font-style: italic;
+      font-size: 0.8rem;
+      font-weight: 500;
       color: var(--text-muted);
     }
 
     .project-title {
       font-family: var(--font-display);
-      font-size: 1.65rem;
-      font-weight: 500;
-      line-height: 1.2;
+      font-size: 1.35rem;
+      font-weight: 600;
+      line-height: 1.25;
       color: var(--text);
     }
 
@@ -341,7 +321,7 @@
       padding: 0.22rem 0.55rem;
       border: 1px solid var(--border);
       color: var(--text-muted);
-      border-radius: 1px;
+      border-radius: 2px;
     }
 
     /* ── EXPERIENCE ──────────────────────────────────── */
@@ -366,15 +346,15 @@
 
     .exp-company {
       font-family: var(--font-display);
-      font-size: 0.95rem;
-      font-weight: 500;
+      font-size: 0.9rem;
+      font-weight: 600;
       color: var(--accent);
     }
 
     .exp-role {
       font-family: var(--font-display);
-      font-size: 1.5rem;
-      font-weight: 400;
+      font-size: 1.3rem;
+      font-weight: 600;
       line-height: 1.2;
       margin-bottom: 0.85rem;
     }
@@ -397,23 +377,12 @@
     }
 
     /* ── CONTACT ─────────────────────────────────────── */
-    #contact { text-align: center; }
-    #contact .section-label { justify-content: center; }
-    #contact .section-label::after { display: none; }
-    #contact .section-title { margin-bottom: 0.5rem; }
-
-    .contact-sub {
-      color: var(--text-muted);
-      font-size: 0.95rem;
-      max-width: 360px;
-      margin: 0 auto 1.5rem;
-    }
+    #contact { text-align: left; }
 
     .contact-email {
       font-family: var(--font-display);
-      font-size: clamp(1.5rem, 4vw, 2.75rem);
-      font-weight: 300;
-      font-style: italic;
+      font-size: clamp(1.4rem, 3.5vw, 2.5rem);
+      font-weight: 500;
       color: var(--text);
       text-decoration: none;
       border-bottom: 1px solid var(--border);
@@ -425,7 +394,13 @@
 
     .contact-email:hover { color: var(--accent); border-color: var(--accent); }
 
-    .contact-links { display: flex; justify-content: center; gap: 0.75rem; }
+    .contact-sub {
+      color: var(--text-muted);
+      font-size: 0.95rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .contact-links { display: flex; gap: 0.75rem; }
 
     /* ── FOOTER ──────────────────────────────────────── */
     footer {
@@ -477,9 +452,8 @@
 
   <!-- HERO -->
   <section id="hero">
-    <div class="hero-bg"></div>
     <div class="hero-meta">Cambridge, MA · Open to new opportunities</div>
-    <h1 class="hero-name">Dimitri<br><em>Orfanos</em></h1>
+    <h1 class="hero-name">Dimitri Orfanos</h1>
     <div class="hero-footer">
       <p class="hero-desc">
         R&amp;D &amp; Process Engineer working at the intersection of plasma chemistry,
@@ -498,7 +472,7 @@
     <div class="about-grid fade-in">
       <div>
         <div class="section-label">About</div>
-        <h2 class="section-title">Engineer.<br>Builder.<br>Problem-solver.</h2>
+        <h2 class="section-title">Engineer. Builder. Problem-solver.</h2>
         <div class="about-text">
           <!-- REPLACE: Bio paragraph 1 -->
           <p>I'm a process and R&amp;D engineer with ~3.5 years of experience spanning R&amp;D, systems test, instrumentation &amp; controls, and thermal engineering. My work lives at the intersection of chemistry, plasma physics, and the hardware systems that bring them to scale.</p>
@@ -539,11 +513,11 @@
     <div class="inner">
       <div class="fade-in">
         <div class="section-label">Work</div>
-        <h2 class="section-title">Selected projects<br>&amp; systems built.</h2>
+        <h2 class="section-title">Selected projects &amp; systems built.</h2>
       </div>
       <div class="projects-grid fade-in">
 
-        <!-- PROJECT 1 — already filled, update as needed -->
+        <!-- PROJECT 1 -->
         <a href="#" class="project-card">
           <span class="project-number">01</span>
           <h3 class="project-title">Plasma Reactor SCADA Platform</h3>
@@ -588,7 +562,7 @@
   <section id="experience">
     <div class="fade-in">
       <div class="section-label">Experience</div>
-      <h2 class="section-title">Where I've<br>worked.</h2>
+      <h2 class="section-title">Where I've worked.</h2>
     </div>
     <div class="exp-list fade-in">
 
@@ -601,7 +575,6 @@
         <div>
           <h3 class="exp-role">R&amp;D &amp; Process Engineer</h3>
           <ul class="exp-bullets">
-            <!-- REPLACE bullets with strong, specific accomplishments -->
             <li><!-- e.g. "Developed pilot-scale plasma reactor achieving X result" --></li>
             <li><!-- e.g. "Designed and implemented LabVIEW SCADA platform for real-time control of ..." --></li>
             <li><!-- e.g. "Authored DOE deliverables and technical reports for ..." --></li>
@@ -665,13 +638,11 @@
   </footer>
 
   <script>
-    // Nav scroll border
     const nav = document.getElementById('main-nav');
     window.addEventListener('scroll', () => {
       nav.classList.toggle('scrolled', window.scrollY > 40);
     }, { passive: true });
 
-    // Scroll-triggered fade-in
     const observer = new IntersectionObserver((entries) => {
       entries.forEach(e => {
         if (e.isIntersecting) {
