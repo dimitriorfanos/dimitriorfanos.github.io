@@ -284,10 +284,35 @@
 
     .project-card:hover { background: #fff; }
 
+    .project-card-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
     .project-number {
       font-family: var(--font-display);
       font-size: 0.8rem;
       font-weight: 500;
+      color: var(--text-muted);
+    }
+
+    .project-type {
+      font-size: 0.62rem;
+      font-weight: 600;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      padding: 0.18rem 0.5rem;
+      border-radius: 2px;
+    }
+
+    .project-type.type-project {
+      background: rgba(29, 77, 62, 0.08);
+      color: var(--accent);
+    }
+
+    .project-type.type-case-study {
+      background: rgba(0,0,0,0.05);
       color: var(--text-muted);
     }
 
@@ -474,11 +499,8 @@
         <div class="section-label">About</div>
         <h2 class="section-title">Engineer. Builder. Problem-solver.</h2>
         <div class="about-text">
-          <!-- REPLACE: Bio paragraph 1 -->
           <p>I'm a process and R&amp;D engineer with ~3.5 years of experience spanning R&amp;D, systems test, instrumentation &amp; controls, and thermal engineering. My work lives at the intersection of chemistry, plasma physics, and the hardware systems that bring them to scale.</p>
-          <!-- REPLACE: Bio paragraph 2 -->
           <p>Currently at MAAT Energy, I develop and operate pilot-scale microwave plasma reactors for syngas, hydrogen, and carbon production — and build the SCADA systems that run them reliably day-to-day.</p>
-          <!-- REPLACE: Bio paragraph 3 (optional) -->
           <p>I care about building things that actually work: instrumented, robust, and ready to scale.</p>
         </div>
       </div>
@@ -513,44 +535,87 @@
     <div class="inner">
       <div class="fade-in">
         <div class="section-label">Work</div>
-        <h2 class="section-title">Selected projects &amp; systems built.</h2>
+        <h2 class="section-title">Selected projects &amp; case studies.</h2>
       </div>
       <div class="projects-grid fade-in">
 
-        <!-- PROJECT 1 -->
+        <!-- 01 -->
         <a href="#" class="project-card">
-          <span class="project-number">01</span>
-          <h3 class="project-title">Plasma Reactor SCADA Platform</h3>
-          <p class="project-desc">LabVIEW-based SCADA system for a pilot-scale microwave plasma reactor. Real-time DAQ, MFC serial drivers, RF tuner integration, and automated ramp-and-soak sequences from CSV setpoints via cRIO RT target.</p>
+          <div class="project-card-header">
+            <span class="project-number">01</span>
+            <span class="project-type type-project">Project</span>
+          </div>
+          <h3 class="project-title">Microwave Plasma Experiments</h3>
+          <p class="project-desc">Ran bench-scale microwave plasma experiments for dry reforming and pyrolysis to evaluate performance, stability, and product quality. Owned and operated the 2.45GHz test skid end-to-end, with key findings on reflected power and arcing driving reactor modifications. Scaled from 1kW to 6kW; impedance matching insights carried to the 915MHz pilot, enabling stable operation at 100kW.</p>
+          <div class="project-tags">
+            <span class="tag">Microwave Plasma</span>
+            <span class="tag">Experimental Design</span>
+            <span class="tag">Scale-up</span>
+            <span class="tag">RF Systems</span>
+          </div>
+        </a>
+
+        <!-- 02 -->
+        <a href="#" class="project-card">
+          <div class="project-card-header">
+            <span class="project-number">02</span>
+            <span class="project-type type-project">Project</span>
+          </div>
+          <h3 class="project-title">Plasma Reactor SCADA</h3>
+          <p class="project-desc">Maintained and developed SCADA systems for bench and pilot-scale plasma reactors. Integrated new sensors, redesigned the front panel for operator clarity, and built a safety interlock system with alarm and automatic fault-shutdown logic. Improved observability reduced monitoring fatigue and enabled autonomous operation.</p>
           <div class="project-tags">
             <span class="tag">LabVIEW</span>
             <span class="tag">cRIO</span>
+            <span class="tag">Instrumentation</span>
+            <span class="tag">Safety Systems</span>
+          </div>
+        </a>
+
+        <!-- 03 -->
+        <a href="#" class="project-card">
+          <div class="project-card-header">
+            <span class="project-number">03</span>
+            <span class="project-type type-project">Project</span>
+          </div>
+          <h3 class="project-title">Impedance Matching</h3>
+          <p class="project-desc">Investigated RF impedance matching to maximize power transfer into plasma reactors. Studied matching networks, S-parameters, and Smith chart methods; modeled 3- and 4-stub tuner behavior. Reduced reflected power from 30% to &lt;1% at 6kW bench scale — methodology applied at pilot scale with the same result, and informed procurement of automatic tuners.</p>
+          <div class="project-tags">
+            <span class="tag">RF Engineering</span>
+            <span class="tag">Impedance Matching</span>
+            <span class="tag">S-Parameters</span>
+            <span class="tag">Smith Chart</span>
+          </div>
+        </a>
+
+        <!-- 04 -->
+        <a href="#" class="project-card">
+          <div class="project-card-header">
+            <span class="project-number">04</span>
+            <span class="project-type type-case-study">Case Study</span>
+          </div>
+          <h3 class="project-title">Tuner Spacer Design</h3>
+          <p class="project-desc">A tuner upgrade introduced a length mismatch that risked load impedance falling on a stub-swap discontinuity during power ramp. Applied waveguide phase-shifting principles to calculate two optimal spacer lengths, modeled them in SolidWorks, and prepared fabrication drawings. Installation was smooth and the design accommodates future process changes.</p>
+          <div class="project-tags">
+            <span class="tag">RF Engineering</span>
+            <span class="tag">Waveguide</span>
+            <span class="tag">SolidWorks</span>
+            <span class="tag">Phase Shifting</span>
+          </div>
+        </a>
+
+        <!-- 05 -->
+        <a href="#" class="project-card">
+          <div class="project-card-header">
+            <span class="project-number">05</span>
+            <span class="project-type type-case-study">Case Study</span>
+          </div>
+          <h3 class="project-title">Automatic Ramp Procedure</h3>
+          <p class="project-desc">Pilot reactor ramp from ignition to full power was manual, variable, and limited to trained operators. Built a LabVIEW SubVI that reads a CSV ramp plan, sequences setpoint changes for power, flow rates, and tuning, and waits for measured values to settle before advancing — with pause and fault-interrupt capability. Ramp is now repeatable and operator-independent.</p>
+          <div class="project-tags">
+            <span class="tag">LabVIEW</span>
             <span class="tag">SCADA</span>
-            <span class="tag">Serial Comms</span>
-            <span class="tag">Plasma</span>
-          </div>
-        </a>
-
-        <!-- PROJECT 2 — REPLACE -->
-        <a href="#" class="project-card">
-          <span class="project-number">02</span>
-          <h3 class="project-title"><!-- Project title --></h3>
-          <p class="project-desc"><!-- What was the system/problem? What did you build? What was the outcome? 2–3 sentences. --></p>
-          <div class="project-tags">
-            <span class="tag">Tag 1</span>
-            <span class="tag">Tag 2</span>
-            <span class="tag">Tag 3</span>
-          </div>
-        </a>
-
-        <!-- PROJECT 3 — REPLACE -->
-        <a href="#" class="project-card">
-          <span class="project-number">03</span>
-          <h3 class="project-title"><!-- Project title --></h3>
-          <p class="project-desc"><!-- What was the system/problem? What did you build? What was the outcome? 2–3 sentences. --></p>
-          <div class="project-tags">
-            <span class="tag">Tag 1</span>
-            <span class="tag">Tag 2</span>
+            <span class="tag">Automation</span>
+            <span class="tag">Instrumentation</span>
           </div>
         </a>
 
@@ -566,46 +631,46 @@
     </div>
     <div class="exp-list fade-in">
 
-      <!-- ROLE 1 -->
       <div class="exp-item">
         <div class="exp-meta">
-          <div class="exp-period"><!-- e.g. 2022 – Present --></div>
+          <div class="exp-period">May 2023 – Present</div>
           <div class="exp-company">MAAT Energy</div>
         </div>
         <div>
-          <h3 class="exp-role">R&amp;D &amp; Process Engineer</h3>
+          <h3 class="exp-role">R&amp;D Engineer</h3>
           <ul class="exp-bullets">
-            <li><!-- e.g. "Developed pilot-scale plasma reactor achieving X result" --></li>
-            <li><!-- e.g. "Designed and implemented LabVIEW SCADA platform for real-time control of ..." --></li>
-            <li><!-- e.g. "Authored DOE deliverables and technical reports for ..." --></li>
+            <!-- REPLACE with real accomplishment bullets -->
+            <li><!-- e.g. Scaled bench-scale plasma reactor from 1kW to 6kW for dry reforming and pyrolysis chemistries --></li>
+            <li><!-- e.g. Built and maintained LabVIEW SCADA platform for pilot-scale 100kW reactor --></li>
+            <li><!-- e.g. Authored DOE technical deliverables and cross-functional reports --></li>
           </ul>
         </div>
       </div>
 
-      <!-- ROLE 2 — REPLACE -->
       <div class="exp-item">
         <div class="exp-meta">
-          <div class="exp-period"><!-- Dates --></div>
-          <div class="exp-company"><!-- Company --></div>
-        </div>
-        <div>
-          <h3 class="exp-role"><!-- Role title --></h3>
-          <ul class="exp-bullets">
-            <li><!-- Bullet --></li>
-            <li><!-- Bullet --></li>
-          </ul>
-        </div>
-      </div>
-
-      <!-- ROLE 3 — CONTINUUS -->
-      <div class="exp-item">
-        <div class="exp-meta">
-          <div class="exp-period"><!-- Dates --></div>
+          <div class="exp-period">Jul 2022 – Dec 2022</div>
           <div class="exp-company">CONTINUUS Pharmaceuticals</div>
         </div>
         <div>
-          <h3 class="exp-role">Process Engineering Co-op</h3>
+          <h3 class="exp-role">Process Engineer Co-op</h3>
           <ul class="exp-bullets">
+            <!-- REPLACE — add content when ready -->
+            <li><!-- Bullet --></li>
+            <li><!-- Bullet --></li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="exp-item">
+        <div class="exp-meta">
+          <div class="exp-period">Jul 2021 – Jun 2022</div>
+          <div class="exp-company">MAAT Energy</div>
+        </div>
+        <div>
+          <h3 class="exp-role">Engineering Co-op</h3>
+          <ul class="exp-bullets">
+            <!-- REPLACE with real accomplishment bullets -->
             <li><!-- Bullet --></li>
             <li><!-- Bullet --></li>
           </ul>
@@ -626,7 +691,7 @@
       <div class="contact-links">
         <!-- REPLACE hrefs with your actual LinkedIn and GitHub URLs -->
         <a href="https://linkedin.com/in/yourprofile" class="btn btn-outline" target="_blank" rel="noopener">LinkedIn ↗</a>
-        <a href="https://github.com/yourusername" class="btn btn-outline" target="_blank" rel="noopener">GitHub ↗</a>
+        <a href="https://github.com/dimitriorfanos" class="btn btn-outline" target="_blank" rel="noopener">GitHub ↗</a>
       </div>
     </div>
   </section>
