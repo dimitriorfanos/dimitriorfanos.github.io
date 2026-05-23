@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Microwave Plasma Experiments — Dimitri Orfanos</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --bg: #FFFFFF; --surface: #F5F5F5; --text: #111111; --text-muted: #666666;
+      --accent: #1D4D3E; --accent-light: #2A6B56; --border: #E0E0E0;
+      --font-display: 'Syne', system-ui, sans-serif;
+      --font-body: 'DM Sans', system-ui, sans-serif;
+      --max-w: 800px; --pad-x: clamp(1.5rem, 5vw, 4rem);
+    }
+    html { scroll-behavior: smooth; }
+    body { font-family: var(--font-body); background: var(--bg); color: var(--text); font-size: 16px; line-height: 1.6; -webkit-font-smoothing: antialiased; }
+
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 1.25rem var(--pad-x);
+      background: rgba(255,255,255,0.90); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
+    }
+    .nav-logo { font-family: var(--font-display); font-weight: 600; font-size: 1rem; color: var(--text); text-decoration: none; }
+    .nav-back { font-size: 0.78rem; font-weight: 400; letter-spacing: 0.1em; text-transform: uppercase; color: var(--text-muted); text-decoration: none; transition: color 0.2s; display: flex; align-items: center; gap: 0.4rem; }
+    .nav-back:hover { color: var(--accent); }
+
+    .project-hero {
+      padding: 8rem var(--pad-x) 4rem;
+      max-width: calc(var(--max-w) + var(--pad-x) * 2);
+      margin: 0 auto;
+      border-bottom: 1px solid var(--border);
+    }
+    .project-hero-meta { display: flex; align-items: center; gap: 0.75rem; margin-bottom: 1.5rem; }
+    .project-num { font-family: var(--font-display); font-size: 0.8rem; font-weight: 500; color: var(--text-muted); }
+    .project-type-badge {
+      font-size: 0.62rem; font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase;
+      padding: 0.18rem 0.5rem; border-radius: 2px;
+      background: rgba(29,77,62,0.08); color: var(--accent);
+    }
+    .project-type-badge.case-study { background: rgba(0,0,0,0.05); color: var(--text-muted); }
+    .project-title { font-family: var(--font-display); font-size: clamp(2.25rem, 6vw, 3.5rem); font-weight: 700; letter-spacing: -0.03em; line-height: 1.05; margin-bottom: 1.75rem; }
+    .project-tags { display: flex; flex-wrap: wrap; gap: 0.4rem; }
+    .tag { font-size: 0.66rem; font-weight: 500; letter-spacing: 0.1em; text-transform: uppercase; padding: 0.22rem 0.55rem; border: 1px solid var(--border); color: var(--text-muted); border-radius: 2px; }
+
+    .project-body {
+      max-width: calc(var(--max-w) + var(--pad-x) * 2);
+      margin: 0 auto;
+      padding: 4rem var(--pad-x) 6rem;
+    }
+
+    .summary-grid {
+      display: grid; grid-template-columns: repeat(3, 1fr); gap: 1px;
+      background: var(--border); border: 1px solid var(--border);
+      margin-bottom: 4rem;
+    }
+    .summary-block { background: var(--surface); padding: 1.75rem; }
+    .summary-label { font-size: 0.68rem; font-weight: 600; letter-spacing: 0.18em; text-transform: uppercase; color: var(--accent); margin-bottom: 0.6rem; }
+    .summary-text { font-size: 0.875rem; color: var(--text-muted); line-height: 1.65; }
+
+    .content-section { margin-bottom: 4rem; }
+    .content-section h2 { font-family: var(--font-display); font-size: 1.35rem; font-weight: 600; margin-bottom: 1rem; letter-spacing: -0.02em; }
+    .content-section p { font-size: 0.95rem; color: var(--text-muted); line-height: 1.8; margin-bottom: 0.85rem; }
+    .content-section p:last-child { margin-bottom: 0; }
+    .content-section ul { list-style: none; display: flex; flex-direction: column; gap: 0.5rem; margin-bottom: 0.85rem; }
+    .content-section ul li { font-size: 0.95rem; color: var(--text-muted); padding-left: 1.25rem; position: relative; line-height: 1.65; }
+    .content-section ul li::before { content: '—'; position: absolute; left: 0; color: var(--border); }
+
+    /* IMAGE PLACEHOLDER — replace <div class="img-placeholder"> with <img src="yourfile.jpg" alt="description"> */
+    .img-placeholder {
+      width: 100%; aspect-ratio: 16/9;
+      border: 2px dashed var(--border);
+      border-radius: 2px;
+      display: flex; flex-direction: column; align-items: center; justify-content: center;
+      gap: 0.5rem;
+      color: var(--text-muted); font-size: 0.8rem; font-family: var(--font-body);
+      letter-spacing: 0.05em; background: var(--surface);
+      margin: 1.5rem 0;
+    }
+    .img-placeholder span { font-size: 1.5rem; }
+    .img-caption { font-size: 0.78rem; color: var(--text-muted); margin-top: -0.75rem; margin-bottom: 1.5rem; }
+
+    img.project-img { width: 100%; border-radius: 2px; margin: 1.5rem 0; display: block; }
+
+    .project-nav {
+      border-top: 1px solid var(--border);
+      display: flex; justify-content: space-between; align-items: center;
+      padding: 2rem var(--pad-x);
+      max-width: calc(var(--max-w) + var(--pad-x) * 2);
+      margin: 0 auto;
+    }
+    .project-nav a { font-size: 0.78rem; font-weight: 500; letter-spacing: 0.1em; text-transform: uppercase; color: var(--text-muted); text-decoration: none; transition: color 0.2s; }
+    .project-nav a:hover { color: var(--accent); }
+
+    footer { padding: 1.75rem var(--pad-x); border-top: 1px solid var(--border); display: flex; justify-content: space-between; font-size: 0.72rem; color: var(--text-muted); letter-spacing: 0.06em; }
+
+    @media (max-width: 640px) { .summary-grid { grid-template-columns: 1fr; } }
+  </style>
+</head>
+<body>
+
+  <nav>
+    <a href="../index.html" class="nav-logo">D. Orfanos</a>
+    <a href="../index.html#projects" class="nav-back">← All work</a>
+  </nav>
+
+  <div class="project-hero">
+    <div class="project-hero-meta">
+      <span class="project-num">01</span>
+      <span class="project-type-badge">Project</span>
+    </div>
+    <h1 class="project-title">Microwave Plasma Experiments</h1>
+    <div class="project-tags">
+      <span class="tag">Microwave Plasma</span>
+      <span class="tag">Experimental Design</span>
+      <span class="tag">Scale-up</span>
+      <span class="tag">RF Systems</span>
+    </div>
+  </div>
+
+  <div class="project-body">
+
+    <div class="summary-grid">
+      <div class="summary-block">
+        <div class="summary-label">Problem</div>
+        <div class="summary-text">Evaluate performance, stability, and product quality of bench-scale microwave plasma for dry reforming and pyrolysis chemistries.</div>
+      </div>
+      <div class="summary-block">
+        <div class="summary-label">Approach</div>
+        <div class="summary-text">Owned and operated the 2.45GHz test skid end-to-end. Designed experiments to measure conversion, efficiency, power absorption, arcing, and product morphology.</div>
+      </div>
+      <div class="summary-block">
+        <div class="summary-label">Outcome</div>
+        <div class="summary-text">Scaled bench reactor from 1kW to 6kW. Impedance matching insights applied at pilot scale enabled stable 100kW operation.</div>
+      </div>
+    </div>
+
+    <div class="content-section">
+      <h2>Background</h2>
+      <p><!-- REPLACE: Add context about why this work mattered — what stage was MAAT at, what was the goal of the bench-scale program? Keep it high level and IP-safe. --></p>
+
+      <!-- ADD IMAGE: Replace the div below with <img src="../images/your-image.jpg" alt="description" class="project-img"> -->
+      <div class="img-placeholder"><span>🖼</span>Add image — test skid or reactor setup</div>
+      <p class="img-caption"><!-- Optional caption --></p>
+    </div>
+
+    <div class="content-section">
+      <h2>What I measured</h2>
+      <p>Experiments evaluated three categories of performance:</p>
+      <ul>
+        <li><strong>Performance</strong> — conversion efficiency and power absorption</li>
+        <li><strong>Stability</strong> — arcing behavior, reflection coefficient, time-to-steady-state (thermal and compositional)</li>
+        <li><strong>Product quality</strong> — morphology, particle size, crystallinity, and impurities</li>
+      </ul>
+      <p><!-- REPLACE: Add anything more specific about methodology or instrumentation you're comfortable sharing. --></p>
+    </div>
+
+    <div class="content-section">
+      <h2>Key findings</h2>
+      <p>Notable experiments on reflected power and arcing revealed that impedance mismatch was causing instability at higher power levels. These findings drove targeted reactor modifications — changes to geometry and tuner configuration — that significantly improved power transfer.</p>
+      <p><!-- REPLACE: Add more detail about what was found, what changed as a result, or what was surprising. Keep IP-safe. --></p>
+
+      <div class="img-placeholder"><span>🖼</span>Add image — data plot or results chart</div>
+      <p class="img-caption"><!-- e.g. "Reflected power vs. stub position at 6kW" --></p>
+    </div>
+
+    <div class="content-section">
+      <h2>Results &amp; scale-up impact</h2>
+      <p>The bench program successfully scaled from 1kW to 6kW for both dry reforming and pyrolysis chemistries. The impedance matching methodology developed at bench scale was directly applied to the 915MHz pilot reactor, enabling stable operation at full 100kW — a 100× increase in power.</p>
+      <p><!-- REPLACE: Any additional context on what this unlocked for the broader program. --></p>
+    </div>
+
+  </div>
+
+  <div class="project-nav">
+    <span></span>
+    <a href="scada.html">Next: Plasma Reactor SCADA →</a>
+  </div>
+
+  <footer>
+    <span>© 2026 Dimitri Orfanos</span>
+    <span>Cambridge, MA</span>
+  </footer>
+
+</body>
+</html>
