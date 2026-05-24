@@ -14,7 +14,7 @@
       --accent: #1D4D3E; --accent-light: #2A6B56; --border: #E0E0E0;
       --font-display: 'Syne', system-ui, sans-serif;
       --font-body: 'DM Sans', system-ui, sans-serif;
-      --max-w: 1000px; --pad-x: clamp(1.5rem, 5vw, 4rem);
+      --max-w: 1200px; --pad-x: clamp(1.5rem, 5vw, 4rem);
     }
     html { scroll-behavior: smooth; }
     body { font-family: var(--font-body); background: var(--bg); color: var(--text); font-size: 16px; line-height: 1.6; -webkit-font-smoothing: antialiased; }
@@ -170,22 +170,6 @@
       <div class="summary-block"><div class="summary-label">Outcome</div><div class="summary-text">Improved operator observability, enabled technology transfer to investors, and reduced monitoring fatigue through automatic fault detection and shutdown.</div></div>
     </div>
     <div class="content-section">
-      <h2>Background</h2>
-      <p><!-- REPLACE: Context on the systems — bench vs pilot, what existed before, what the gaps were. --></p>
-      <div class="img-placeholder"><span>🖼</span>Add image — front panel or system overview</div>
-      <p class="img-caption"><!-- Optional caption --></p>
-    </div>
-    <div class="content-section">
-      <h2>Sensor integration</h2>
-      <p>Added and validated sensors determined to be valuable for experimental data and operational awareness:</p>
-      <ul>
-        <li>Thermocouples and pressure transducers for thermal and process monitoring</li>
-        <li>Directional couplers for real-time forward and reflected power measurement</li>
-        <li>Automatic tuner feedback for impedance monitoring</li>
-      </ul>
-      <p><!-- REPLACE: Any additional detail on integration work, calibration, or challenges. --></p>
-    </div>
-    <div class="content-section">
       <h2>Front panel redesign</h2>
       <p>Updated the operator interface to improve observability during live operation — clearer layout, better signal grouping, and a dedicated process display for non-technical visitors and investor demonstrations.</p>
 
@@ -239,6 +223,113 @@
 
         <figcaption class="evolution-figcaption">Evolution of the lab-scale SCADA front panel across three development stages.</figcaption>
       </figure>
+    </div>
+    <div class="content-section">
+      <h2>SCADA structure</h2>
+      <p>The system is built around an NI cRIO running parallel real-time loops for control, data acquisition, and safety, with a separate industrial PC handling the operator interface and background programs including data recording and process display sync.</p>
+      <figure style="margin: 1.5rem 0 0.5rem;">
+        <svg width="100%" viewBox="0 0 680 465" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="SCADA system architecture diagram">
+          <defs>
+            <marker id="arr" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+              <path d="M2 1L8 5L2 9" fill="none" stroke="context-stroke" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+            </marker>
+          </defs>
+          <style>
+            .sd-box { fill: #f5f5f5; stroke: #c8c8c8; }
+            .sd-teal-bg { fill: #e1f5ee; stroke: #0f6e56; }
+            .sd-teal-inner { fill: #9fe1cb; stroke: #0f6e56; }
+            .sd-blue-bg { fill: #e6f1fb; stroke: #185fa5; }
+            .sd-blue-inner { fill: #b5d4f4; stroke: #185fa5; }
+            .sd-purple-bg { fill: #eeedfe; stroke: #534ab7; }
+            .sd-purple-inner { fill: #afa9ec; stroke: #534ab7; }
+            .sd-gray-bg { fill: #f1efe8; stroke: #5f5e5a; }
+            .sd-th { font-family: inherit; font-size: 14px; font-weight: 500; fill: #111; }
+            .sd-ts { font-family: inherit; font-size: 12px; font-weight: 400; fill: #444; }
+            .sd-teal-th { font-family: inherit; font-size: 14px; font-weight: 500; fill: #085041; }
+            .sd-teal-ts { font-family: inherit; font-size: 12px; font-weight: 400; fill: #0f6e56; }
+            .sd-blue-th { font-family: inherit; font-size: 14px; font-weight: 500; fill: #0c447c; }
+            .sd-blue-ts { font-family: inherit; font-size: 12px; font-weight: 400; fill: #185fa5; }
+            .sd-purple-th { font-family: inherit; font-size: 14px; font-weight: 500; fill: #3c3489; }
+            .sd-purple-ts { font-family: inherit; font-size: 12px; font-weight: 400; fill: #534ab7; }
+            .sd-gray-th { font-family: inherit; font-size: 14px; font-weight: 500; fill: #2c2c2a; }
+            .sd-gray-ts { font-family: inherit; font-size: 12px; font-weight: 400; fill: #5f5e5a; }
+          </style>
+          <!-- External computer -->
+          <rect x="12" y="153" width="122" height="112" rx="10" stroke-width="0.5" class="sd-gray-bg"/>
+          <text class="sd-gray-th" x="73" y="188" text-anchor="middle" dominant-baseline="central">External</text>
+          <text class="sd-gray-th" x="73" y="208" text-anchor="middle" dominant-baseline="central">computer</text>
+          <text class="sd-gray-ts" x="73" y="232" text-anchor="middle" dominant-baseline="central">Process Display UI</text>
+          <!-- Industrial PC container -->
+          <rect x="152" y="40" width="182" height="270" rx="14" stroke-width="0.5" class="sd-teal-bg"/>
+          <text class="sd-teal-th" x="243" y="65" text-anchor="middle" dominant-baseline="central">Industrial PC</text>
+          <!-- Operator HMI -->
+          <rect x="166" y="85" width="150" height="44" rx="6" stroke-width="0.5" class="sd-teal-inner"/>
+          <text class="sd-teal-th" x="241" y="107" text-anchor="middle" dominant-baseline="central">Operator HMI</text>
+          <!-- Background programs label -->
+          <text class="sd-teal-ts" x="166" y="144" dominant-baseline="central">Background programs</text>
+          <!-- Data recording -->
+          <rect x="166" y="153" width="150" height="32" rx="5" stroke-width="0.5" class="sd-teal-inner"/>
+          <text class="sd-teal-ts" x="241" y="169" text-anchor="middle" dominant-baseline="central">Data recording</text>
+          <!-- Process display sync -->
+          <rect x="166" y="193" width="150" height="32" rx="5" stroke-width="0.5" class="sd-teal-inner"/>
+          <text class="sd-teal-ts" x="241" y="209" text-anchor="middle" dominant-baseline="central">Process display sync</text>
+          <!-- Serial comm -->
+          <rect x="166" y="233" width="150" height="32" rx="5" stroke-width="0.5" class="sd-teal-inner"/>
+          <text class="sd-teal-ts" x="241" y="249" text-anchor="middle" dominant-baseline="central">Serial comm.</text>
+          <!-- NI cRIO outer -->
+          <rect x="356" y="40" width="289" height="270" rx="14" stroke-width="0.5" class="sd-blue-bg"/>
+          <text class="sd-blue-th" x="500" y="65" text-anchor="middle" dominant-baseline="central">NI cRIO</text>
+          <!-- RT region -->
+          <rect x="370" y="80" width="170" height="224" rx="10" stroke-width="0.5" class="sd-blue-inner"/>
+          <text class="sd-blue-th" x="455" y="100" text-anchor="middle" dominant-baseline="central">Real-time</text>
+          <rect x="384" y="112" width="148" height="32" rx="5" stroke-width="0.5" class="sd-blue-bg"/>
+          <text class="sd-blue-ts" x="458" y="128" text-anchor="middle" dominant-baseline="central">Modbus comm.</text>
+          <rect x="384" y="153" width="148" height="32" rx="5" stroke-width="0.5" class="sd-blue-bg"/>
+          <text class="sd-blue-ts" x="458" y="169" text-anchor="middle" dominant-baseline="central">Data acquisition</text>
+          <rect x="384" y="193" width="148" height="32" rx="5" stroke-width="0.5" class="sd-blue-bg"/>
+          <text class="sd-blue-ts" x="458" y="209" text-anchor="middle" dominant-baseline="central">Control commands</text>
+          <rect x="384" y="233" width="148" height="32" rx="5" stroke-width="0.5" class="sd-blue-bg"/>
+          <text class="sd-blue-ts" x="458" y="249" text-anchor="middle" dominant-baseline="central">Safety interlocks</text>
+          <!-- FPGA region -->
+          <rect x="550" y="80" width="85" height="224" rx="10" stroke-width="0.5" class="sd-purple-bg"/>
+          <text class="sd-purple-th" x="592" y="100" text-anchor="middle" dominant-baseline="central">FPGA</text>
+          <rect x="561" y="153" width="63" height="80" rx="5" stroke-width="0.5" class="sd-purple-inner"/>
+          <text class="sd-purple-ts" x="592" y="187" text-anchor="middle" dominant-baseline="central">I/O</text>
+          <text class="sd-purple-ts" x="592" y="205" text-anchor="middle" dominant-baseline="central">signals</text>
+          <!-- Arrow 1: External ↔ Process display sync — horizontal -->
+          <line x1="134" y1="209" x2="164" y2="209" stroke="#5f5e5a" stroke-width="1.2" marker-end="url(#arr)" marker-start="url(#arr)" fill="none"/>
+          <!-- Arrow 2: PC HMI → RT Modbus — L-bend -->
+          <path d="M316,107 L343,107 L343,128 L368,128" fill="none" stroke="#1D9E75" stroke-width="1.5" marker-end="url(#arr)"/>
+          <!-- Arrow 3: RT data acq → PC data recording — horizontal -->
+          <line x1="384" y1="169" x2="318" y2="169" stroke="#BA7517" stroke-width="1.5" marker-end="url(#arr)" fill="none"/>
+          <!-- Arrow 4: RT → FPGA I/O — horizontal -->
+          <line x1="532" y1="193" x2="559" y2="193" stroke="#1D9E75" stroke-width="1.5" marker-end="url(#arr)" fill="none"/>
+          <!-- Arrow 5: Actuators — straight down -->
+          <line x1="562" y1="304" x2="562" y2="378" stroke="#1D9E75" stroke-width="1.5" marker-end="url(#arr)" fill="none"/>
+          <text class="sd-ts" x="562" y="400" text-anchor="middle" dominant-baseline="central" style="font-family:inherit;font-size:12px;fill:#444;">Actuators</text>
+          <!-- Arrow 6: Sensors — straight up -->
+          <line x1="624" y1="378" x2="624" y2="304" stroke="#BA7517" stroke-width="1.5" marker-end="url(#arr)" fill="none"/>
+          <text x="624" y="400" text-anchor="middle" dominant-baseline="central" style="font-family:inherit;font-size:12px;fill:#444;">Sensors</text>
+          <!-- Legend -->
+          <line x1="28" y1="438" x2="56" y2="438" stroke="#1D9E75" stroke-width="1.5" marker-end="url(#arr)" fill="none"/>
+          <text x="64" y="442" dominant-baseline="central" style="font-family:inherit;font-size:12px;fill:#666;">Control / command</text>
+          <line x1="216" y1="438" x2="244" y2="438" stroke="#BA7517" stroke-width="1.5" marker-end="url(#arr)" fill="none"/>
+          <text x="252" y="442" dominant-baseline="central" style="font-family:inherit;font-size:12px;fill:#666;">Data / measurement</text>
+          <line x1="412" y1="438" x2="440" y2="438" stroke="#5f5e5a" stroke-width="1.2" marker-end="url(#arr)" marker-start="url(#arr)" fill="none"/>
+          <text x="448" y="442" dominant-baseline="central" style="font-family:inherit;font-size:12px;fill:#666;">Bidirectional</text>
+        </svg>
+        <figcaption class="img-caption" style="margin-top:0.5rem;">Data flow between the industrial PC, NI cRIO, and physical I/O.</figcaption>
+      </figure>
+    </div>
+    <div class="content-section">
+      <h2>Sensor integration</h2>
+      <p>Added and validated sensors determined to be valuable for experimental data and operational awareness:</p>
+      <ul>
+        <li>Thermocouples and pressure transducers for thermal and process monitoring</li>
+        <li>Directional couplers for real-time forward and reflected power measurement</li>
+        <li>Automatic tuner feedback for impedance monitoring</li>
+      </ul>
+      <p><!-- REPLACE: Any additional detail on integration work, calibration, or challenges. --></p>
     </div>
     <div class="content-section">
       <h2>Safety interlock system</h2>
