@@ -84,13 +84,24 @@
 
     /* ── HERO ────────────────────────────────────────── */
     #hero {
-      min-height: 100svh;
-      display: flex;
-      flex-direction: column;
-      justify-content: flex-end;
-      padding: 0 var(--pad-x) 5rem;
-      position: relative;
-    }
+  min-height: 100svh;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  padding: 0 var(--pad-x) 5rem;
+  position: relative;
+  background-image: url('images/DimitriHeadshot.JPG');
+  background-size: cover;
+  background-position: center 15%;
+}
+
+#hero::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: rgba(255, 255, 255, 0.82);
+  pointer-events: none;
+}
 
     .hero-meta {
       font-size: 0.72rem;
