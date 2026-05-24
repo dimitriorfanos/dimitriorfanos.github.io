@@ -83,25 +83,37 @@
     .nav-links a:hover { color: var(--accent); }
 
     /* ── HERO ────────────────────────────────────────── */
-    #hero {
-  min-height: 100svh;
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-end;
-  padding: 0 var(--pad-x) 5rem;
-  position: relative;
-  background-image: url('images/DimitriHeadshot.JPG');
-  background-size: cover;
-  background-position: center 15%;
-}
+    .photo-backdrop {
+      background-image: url('images/DimitriHeadshot.JPG');
+      background-size: cover;
+      background-position: center 20%;
+      background-attachment: fixed;
+      position: relative;
+    }
 
-#hero::before {
-  content: '';
-  position: absolute;
-  inset: 0;
-  background: rgba(255, 255, 255, 0.78);
-  pointer-events: none;
-}
+    .photo-backdrop::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: rgba(255, 255, 255, 0.83);
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    .photo-backdrop > section {
+      position: relative;
+      z-index: 1;
+    }
+
+    #hero {
+      min-height: 100svh;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+      padding: 0 var(--pad-x) 5rem;
+      position: relative;
+      max-width: 100%;
+    }
 
     .hero-meta {
       font-size: 0.72rem;
@@ -222,26 +234,13 @@
 
     /* ── ABOUT ───────────────────────────────────────── */
     #about {
-  position: relative;
-  background-image: url('images/DimitriHeadshot.JPG');
-  background-size: cover;
-  background-position: center 15%;
-  background-attachment: fixed;
-}
+      max-width: 100%;
+    }
 
-#about::before {
-  content: '';
-  position: absolute;
-  inset: 0;
-  background: rgba(255, 255, 255, 0.88);
-  pointer-events: none;
-}
-
-#about .about-grid {
-  position: relative;
-  z-index: 1;
-}
-    
+    #about .about-grid {
+      max-width: calc(var(--max-w) + var(--pad-x) * 2);
+      margin: 0 auto;
+    }
     .about-grid {
       display: grid;
       grid-template-columns: 1fr 1fr;
@@ -249,17 +248,6 @@
       align-items: start;
     }
 
-
-    .about-photo {
-  width: 100%;
-  max-width: 200px;
-  aspect-ratio: 3/4;
-  object-fit: cover;
-  object-position: center 15%;
-  border-radius: 2px;
-  display: block;
-  margin-bottom: 2rem;
-}
     .about-text p {
       color: var(--text-muted);
       margin-bottom: 1rem;
@@ -518,6 +506,8 @@
     </ul>
   </nav>
 
+  <div class="photo-backdrop">
+
   <!-- HERO -->
   <section id="hero">
     <h1 class="hero-name">Dimitri Orfanos</h1>
@@ -534,39 +524,40 @@
     </div>
   </section>
 
- <!-- ABOUT -->
-<section id="about">
-  <div class="about-grid fade-in">
-    <div>
-      <img src="images/DimitriHeadshot.JPG" alt="Dimitri Orfanos" class="about-photo" />
-      <div class="section-label">About</div>
-      <h2 class="section-title">Engineer. Builder. Problem-solver.</h2>
-      <div class="about-text">
-        <p>I'm a process and R&amp;D engineer with 4+ years of experience spanning R&amp;D, systems test, instrumentation &amp; controls, and thermal engineering. My work lives at the intersection of chemistry, plasma physics, and the hardware systems that bring them to scale.</p>
-        <p>Currently at MAAT Energy, I develop and operate pilot-scale microwave plasma reactors for syngas, hydrogen, and carbon production — and build the SCADA systems that run them reliably day-to-day.</p>
-        <p>I care about building things that actually work: instrumented, robust, and ready to scale.</p>
+  <!-- ABOUT -->
+  <section id="about">
+    <div class="about-grid fade-in">
+      <div>
+        <div class="section-label">About</div>
+        <h2 class="section-title">Engineer. Builder. Problem-solver.</h2>
+        <div class="about-text">
+          <p>I'm a process and R&amp;D engineer with 4+ years of experience spanning R&amp;D, systems test, instrumentation &amp; controls, and thermal engineering. My work lives at the intersection of chemistry, plasma physics, and the hardware systems that bring them to scale.</p>
+          <p>Currently at MAAT Energy, I develop and operate pilot-scale microwave plasma reactors for syngas, hydrogen, and carbon production — and build the SCADA systems that run them reliably day-to-day.</p>
+          <p>I care about building things that actually work: instrumented, robust, and ready to scale.</p>
+        </div>
+      </div>
+      <div class="about-sidebar">
+        <div class="about-stat">
+          <span class="about-stat-label">Current role</span>
+          <span class="about-stat-value">R&amp;D Engineer @ MAAT Energy</span>
+        </div>
+        <div class="about-stat">
+          <span class="about-stat-label">Location</span>
+          <span class="about-stat-value">Cambridge, MA</span>
+        </div>
+        <div class="about-stat">
+          <span class="about-stat-label">Experience</span>
+          <span class="about-stat-value">4+ years</span>
+        </div>
+        <div class="about-stat">
+          <span class="about-stat-label">Education</span>
+          <span class="about-stat-value">B.S. in Chemical Engineering @ Northeastern University <!-- Field, School --></span>
+        </div>
       </div>
     </div>
-    <div class="about-sidebar">
-      <div class="about-stat">
-        <span class="about-stat-label">Current role</span>
-        <span class="about-stat-value">R&amp;D Engineer @ MAAT Energy</span>
-      </div>
-      <div class="about-stat">
-        <span class="about-stat-label">Location</span>
-        <span class="about-stat-value">Cambridge, MA</span>
-      </div>
-      <div class="about-stat">
-        <span class="about-stat-label">Experience</span>
-        <span class="about-stat-value">4+ years</span>
-      </div>
-      <div class="about-stat">
-        <span class="about-stat-label">Education</span>
-        <span class="about-stat-value">B.S. in Chemical Engineering @ Northeastern University</span>
-      </div>
-    </div>
-  </div>
-</section>
+  </section>
+
+  </div><!-- end .photo-backdrop -->
 
   <!-- PROJECTS -->
   <section id="projects">
