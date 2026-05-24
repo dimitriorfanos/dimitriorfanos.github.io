@@ -99,7 +99,7 @@
   content: '';
   position: absolute;
   inset: 0;
-  background: rgba(255, 255, 255, 0.82);
+  background: rgba(255, 255, 255, 0.78);
   pointer-events: none;
 }
 
@@ -221,6 +221,27 @@
     }
 
     /* ── ABOUT ───────────────────────────────────────── */
+    #about {
+  position: relative;
+  background-image: url('images/DimitriHeadshot.JPG');
+  background-size: cover;
+  background-position: center 15%;
+  background-attachment: fixed;
+}
+
+#about::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: rgba(255, 255, 255, 0.88);
+  pointer-events: none;
+}
+
+#about .about-grid {
+  position: relative;
+  z-index: 1;
+}
+    
     .about-grid {
       display: grid;
       grid-template-columns: 1fr 1fr;
