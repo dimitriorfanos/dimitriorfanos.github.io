@@ -83,19 +83,22 @@
     .nav-links a:hover { color: var(--accent); }
 
     /* ── HERO ────────────────────────────────────────── */
-      .photo-backdrop {
-    background-image: url('images/DimitriHeadshot.JPG');
-    background-size: 70%;
-    background-position: center 35%;
-    background-attachment: fixed;
-    position: relative;
-  }
+          .photo-backdrop {
+      background-image: url('images/DimitriHeadshot.JPG');
+      background-size: contain;
+      background-position: center 35%;
+      background-attachment: fixed;
+      background-repeat: no-repeat;
+      position: relative;
+    }
 
     .photo-backdrop::before {
       content: '';
       position: absolute;
       inset: 0;
-      background: rgba(255, 255, 255, 0.83);
+      background: 
+        linear-gradient(to right, rgba(255,255,255,0.95) 0%, rgba(255,255,255,0.75) 20%, rgba(255,255,255,0.75) 80%, rgba(255,255,255,0.95) 100%),
+        rgba(255,255,255,0.78);
       pointer-events: none;
       z-index: 0;
     }
