@@ -217,6 +217,17 @@
       align-items: start;
     }
 
+
+    .about-photo {
+      width: 100%;
+      max-width: 260px;
+      aspect-ratio: 3/4;
+      object-fit: cover;
+      object-position: center 15%;
+      border-radius: 2px;
+      display: block;
+      margin-bottom: 2rem;
+    }
     .about-text p {
       color: var(--text-muted);
       margin-bottom: 1rem;
@@ -495,6 +506,7 @@
   <section id="about">
     <div class="about-grid fade-in">
       <div>
+        <img src="images/DimitriHeadshot.JPG" alt="Dimitri Orfanos" class="about-photo" />
         <div class="section-label">About</div>
         <h2 class="section-title">Engineer. Builder. Problem-solver.</h2>
         <div class="about-text">
