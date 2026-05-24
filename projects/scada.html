@@ -146,6 +146,81 @@
       .evolution-arrow svg { transform: rotate(90deg); width: 2rem; }
       .evolution-arrow-spacer { display: none; }
     }
+
+    /* ── Pilot-scale branching diagram ── */
+    .pilot-figure {
+      margin: 2rem 0 1rem;
+      padding: 2rem 1.75rem 1.5rem;
+      border: 1px solid var(--border);
+      background: var(--surface);
+      border-radius: 2px;
+    }
+    .pilot-title {
+      font-family: var(--font-display);
+      font-size: 0.9rem;
+      font-weight: 600;
+      letter-spacing: -0.01em;
+      color: var(--text);
+      text-align: center;
+      margin-bottom: 1.5rem;
+    }
+    .pilot-track {
+      display: grid;
+      grid-template-columns: 1fr auto 1fr;
+      align-items: center;
+      gap: 0;
+    }
+    .pilot-left {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0.75rem;
+    }
+    .pilot-left .evolution-screen {
+      width: 100%;
+    }
+    .pilot-arrows {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 0 0.5rem;
+    }
+    .pilot-arrows svg {
+      width: clamp(2.5rem, 6vw, 4.5rem);
+      display: block;
+      overflow: visible;
+    }
+    .pilot-right {
+      display: flex;
+      flex-direction: column;
+      gap: 1.25rem;
+    }
+    .pilot-right-panel {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0.6rem;
+    }
+    .pilot-right-panel .evolution-screen {
+      width: 100%;
+    }
+    .pilot-figcaption {
+      font-size: 0.72rem;
+      color: var(--text-muted);
+      text-align: center;
+      margin-top: 1.25rem;
+      letter-spacing: 0.02em;
+    }
+    @media (max-width: 600px) {
+      .pilot-track {
+        grid-template-columns: 1fr;
+      }
+      .pilot-arrows svg {
+        transform: rotate(90deg);
+        width: 2.5rem;
+        margin: 0.25rem auto;
+      }
+    }
   </style>
 </head>
 <body>
@@ -225,9 +300,76 @@
       </figure>
     </div>
     <div class="content-section">
+      <h2>Pilot-scale front panel</h2>
+      <p>As the system scaled to a pilot reactor, the HMI and process display were developed as two distinct interfaces — the operator HMI for detailed control and monitoring, and a simplified process display for visitors and investors to follow the experiment in real time.</p>
+
+      <figure class="pilot-figure">
+        <p class="pilot-title">Pilot-Scale SCADA Front Panel Development</p>
+        <div class="pilot-track">
+
+          <!-- Left: initial SCADA -->
+          <div class="pilot-left">
+            <div class="evolution-screen">
+              <img src="../images/pilot_v1.PNG" alt="Initial pilot-scale SCADA front panel" class="evolution-img" />
+            </div>
+            <div class="evolution-caption">
+              <span class="evo-cap-line">Initial SCADA</span>
+              <span class="evo-cap-sub">Functional copy</span>
+            </div>
+          </div>
+
+          <!-- Middle: branching arrows SVG -->
+          <div class="pilot-arrows" aria-hidden="true">
+            <svg viewBox="0 0 60 200" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid meet">
+              <!-- stem from left -->
+              <line x1="0" y1="100" x2="24" y2="100" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+              <!-- branch up to HMI -->
+              <line x1="24" y1="100" x2="24" y2="36" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+              <line x1="24" y1="36" x2="52" y2="36" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" marker-end="url(#branch-arrow)"/>
+              <!-- branch down to process display -->
+              <line x1="24" y1="100" x2="24" y2="164" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+              <line x1="24" y1="164" x2="52" y2="164" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" marker-end="url(#branch-arrow)"/>
+              <defs>
+                <marker id="branch-arrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+                  <path d="M2 1L8 5L2 9" fill="none" stroke="context-stroke" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                </marker>
+              </defs>
+            </svg>
+          </div>
+
+          <!-- Right: two panels -->
+          <div class="pilot-right">
+            <!-- HMI redesign -->
+            <div class="pilot-right-panel">
+              <div class="evolution-screen">
+                <img src="../images/pilot_hmi.PNG" alt="Pilot-scale HMI redesign" class="evolution-img" />
+              </div>
+              <div class="evolution-caption">
+                <span class="evo-cap-line">Front panel HMI redesign</span>
+                <span class="evo-cap-sub">Grouping controls and measurements</span>
+                <span class="evo-cap-sub">Growing instrument &amp; sensor complexity</span>
+              </div>
+            </div>
+            <!-- Process display -->
+            <div class="pilot-right-panel">
+              <div class="evolution-screen">
+                <img src="../images/pilot_process.PNG" alt="Pilot-scale process display" class="evolution-img" />
+              </div>
+              <div class="evolution-caption">
+                <span class="evo-cap-line">Process display</span>
+                <span class="evo-cap-sub">Simplified UI for visitors and investors</span>
+              </div>
+            </div>
+          </div>
+
+        </div>
+        <figcaption class="pilot-figcaption">Pilot-scale SCADA split into a detailed operator HMI and a simplified process display.</figcaption>
+      </figure>
+    </div>
+    <div class="content-section">
       <h2>SCADA structure</h2>
       <p>The system is built around an NI cRIO running parallel real-time loops for control, data acquisition, and safety, with a separate industrial PC handling the operator interface and background programs including data recording and process display sync.</p>
-      <figure style="margin: 1.5rem auto 0.5rem; max-width: 650px;">
+      <figure style="margin: 1.5rem 0 0.5rem;">
         <svg width="100%" viewBox="0 0 680 465" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="SCADA system architecture diagram">
           <defs>
             <marker id="arr" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
