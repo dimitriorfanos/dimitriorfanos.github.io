@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>SCADA Development — Dimitri Orfanos</title>
+  <title>Plasma Reactor SCADA — Dimitri Orfanos</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500&display=swap" rel="stylesheet" />
@@ -150,7 +150,7 @@
 </head>
 <body>
   <nav>
-    <a href="../index.html" class="nav-logo">DIMITRI ORFANOS</a>
+    <a href="../index.html" class="nav-logo">D. Orfanos</a>
     <a href="../index.html#projects" class="nav-back">← All work</a>
   </nav>
   <div class="project-hero">
@@ -158,19 +158,19 @@
       <span class="project-num">02</span>
       <span class="project-type-badge">Project</span>
     </div>
-    <h1 class="project-title">SCADA Development</h1>
+    <h1 class="project-title">Plasma Reactor SCADA</h1>
     <div class="project-tags">
       <span class="tag">LabVIEW</span><span class="tag">cRIO</span><span class="tag">Instrumentation</span><span class="tag">Safety Systems</span>
     </div>
   </div>
   <div class="project-body">
     <div class="summary-grid">
-      <div class="summary-block"><div class="summary-label">Problem</div><div class="summary-text">Lab-scale and pilot-scale plasma systems needed reliable real-time control, monitoring, and safety infrastructure.</div></div>
+      <div class="summary-block"><div class="summary-label">Problem</div><div class="summary-text">Bench and pilot-scale plasma systems needed reliable real-time control, monitoring, and safety infrastructure.</div></div>
       <div class="summary-block"><div class="summary-label">Approach</div><div class="summary-text">Integrated sensors, redesigned the operator front panel, built a process display for visitors, and developed a safety interlock system with alarm and fault-shutdown logic.</div></div>
       <div class="summary-block"><div class="summary-label">Outcome</div><div class="summary-text">Improved operator observability, enabled technology transfer to investors, and reduced monitoring fatigue through automatic fault detection and shutdown.</div></div>
     </div>
     <div class="content-section">
-      <h2>Front Panel Redesign</h2>
+      <h2>Front panel redesign</h2>
       <p>Updated the operator interface to improve observability during live operation — clearer layout, better signal grouping, and a dedicated process display for non-technical visitors and investor demonstrations.</p>
 
       <!-- SCADA Evolution Diagram -->
@@ -225,9 +225,9 @@
       </figure>
     </div>
     <div class="content-section">
-      <h2>SCADA Structure</h2>
+      <h2>SCADA structure</h2>
       <p>The system is built around an NI cRIO running parallel real-time loops for control, data acquisition, and safety, with a separate industrial PC handling the operator interface and background programs including data recording and process display sync.</p>
-      <figure style="margin: 1.5rem auto 0.5rem; max-width: 700px;">
+      <figure style="margin: 1.5rem 0 0.5rem;">
         <svg width="100%" viewBox="0 0 680 465" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="SCADA system architecture diagram">
           <defs>
             <marker id="arr" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
@@ -303,7 +303,7 @@
           <!-- Arrow 3: RT data acq → PC data recording — horizontal -->
           <line x1="384" y1="169" x2="318" y2="169" stroke="#BA7517" stroke-width="1.5" marker-end="url(#arr)" fill="none"/>
           <!-- Arrow 4: RT → FPGA I/O — horizontal -->
-          <line x1="532" y1="193" x2="559" y2="193" stroke="#1D9E75" stroke-width="1.5" marker-end="url(#arr)" fill="none"/>
+          <line x1="532" y1="193" x2="559" y2="193" stroke="#5f5e5a" stroke-width="1.2" marker-end="url(#arr)" marker-start="url(#arr)" fill="none"/>
           <!-- Arrow 5: Actuators — straight down -->
           <line x1="562" y1="304" x2="562" y2="378" stroke="#1D9E75" stroke-width="1.5" marker-end="url(#arr)" fill="none"/>
           <text class="sd-ts" x="562" y="400" text-anchor="middle" dominant-baseline="central" style="font-family:inherit;font-size:12px;fill:#444;">Actuators</text>
@@ -322,7 +322,7 @@
       </figure>
     </div>
     <div class="content-section">
-      <h2>Sensor Integration</h2>
+      <h2>Sensor integration</h2>
       <p>Added and validated sensors determined to be valuable for experimental data and operational awareness:</p>
       <ul>
         <li>Thermocouples and pressure transducers for thermal and process monitoring</li>
@@ -332,7 +332,7 @@
       <p><!-- REPLACE: Any additional detail on integration work, calibration, or challenges. --></p>
     </div>
     <div class="content-section">
-      <h2>Safety Interlock System</h2>
+      <h2>Safety interlock system</h2>
       <p>Developed a safety interlock system that compares measured values against configurable alarm and fault setpoints. Alarms alert operators to out-of-range conditions; fault setpoints trigger an automatic shutdown procedure, enabling autonomous operation without continuous manual monitoring.</p>
       <p><!-- REPLACE: Any additional detail on logic, testing, or how it changed operations. --></p>
     </div>
