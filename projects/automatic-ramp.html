@@ -55,10 +55,7 @@
     .flow-node-sub { font-size: 0.65rem; color: var(--text-muted); margin-top: 0.3rem; line-height: 1.45; }
     .flow-arrow { flex-shrink: 0; width: 28px; height: 1px; background: var(--border); position: relative; }
     .flow-arrow::after { content: ''; position: absolute; right: -1px; top: -3px; width: 0; height: 0; border-left: 5px solid var(--border); border-top: 4px solid transparent; border-bottom: 4px solid transparent; }
-    .flow-loop { display: flex; align-items: center; gap: 0.5rem; margin-top: 0.75rem; padding-left: 120px; }
-    .flow-loop-line { flex: 1; height: 1px; background: var(--border); min-width: 200px; }
-    .flow-loop-label { font-size: 0.7rem; font-weight: 500; color: var(--text-muted); letter-spacing: 0.08em; white-space: nowrap; }
-    .flow-loop-arrow { font-size: 0.9rem; color: var(--border); }
+    .flow-loop-svg { display: block; width: 1060px; min-width: 1060px; overflow: visible; }
 
     /* ── Step Cards ────────────────────────────────────────────── */
     .steps-grid { display: flex; flex-direction: column; gap: 1px; background: var(--border); border: 1px solid var(--border); margin-top: 1.5rem; }
@@ -154,11 +151,13 @@
           </div>
 
           <!-- Loop-back arrow -->
-          <div class="flow-loop">
-            <div class="flow-loop-line"></div>
-            <div class="flow-loop-label">Increment STEP</div>
-            <div class="flow-loop-arrow">↩</div>
-          </div>
+          <svg xmlns="http://www.w3.org/2000/svg" height="36" aria-hidden="true" style="display:block;width:1060px;min-width:1060px;overflow:visible;">
+            <line x1="1052" y1="0" x2="1052" y2="28" stroke="#E0E0E0" stroke-width="1"/>
+            <line x1="1052" y1="28" x2="398" y2="28" stroke="#E0E0E0" stroke-width="1"/>
+            <text x="725" y="22" text-anchor="middle" font-size="10" fill="#999999" font-family="DM Sans, system-ui, sans-serif" letter-spacing="1.2">Increment STEP</text>
+            <line x1="398" y1="28" x2="398" y2="2" stroke="#E0E0E0" stroke-width="1"/>
+            <polygon points="394,8 402,8 398,1" fill="#E0E0E0"/>
+          </svg>
         </div>
         <p class="img-caption" style="margin-top:0.75rem">Block-flow logic for the pilot ramp automation sequence. Each channel settles within tolerance before the step increments.</p>
       </div>
