@@ -86,12 +86,12 @@
       <div class="summary-block"><div class="summary-label">Outcome</div><div class="summary-text">Ramp is now repeatable and operator-independent. CSV format makes updates straightforward when the process changes.</div></div>
     </div>
     <div class="content-section">
-      <h2>The problem with manual ramp</h2>
+      <h2>Problem: Manual Ramp</h2>
       <p>Ramping the pilot reactor from ignition to full operating power requires sequencing multiple control inputs — RF power, gas flow rates, and tuner position — in a specific order and at specific rates. Done manually, this process was highly dependent on operator feel and experience, leading to variability between runs and restricting who could safely operate the system.</p>
       <p><!-- REPLACE: Add any context on what went wrong with manual ramp or what drove the decision to automate. --></p>
     </div>
     <div class="content-section">
-      <h2>How it works</h2>
+      <h2>How It Works</h2>
       <p>The ramp SubVI accepts a CSV file as input — each row defines a step with target setpoints for power, flow rates, and tuning position, along with settling tolerances. On initiation:</p>
       <ul>
         <li>The VI reads the first step and pushes new setpoints to the active control loops</li>
@@ -166,7 +166,7 @@
 
     <!-- TEST VALIDATION SECTION -->
     <div class="content-section">
-      <h2>Development &amp; validation</h2>
+      <h2>Development &amp; Validation</h2>
       <p>The program was developed and verified in four sequential stages before being trusted on live plasma.</p>
       <div class="steps-grid">
 
