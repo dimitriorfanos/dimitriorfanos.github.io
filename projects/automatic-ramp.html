@@ -42,6 +42,32 @@
     .project-nav a:hover { color: var(--accent); }
     footer { padding: 1.75rem var(--pad-x); border-top: 1px solid var(--border); display: flex; justify-content: space-between; font-size: 0.72rem; color: var(--text-muted); letter-spacing: 0.06em; }
     @media (max-width: 640px) { .summary-grid { grid-template-columns: 1fr; } }
+
+    /* ── Flow Diagram ──────────────────────────────────────────── */
+    .flow-diagram-wrap { margin: 2rem 0 1rem; }
+    .flow-note { font-size: 0.72rem; font-weight: 500; letter-spacing: 0.06em; color: #9B2020; background: #FDF4F4; border: 1px solid #F0D0D0; border-radius: 2px; padding: 0.45rem 0.75rem; display: inline-block; margin-bottom: 1.25rem; }
+    .flow-scroll { overflow-x: auto; -webkit-overflow-scrolling: touch; padding-bottom: 0.5rem; }
+    .flow-row { display: flex; align-items: center; gap: 0; min-width: max-content; }
+    .flow-node { background: var(--surface); border: 1px solid var(--border); border-radius: 2px; padding: 0.7rem 0.9rem; min-width: 120px; max-width: 148px; text-align: center; flex-shrink: 0; }
+    .flow-node--input { background: var(--bg); border-style: dashed; }
+    .flow-node--check { border-color: var(--accent); background: rgba(29,77,62,0.04); }
+    .flow-node-title { font-family: var(--font-display); font-size: 0.72rem; font-weight: 600; color: var(--text); line-height: 1.35; }
+    .flow-node-label { font-family: var(--font-display); font-size: 0.72rem; font-weight: 600; color: var(--text-muted); }
+    .flow-node-sub { font-size: 0.65rem; color: var(--text-muted); margin-top: 0.3rem; line-height: 1.45; }
+    .flow-arrow { flex-shrink: 0; width: 28px; height: 1px; background: var(--border); position: relative; }
+    .flow-arrow::after { content: ''; position: absolute; right: -1px; top: -3px; width: 0; height: 0; border-left: 5px solid var(--border); border-top: 4px solid transparent; border-bottom: 4px solid transparent; }
+    .flow-loop { display: flex; align-items: center; gap: 0.5rem; margin-top: 0.75rem; padding-left: 120px; }
+    .flow-loop-line { flex: 1; height: 1px; background: var(--border); min-width: 200px; }
+    .flow-loop-label { font-size: 0.7rem; font-weight: 500; color: var(--text-muted); letter-spacing: 0.08em; white-space: nowrap; }
+    .flow-loop-arrow { font-size: 0.9rem; color: var(--border); }
+
+    /* ── Step Cards ────────────────────────────────────────────── */
+    .steps-grid { display: flex; flex-direction: column; gap: 1px; background: var(--border); border: 1px solid var(--border); margin-top: 1.5rem; }
+    .step-card { background: var(--bg); display: flex; gap: 1.5rem; padding: 1.5rem 1.75rem; }
+    .step-card--done .step-marker { color: var(--accent); }
+    .step-marker { font-family: var(--font-display); font-size: 1.1rem; font-weight: 700; color: var(--border); letter-spacing: -0.04em; flex-shrink: 0; width: 28px; padding-top: 0.05rem; }
+    .step-title { font-family: var(--font-display); font-size: 0.875rem; font-weight: 600; color: var(--text); margin-bottom: 0.4rem; letter-spacing: -0.01em; }
+    .step-desc { font-size: 0.875rem; color: var(--text-muted); line-height: 1.75; }
   </style>
 </head>
 <body>
@@ -74,15 +100,121 @@
         <li>Once settled, it increments to the next step and repeats</li>
         <li>The operator can pause at any point; a fault condition interrupts the sequence automatically</li>
       </ul>
-      <div class="img-placeholder"><span>🖼</span>Add image — LabVIEW block diagram or front panel</div>
-      <p class="img-caption"><!-- Optional caption --></p>
+
+      <!-- FLOW DIAGRAM -->
+      <div class="flow-diagram-wrap">
+        <div class="flow-note">Plasma is already ignited — recommended start at STEP 0 values</div>
+        <div class="flow-scroll">
+          <div class="flow-row">
+
+            <div class="flow-node flow-node--input">
+              <div class="flow-node-label">Load CSV file</div>
+            </div>
+
+            <div class="flow-arrow"></div>
+
+            <div class="flow-node">
+              <div class="flow-node-title">Start Auto-Ramp</div>
+              <div class="flow-node-sub">at STEP 0</div>
+            </div>
+
+            <div class="flow-arrow"></div>
+
+            <div class="flow-node">
+              <div class="flow-node-title">Change CO₂ SP</div>
+              <div class="flow-node-sub">Wait CO₂ SP ≈ Actual</div>
+            </div>
+
+            <div class="flow-arrow"></div>
+
+            <div class="flow-node">
+              <div class="flow-node-title">Change CH₄ SP</div>
+              <div class="flow-node-sub">Wait CH₄ SP ≈ Actual</div>
+            </div>
+
+            <div class="flow-arrow"></div>
+
+            <div class="flow-node">
+              <div class="flow-node-title">Change Power SP</div>
+              <div class="flow-node-sub">Change RP Limit<br>Wait Power SP ≈ Actual</div>
+            </div>
+
+            <div class="flow-arrow"></div>
+
+            <div class="flow-node">
+              <div class="flow-node-title">Change Stub 1–3 SP</div>
+              <div class="flow-node-sub">Wait Stub ≈ Actual</div>
+            </div>
+
+            <div class="flow-arrow"></div>
+
+            <div class="flow-node flow-node--check">
+              <div class="flow-node-title">Check all SP Ready</div>
+              <div class="flow-node-sub">Ramp Pause = False<br>Auto-Ramp Active = True</div>
+            </div>
+
+          </div>
+
+          <!-- Loop-back arrow -->
+          <div class="flow-loop">
+            <div class="flow-loop-line"></div>
+            <div class="flow-loop-label">Increment STEP</div>
+            <div class="flow-loop-arrow">↩</div>
+          </div>
+        </div>
+        <p class="img-caption" style="margin-top:0.75rem">Block-flow logic for the pilot ramp automation sequence. Each channel settles within tolerance before the step increments.</p>
+      </div>
     </div>
+
+    <!-- TEST VALIDATION SECTION -->
+    <div class="content-section">
+      <h2>Development &amp; validation</h2>
+      <p>The program was developed and verified in four sequential stages before being trusted on live plasma.</p>
+      <div class="steps-grid">
+
+        <div class="step-card step-card--done">
+          <div class="step-marker">01</div>
+          <div class="step-body">
+            <div class="step-title">Adapt existing ramp automation</div>
+            <div class="step-desc">Extended an existing ramp automation from a separate lab environment. Key additions were tuner stub position control (three stubs) and a switch from .xlsx to .csv as the input format, simplifying the file interface and eliminating the Excel dependency.</div>
+          </div>
+        </div>
+
+        <div class="step-card step-card--done">
+          <div class="step-marker">02</div>
+          <div class="step-body">
+            <div class="step-title">Test in isolated lab environment</div>
+            <div class="step-desc">Validated the sequence logic against a simulated MFC ramp response in an isolated test environment. Confirmed that setpoint changes propagated correctly, that the settling check advanced the step only when actual values matched setpoints, and that the final step terminated the ramp with setpoints held.</div>
+          </div>
+        </div>
+
+        <div class="step-card step-card--done">
+          <div class="step-marker">03</div>
+          <div class="step-body">
+            <div class="step-title">Integrate into pilot reactor code</div>
+            <div class="step-desc">Ported the SubVI into the live pilot reactor codebase, accounting for differences in write-execution paths between the test environment and the GLP/S-TEAM tuner hardware. LabVIEW variable references for setpoints and actual-value reads were updated to match the production control system.</div>
+          </div>
+        </div>
+
+        <div class="step-card">
+          <div class="step-marker">04</div>
+          <div class="step-body">
+            <div class="step-title">Staged testing on live system</div>
+            <div class="step-desc">Tested the complete CSV profile (20 → 100 kW) first without plasma, verifying setpoint sequencing and timing. Then repeated with MW on and plasma present, with CSV adjustments made for stability at key steps. Ramp timing will be optimised further once operational confidence is established.</div>
+          </div>
+        </div>
+
+      </div>
+
+      <img src="../assets/lab_test_program.PNG" alt="LabVIEW block diagram of the Auto Ramp test VI" class="project-img" />
+      <p class="img-caption">LabVIEW block diagram from the Lab A test environment. Centre: the Auto Ramp SubVI with inputs for actual reads (CO₂, CH₄, Power, Stub 1–3) and outputs for ramp setpoints and status indicators. Bottom: the CSV read block that loads the ramp profile and populates the step array. Right: the Reset SP case structure that holds setpoints at initial values when Auto Ramp is inactive.</p>
+    </div>
+
     <div class="content-section">
       <h2>Result</h2>
       <p>The ramp procedure is now consistent regardless of who initiates it. Updating the ramp profile is as simple as editing the CSV file — no code changes required. This also made it easier to document and reproduce specific ramp conditions across test campaigns.</p>
       <p><!-- REPLACE: Any additional context on operational impact or what this enabled. --></p>
-      <div class="img-placeholder"><span>🖼</span>Add image — ramp data plot or CSV structure</div>
-      <p class="img-caption"><!-- Optional caption --></p>
+
     </div>
   </div>
   <div class="project-nav">
