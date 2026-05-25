@@ -61,7 +61,7 @@
       <div class="summary-block"><div class="summary-label">Outcome</div><div class="summary-text">Smooth installation and pilot operation. Flexible design accommodates future process, reactor, or chemistry changes.</div></div>
     </div>
     <div class="content-section">
-      <h2>The constraint</h2>
+      <h2>The Constraint</h2>
       <p>The pilot process was upgrading from one automatic tuner model to another. The two tuners were different lengths (9.03" difference), and the waveguide endpoints were fixed — the new tuner could not simply be dropped in without accounting for the position shift.</p>
       <p>The key risk: if the load impedance during ramp landed near the physical discontinuity where a 3-stub tuner transitions between using stubs 1+2 and stubs 2+3 (the "stub swap" boundary), it could cause tuning instability or matching failure mid-ramp.</p>
     </div>
@@ -69,8 +69,8 @@
       <h2>Engineering the solution</h2>
       <p>Using the RF first-principles concept of waveguide phase shifting — where a guide length of λguide/8 rotates the load impedance by 90° on the Smith chart — I calculated that a 180° rotation would move the load safely away from the discontinuity regardless of where it fell during ramp.</p>
       <p>I determined two optimal waveguide spacer lengths that, in combination with the new tuner, would provide the necessary phase shift. Both options were modeled in SolidWorks and fabrication drawings were prepared.</p>
-      <div class="img-placeholder"><span>🖼</span>Add image — SolidWorks model or drawing</div>
-      <p class="img-caption"><!-- e.g. "Spacer geometry modeled in SolidWorks" --></p>
+      <img src="../images/tuner_spacer_1.png" alt="Optimal phase shift analysis — Smith chart and waveguide length sweep" class="project-img" />
+      <p class="img-caption">Smith chart showing the 180° phase shift target between Stub 1&2 and Stub 2&3 positions (left), and swept waveguide lengths plotting phase shift vs. Waveguide 1 Length to identify combinations that meet the 180° target for worst-case impedance discontinuity (right).</p>
     </div>
     <div class="content-section">
       <h2>Result</h2>
