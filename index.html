@@ -388,6 +388,33 @@
       margin-top: 0.25rem;
     }
 
+        .project-wip {
+      cursor: default;
+      position: relative;
+    }
+
+    .project-wip::after {
+      content: 'In Progress';
+      position: absolute;
+      inset: 0;
+      background: rgba(255,255,255,0.92);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: var(--font-display);
+      font-size: 0.85rem;
+      font-weight: 600;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      opacity: 0;
+      transition: opacity 0.2s;
+    }
+
+    .project-wip:hover::after {
+      opacity: 1;
+    }
+
     .tag {
       font-size: 0.66rem;
       font-weight: 500;
@@ -588,7 +615,7 @@
       <div class="projects-grid fade-in">
 
         <!-- 01 -->
-        <a href="projects/microwave-plasma.html" class="project-card">
+        <a class="project-card project-wip">
           <div class="project-card-header">
             <span class="project-number">01</span>
             <span class="project-type type-project">Project</span>
