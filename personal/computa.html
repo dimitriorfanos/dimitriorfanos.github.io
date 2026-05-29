@@ -666,7 +666,11 @@ scene.add(grid);
 
 // ── ORBIT (manual) ───────────────────────────────────────────────────────────
 let isDragging = false, lastX = 0, lastY = 0;
-const sph = { theta: 0.4, phi: 1.05, r: 6 };
+let vTheta = 0, vPhi = 0;
+const orbitDamping = 0.965;
+const orbitStopEpsilon = 0.0001;
+const orbitSensitivity = 0.010;
+const sph = { theta: 0.4, phi: 1.12, r: 10.5 };
 const tgt = new THREE.Vector3(0, 0.2, 0);
 
 function updateCam() {
@@ -679,36 +683,57 @@ function updateCam() {
 }
 updateCam();
 
-canvas.addEventListener('mousedown', e => { isDragging = true; lastX = e.clientX; lastY = e.clientY; canvas.style.cursor = 'grabbing'; });
+canvas.addEventListener('mousedown', e => {
+  isDragging = true;
+  lastX = e.clientX;
+  lastY = e.clientY;
+  vTheta = 0;
+  vPhi = 0;
+  canvas.style.cursor = 'grabbing';
+});
 window.addEventListener('mouseup', () => { isDragging = false; canvas.style.cursor = 'grab'; });
 window.addEventListener('mousemove', e => {
   if (!isDragging) return;
-  sph.theta -= (e.clientX - lastX) * 0.006;
-  sph.phi    = Math.max(0.25, Math.min(Math.PI - 0.25, sph.phi - (e.clientY - lastY) * 0.006));
+  const dx = e.clientX - lastX;
+  const dy = e.clientY - lastY;
+  vTheta = -dx * orbitSensitivity;
+  vPhi = -dy * orbitSensitivity;
+  sph.theta += vTheta;
+  sph.phi = Math.max(0.25, Math.min(Math.PI - 0.25, sph.phi + vPhi));
   lastX = e.clientX; lastY = e.clientY;
   updateCam();
 });
 canvas.addEventListener('wheel', e => {
-  sph.r = Math.max(3.5, Math.min(20, sph.r + e.deltaY * 0.01));
+  sph.r = Math.max(3.5, Math.min(28, sph.r + e.deltaY * 0.01));
   updateCam();
   e.preventDefault();
 }, { passive: false });
 
 let lastPinch = null;
 canvas.addEventListener('touchstart', e => {
-  if (e.touches.length === 1) { isDragging = true; lastX = e.touches[0].clientX; lastY = e.touches[0].clientY; }
+  if (e.touches.length === 1) {
+    isDragging = true;
+    lastX = e.touches[0].clientX;
+    lastY = e.touches[0].clientY;
+    vTheta = 0;
+    vPhi = 0;
+  }
 }, { passive: true });
 canvas.addEventListener('touchend', () => { isDragging = false; lastPinch = null; });
 canvas.addEventListener('touchmove', e => {
   e.preventDefault();
   if (e.touches.length === 1 && isDragging) {
-    sph.theta -= (e.touches[0].clientX - lastX) * 0.006;
-    sph.phi    = Math.max(0.25, Math.min(Math.PI - 0.25, sph.phi - (e.touches[0].clientY - lastY) * 0.006));
+    const dx = e.touches[0].clientX - lastX;
+    const dy = e.touches[0].clientY - lastY;
+    vTheta = -dx * 0.006;
+    vPhi = -dy * 0.006;
+    sph.theta += vTheta;
+    sph.phi = Math.max(0.25, Math.min(Math.PI - 0.25, sph.phi + vPhi));
     lastX = e.touches[0].clientX; lastY = e.touches[0].clientY;
     updateCam();
   } else if (e.touches.length === 2) {
     const d = Math.hypot(e.touches[0].clientX - e.touches[1].clientX, e.touches[0].clientY - e.touches[1].clientY);
-    if (lastPinch !== null) { sph.r = Math.max(3.5, Math.min(20, sph.r - (d - lastPinch) * 0.02)); updateCam(); }
+    if (lastPinch !== null) { sph.r = Math.max(3.5, Math.min(28, sph.r - (d - lastPinch) * 0.02)); updateCam(); }
     lastPinch = d;
   }
 }, { passive: false });
@@ -1219,7 +1244,7 @@ window.toggleXray = function() {
 };
 
 window.resetCamera = function() {
-  sph.theta = 0.4; sph.phi = 1.05; sph.r = 6;
+  sph.theta = 0.4; sph.phi = 1.12; sph.r = 10.5;
   updateCam();
 };
 
@@ -1348,9 +1373,13 @@ canvas.addEventListener('click', () => {
 // ── BUILD TABLE ───────────────────────────────────────────────────────────────
 // Group parts by category for section headers
 const CATEGORIES = [
-  { label: 'Chassis',         ids: ['case', 'divider'] },
+  // Show Case as a single specs-table component. The divider remains in the 3D scene,
+  // but it is not listed as a separate line item.
+  { label: 'Chassis',         ids: ['case'] },
   { label: 'Compute',         ids: ['mobo', 'cpu', 'ram', 'nvme'] },
-  { label: 'Cooling',         ids: ['pump', 'aio', 'fans'] },
+  // Show the EK AIO as one specs-table component, including pump/radiator/fans.
+  // The pump, radiator, and fans remain separate selectable 3D parts.
+  { label: 'Cooling',         ids: ['aio'] },
   { label: 'Graphics',        ids: ['gpu'] },
   { label: 'Power',           ids: ['psu'] },
 ];
@@ -1374,6 +1403,17 @@ CATEGORIES.forEach(cat => {
       model  = '2× ' + p.model;
       specs  = p.specs;
       rowId  = 'ram_a';
+    } else if (id === 'aio') {
+      const p = PARTS.find(x => x.id === 'aio');
+      name   = 'EK AIO';
+      model  = 'EK AIO Basic 240mm — pump, radiator, and 2× 120mm fans';
+      specs  = {
+        'Brand': 'EK',
+        'Radiator': '240mm (2× 120mm)',
+        'Cooling': 'AIO liquid cooler',
+        'Mounting': 'Front of case, portrait'
+      };
+      rowId  = 'aio';
     } else if (id === 'fans') {
       const p = PARTS.find(x => x.id === 'fan1');
       name   = 'Case Fans';
@@ -1467,6 +1507,17 @@ function animate() {
   });
 
   document.getElementById('prog-fill').style.width = (explodeT * 100).toFixed(1) + '%';
+
+  // Camera orbit inertia: after a drag/flick, continue rotating and ease to a stop.
+  if (!isDragging && (Math.abs(vTheta) > orbitStopEpsilon || Math.abs(vPhi) > orbitStopEpsilon)) {
+    sph.theta += vTheta;
+    sph.phi = Math.max(0.25, Math.min(Math.PI - 0.25, sph.phi + vPhi));
+    vTheta *= orbitDamping;
+    vPhi *= orbitDamping;
+    if (Math.abs(vTheta) < orbitStopEpsilon) vTheta = 0;
+    if (Math.abs(vPhi) < orbitStopEpsilon) vPhi = 0;
+    updateCam();
+  }
 
   renderer.render(scene, camera);
 }
