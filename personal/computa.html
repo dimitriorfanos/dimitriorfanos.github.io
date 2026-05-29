@@ -761,7 +761,7 @@ const PARTS = [
     tags: ['Divider', 'Steel', 'Perforated'],
     specs: { 'Material': 'Steel', 'Position': 'Center X', 'Function': 'GPU / mobo chamber separator', 'Finish': 'Matte black' },
     color: 0x1a1a18,
-    assembledPos: [0.18, 0, -0.08], explodeVec: [0, 3.8, 0],
+    assembledPos: [0.18, 0, -0.08], explodeVec: [0, 0, 0],
     build: buildDivider
   },
   {
@@ -899,7 +899,11 @@ function buildDivider(g) {
   const t = 0.022; // thickness along X
 
   const mat = new THREE.MeshStandardMaterial({
-    color: 0x111110, roughness: 0.55, metalness: 0.65,
+    color: 0x080808,
+    roughness: 0.82,
+    metalness: 0.22,
+    transparent: true,
+    opacity: 1.0,
     side: THREE.DoubleSide
   });
 
@@ -963,6 +967,33 @@ function buildDivider(g) {
   mesh.scale.z = -1;          // flip so shapeX=+D/2 maps to world +D/2 (front)
   mesh.position.x = -t / 2;  // centre slab on X=0
   g.add(mesh);
+  caseMeshes.push(mesh); // treat the divider like chassis: fade with x-ray/explode, but do not move
+
+  // Extra black structural details so the divider reads more like the real Meshlicious spine.
+  const detailMat = new THREE.MeshStandardMaterial({
+    color: 0x050505,
+    roughness: 0.86,
+    metalness: 0.18,
+    transparent: true,
+    opacity: 1.0
+  });
+
+  // Diagonal GPU/riser support impression.
+  const brace = box(t * 1.8, 1.35, 0.055, detailMat);
+  brace.position.set(0.002, -0.50, -0.18);
+  brace.rotation.x = -0.58;
+  g.add(brace);
+  caseMeshes.push(brace);
+
+  // A few cable/vent slots on the right side of the divider.
+  [-0.75, -0.30, 0.25].forEach(y => {
+    [-0.035, 0.035].forEach(zoff => {
+      const slot = box(t * 2.0, 0.26, 0.018, detailMat);
+      slot.position.set(0.004, y, 0.73 + zoff);
+      g.add(slot);
+      caseMeshes.push(slot);
+    });
+  });
 }
 
 // MOTHERBOARD — scaled 1.25×
@@ -1323,7 +1354,7 @@ let hoveredId = null, selectedId = null;
 function getAllMeshes() {
   const arr = [];
   groups.forEach(g => {
-    if (g.name === 'case') return;
+    if (g.name === 'case' || g.name === 'divider') return;
     g.traverse(c => { if (c.isMesh) arr.push(c); });
   });
   return arr;
