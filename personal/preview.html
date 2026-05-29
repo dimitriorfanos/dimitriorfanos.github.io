@@ -667,9 +667,10 @@ scene.add(grid);
 // ── ORBIT (manual) ───────────────────────────────────────────────────────────
 let isDragging = false, lastX = 0, lastY = 0;
 let vTheta = 0, vPhi = 0;
-const orbitDamping = 0.92;
+const orbitDamping = 0.965;
 const orbitStopEpsilon = 0.0001;
-const sph = { theta: 0.4, phi: 1.05, r: 6 };
+const orbitSensitivity = 0.010;
+const sph = { theta: 0.4, phi: 1.12, r: 10.5 };
 const tgt = new THREE.Vector3(0, 0.2, 0);
 
 function updateCam() {
@@ -695,15 +696,15 @@ window.addEventListener('mousemove', e => {
   if (!isDragging) return;
   const dx = e.clientX - lastX;
   const dy = e.clientY - lastY;
-  vTheta = -dx * 0.006;
-  vPhi = -dy * 0.006;
+  vTheta = -dx * orbitSensitivity;
+  vPhi = -dy * orbitSensitivity;
   sph.theta += vTheta;
   sph.phi = Math.max(0.25, Math.min(Math.PI - 0.25, sph.phi + vPhi));
   lastX = e.clientX; lastY = e.clientY;
   updateCam();
 });
 canvas.addEventListener('wheel', e => {
-  sph.r = Math.max(3.5, Math.min(20, sph.r + e.deltaY * 0.01));
+  sph.r = Math.max(3.5, Math.min(28, sph.r + e.deltaY * 0.01));
   updateCam();
   e.preventDefault();
 }, { passive: false });
@@ -732,7 +733,7 @@ canvas.addEventListener('touchmove', e => {
     updateCam();
   } else if (e.touches.length === 2) {
     const d = Math.hypot(e.touches[0].clientX - e.touches[1].clientX, e.touches[0].clientY - e.touches[1].clientY);
-    if (lastPinch !== null) { sph.r = Math.max(3.5, Math.min(20, sph.r - (d - lastPinch) * 0.02)); updateCam(); }
+    if (lastPinch !== null) { sph.r = Math.max(3.5, Math.min(28, sph.r - (d - lastPinch) * 0.02)); updateCam(); }
     lastPinch = d;
   }
 }, { passive: false });
@@ -1243,7 +1244,7 @@ window.toggleXray = function() {
 };
 
 window.resetCamera = function() {
-  sph.theta = 0.4; sph.phi = 1.05; sph.r = 6;
+  sph.theta = 0.4; sph.phi = 1.12; sph.r = 10.5;
   updateCam();
 };
 
