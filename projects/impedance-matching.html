@@ -102,12 +102,12 @@
     /* ── 3-column sim layout ── */
     .sim-layout {
       display: grid;
-      grid-template-columns: 1fr 1fr 340px;
+      grid-template-columns: 1fr 1fr 400px;
       gap: 14px;
       align-items: start;
     }
     .tuner-col { display: flex; flex-direction: column; gap: 12px; }
-    .smith-col { display: flex; flex-direction: column; gap: 10px; }
+    .smith-col { display: flex; flex-direction: column; gap: 10px; align-self: stretch; }
 
     /* ── Panels ── */
     .panel {
@@ -171,8 +171,9 @@
       border: 1px solid var(--border);
       border-radius: 4px; padding: 10px;
       display: flex; flex-direction: column; gap: 10px;
+      height: 100%;
     }
-    #smithCanvas { display: block; width: 100%; cursor: crosshair; }
+    #smithCanvas { display: block; width: 100%; flex: 1; min-height: 0; cursor: crosshair; }
 
     /* ── Toggles ── */
     .toggle-row { display: flex; align-items: center; justify-content: center; gap: 18px; }
@@ -627,8 +628,13 @@ function magPhaseToCanvas(mag, phaseDeg, cx, cy, r) {
 }
 
 function resizeSmith() {
-  const sz = smithCanvas.parentElement.clientWidth - 24;
-  smithCanvas.width = sz; smithCanvas.height = sz;
+  const wrap = smithCanvas.parentElement;
+  const w = wrap.clientWidth - 24;
+  // Use the container height if it's been stretched by the grid, else fall back to square
+  const availH = wrap.clientHeight - 44; // subtract padding + toggle row
+  const sz = availH > w ? availH : w;
+  smithCanvas.width = sz;
+  smithCanvas.height = sz;
   drawSmith(lastHMag, lastHPhase);
 }
 
