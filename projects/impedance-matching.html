@@ -466,6 +466,10 @@
               <span class="ro-label">Phase</span>
               <span class="ro-value" id="val3Phase">—</span>
             </div>
+            <div class="readout-row">
+              <span class="ro-label">Position (X, Y, Z)</span>
+              <span class="ro-value" id="val3Pos">—</span>
+            </div>
             <div class="conf-row">
               <span class="conf-label-wrap">Interpolation<br>Confidence</span>
               <div class="conf-track"><div class="conf-fill cf3" id="conf3Fill"></div></div>
@@ -489,6 +493,10 @@
             <div class="readout-row">
               <span class="ro-label">Phase</span>
               <span class="ro-value" id="val4Phase">—</span>
+            </div>
+            <div class="readout-row">
+              <span class="ro-label">Position (X, Y)</span>
+              <span class="ro-value" id="val4Pos">—</span>
             </div>
             <div class="conf-row">
               <span class="conf-label-wrap">Interpolation<br>Confidence</span>
@@ -613,22 +621,72 @@
           </tr>
         </tbody>
       </table>
-      <img src="/images/4_stub_cst.png" alt="4-stub tuner model in CST Studio Suite" class="project-img" />
+      <img src="/photos/4_stub_cst.PNG" alt="4-stub tuner model in CST Studio Suite" class="project-img" />
     </div>
 
     <!-- Section 4: Lessons Learned -->
     <div class="content-section">
       <h2>Lessons learned</h2>
-      <p></p>
-      <ul>
-        <li></li>
-        <li></li>
-        <li></li>
-      </ul>
-      <div class="result-callout">
-        <p></p>
+
+      <div style="border: 1px solid var(--border); border-radius: 4px; overflow: hidden; margin-top: 1.5rem;">
+
+        <!-- Lesson 1 -->
+        <div style="display: grid; grid-template-columns: 1fr 280px; border-bottom: 1px solid var(--border);">
+          <div style="padding: 1.5rem 1.75rem; display: flex; gap: 1.25rem; align-items: flex-start;">
+            <span style="font-family: var(--font-mono); font-size: 0.8rem; font-weight: 500; color: var(--text-muted); padding-top: 0.15rem; flex-shrink: 0;">01</span>
+            <div>
+              <div style="font-family: var(--font-display); font-size: 0.95rem; font-weight: 600; margin-bottom: 0.4rem; color: var(--text);">Home position (50, 50) introduces no impedance transformation</div>
+              <p style="font-size: 0.875rem; color: var(--text-muted); line-height: 1.7; margin: 0;">The 4-stub tuner at (50, 50) is equivalent to the 3-stub tuner at (0, 0, 0) — a plain waveguide with no stubs inserted. It introduces near-zero S22 magnitude, meaning no standing wave between the tuner and load. Euclidean distance from (50, 50) shows a strong positive correlation with S22 magnitude: the further the stub position from home, the higher the output reflection coefficient.</p>
+            </div>
+          </div>
+          <div style="border-left: 1px solid var(--border); overflow: hidden;">
+            <img src="/photos/lesson_1.png" alt="Stub position at home" style="width: 100%; height: 100%; object-fit: cover; display: block;" />
+          </div>
+        </div>
+
+        <!-- Lesson 2 -->
+        <div style="display: grid; grid-template-columns: 1fr 280px; border-bottom: 1px solid var(--border);">
+          <div style="padding: 1.5rem 1.75rem; display: flex; gap: 1.25rem; align-items: flex-start;">
+            <span style="font-family: var(--font-mono); font-size: 0.8rem; font-weight: 500; color: var(--text-muted); padding-top: 0.15rem; flex-shrink: 0;">02</span>
+            <div>
+              <div style="font-family: var(--font-display); font-size: 0.95rem; font-weight: 600; margin-bottom: 0.4rem; color: var(--text);">S22 magnitude increases with distance from (50, 50)</div>
+              <p style="font-size: 0.875rem; color: var(--text-muted); line-height: 1.7; margin: 0;">Plotting S22 magnitude against Euclidean distance from (50, 50) across all 6561 simulation cases reveals a consistent positive trend. Stub positions at the extremes (near 10 or 90) produce high reflection coefficients and high SWR between the tuner output and the load — a useful operational heuristic for interpreting automatic tuner behavior.</p>
+            </div>
+          </div>
+          <div style="border-left: 1px solid var(--border); overflow: hidden;">
+            <img src="/photos/lesson_2.png" alt="S22 vs distance from home" style="width: 100%; height: 100%; object-fit: cover; display: block;" />
+          </div>
+        </div>
+
+        <!-- Lesson 3 -->
+        <div style="display: grid; grid-template-columns: 1fr 280px; border-bottom: 1px solid var(--border);">
+          <div style="padding: 1.5rem 1.75rem; display: flex; gap: 1.25rem; align-items: flex-start;">
+            <span style="font-family: var(--font-mono); font-size: 0.8rem; font-weight: 500; color: var(--text-muted); padding-top: 0.15rem; flex-shrink: 0;">03</span>
+            <div>
+              <div style="font-family: var(--font-display); font-size: 0.95rem; font-weight: 600; margin-bottom: 0.4rem; color: var(--text);">4-stub design eliminates the stub swapping discontinuity of 3-stub tuners</div>
+              <p style="font-size: 0.875rem; color: var(--text-muted); line-height: 1.7; margin: 0;">In a 3-stub tuner, matching a load that crosses between impedance regions requires stubs 1 and 3 to swap dramatically — a physical discontinuity that can cause transient instability. The 4-stub design avoids this by providing continuous coverage across the Smith chart. For automatic tuners with fast mechanical response, stub swapping is less critical, but the 4-stub geometry handles dynamic loads more gracefully.</p>
+            </div>
+          </div>
+          <div style="border-left: 1px solid var(--border); overflow: hidden;">
+            <img src="/photos/lesson_3.png" alt="Stub swapping comparison" style="width: 100%; height: 100%; object-fit: cover; display: block;" />
+          </div>
+        </div>
+
+        <!-- Lesson 4 -->
+        <div style="display: grid; grid-template-columns: 1fr 280px;">
+          <div style="padding: 1.5rem 1.75rem; display: flex; gap: 1.25rem; align-items: flex-start;">
+            <span style="font-family: var(--font-mono); font-size: 0.8rem; font-weight: 500; color: var(--text-muted); padding-top: 0.15rem; flex-shrink: 0;">04</span>
+            <div>
+              <div style="font-family: var(--font-display); font-size: 0.95rem; font-weight: 600; margin-bottom: 0.4rem; color: var(--text);">Simulation data enables post-processing of experimental tuner logs</div>
+              <p style="font-size: 0.875rem; color: var(--text-muted); line-height: 1.7; margin: 0;">Mapping logged stub positions to the interpolated S22 surface reveals how impedance evolves over the course of a run. In experiments where the tuner operated in automatic mode and kept reflected power below 1%, the S22 phase remained relatively stable while the magnitude trended upward — indicating a gradual change in the load seen by the tuner and providing a basis for investigating process stability and duration.</p>
+            </div>
+          </div>
+          <div style="border-left: 1px solid var(--border); overflow: hidden;">
+            <img src="/photos/lesson_4.png" alt="Post-processing experimental data" style="width: 100%; height: 100%; object-fit: cover; display: block;" />
+          </div>
+        </div>
+
       </div>
-      <p></p>
     </div>
 
   </div><!-- /project-body -->
@@ -1029,11 +1087,13 @@ function setTarget3(x,y,z) {
 // ══════════════════════════════════════════════════════════════════════════════
 const val4Mag  = document.getElementById('val4Mag');
 const val4Phase= document.getElementById('val4Phase');
+const val4Pos  = document.getElementById('val4Pos');
 const conf4Fill= document.getElementById('conf4Fill');
 const conf4Pct = document.getElementById('conf4Pct');
 const hint4    = document.getElementById('hint4');
 const val3Mag  = document.getElementById('val3Mag');
 const val3Phase= document.getElementById('val3Phase');
+const val3Pos  = document.getElementById('val3Pos');
 const conf3Fill= document.getElementById('conf3Fill');
 const conf3Pct = document.getElementById('conf3Pct');
 const hint3    = document.getElementById('hint3');
@@ -1054,6 +1114,7 @@ smithCanvas.addEventListener('mousemove', (e) => {
   if (i4) {
     val4Mag.textContent  = mag.toFixed(3);
     val4Phase.textContent= phase.toFixed(1)+'\u00b0';
+    val4Pos.textContent  = i4.x.toFixed(1) + ', ' + i4.y.toFixed(1);
     const p4=Math.round(i4.conf*100);
     conf4Fill.style.width=p4+'%'; conf4Pct.textContent=p4+'%';
     setTarget4(i4.x, i4.y);
@@ -1064,6 +1125,7 @@ smithCanvas.addEventListener('mousemove', (e) => {
   if (i3) {
     val3Mag.textContent  = mag.toFixed(3);
     val3Phase.textContent= phase.toFixed(1)+'\u00b0';
+    val3Pos.textContent  = i3.x.toFixed(1) + ', ' + i3.y.toFixed(1) + ', ' + (i3.z ?? 0).toFixed(1);
     const p3=Math.round(i3.conf*100);
     conf3Fill.style.width=p3+'%'; conf3Pct.textContent=p3+'%';
     setTarget3(i3.x, i3.y, i3.z ?? 0);
@@ -1072,9 +1134,9 @@ smithCanvas.addEventListener('mousemove', (e) => {
 
 smithCanvas.addEventListener('mouseleave', () => {
   lastHMag=null; lastHPhase=null; drawSmith(null,null);
-  val4Mag.textContent=val4Phase.textContent='\u2014';
+  val4Mag.textContent=val4Phase.textContent=val4Pos.textContent='\u2014';
   conf4Fill.style.width='0%'; conf4Pct.textContent='\u2014';
-  val3Mag.textContent=val3Phase.textContent='\u2014';
+  val3Mag.textContent=val3Phase.textContent=val3Pos.textContent='\u2014';
   conf3Fill.style.width='0%'; conf3Pct.textContent='\u2014';
   hint4.classList.remove('hidden');
   hint3.classList.remove('hidden');
