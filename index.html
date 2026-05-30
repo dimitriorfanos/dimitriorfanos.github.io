@@ -437,6 +437,21 @@
       border-radius: 2px;
     }
 
+    .project-figure {
+      margin: 0;
+      border-radius: 2px;
+      overflow: hidden;
+      border: 1px solid var(--border);
+    }
+
+    .project-figure img {
+      width: 100%;
+      height: 160px;
+      object-fit: cover;
+      object-position: center;
+      display: block;
+    }
+
     /* ── EXPERIENCE ──────────────────────────────────── */
     .exp-list { border-top: 1px solid var(--border); }
 
@@ -664,7 +679,10 @@
             <span class="project-type type-project">Project</span>
           </div>
           <h3 class="project-title">Impedance Matching</h3>
-          <p class="project-desc">Investigated RF impedance matching to maximize power transfer into plasma reactors. Studied matching networks, S-parameters, and Smith chart methods; modeled 3- and 4-stub tuner behavior. Reduced reflected power from 30% to &lt;1% at 6kW bench scale — methodology applied at pilot scale with the same result, and informed procurement of automatic tuners.</p>
+          <p class="project-desc">Simulation of 4-stub tuner and resulting analysis.</p>
+          <figure class="project-figure">
+            <img src="images/smith_chart.png" alt="4-stub tuner simulation and Smith chart analysis" loading="lazy" />
+          </figure>
           <div class="project-tags">
             <span class="tag">RF Engineering</span>
             <span class="tag">Impedance Matching</span>
