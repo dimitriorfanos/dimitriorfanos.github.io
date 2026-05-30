@@ -576,7 +576,7 @@
 
     <!-- Section 2: Simulation & Modeling -->
     <div class="content-section">
-      <h2>Simulation and modeling process</h2>
+      <h2>Simulation and Modeling Process</h2>
       <p>The modeling approach followed a two-stage process: validate against known literature first, then extend to the undocumented hardware. I started by re-creating a 3-stub tuner in CST Studio Suite (Learning Edition) using published dimensions and S-parameter data from Li Song's PhD thesis (University of Regina) and Vladimir Bilik's S-TEAM impedance matching literature as benchmarks. The 3-stub model uses WR340 waveguide (86.36 mm × 43.18 mm) at 2.45 GHz, with stub diameter 20 mm and λg/4 spacing of 43.14 mm. The tuner length is one guided wavelength (173.2 mm) at the operating frequency. Once the simulation reproduced the published S11 and S12 magnitude/phase curves within visual agreement across all three stub positions, I applied the same geometry and solver settings to the 4-stub tuner using physical measurements taken directly from the hardware — the manufacturer does not publish detailed CAD or dimensions.</p>
       <div style="margin: 1.75rem 0;">
         <?xml version="1.0" encoding="UTF-8"?>
@@ -589,7 +589,7 @@
 
     <!-- Section 3: CST Model -->
     <div class="content-section">
-      <h2>CST model description</h2>
+      <h2>CST Studio Simulation Description</h2>
       <p>The CST model is a purely electromagnetic simulation — no plasma, no thermal effects — using the time-domain transient solver to extract broadband S-parameters around 2.45 GHz. The model geometry captures the waveguide body and stub cylinders as lossless copper conductors, with Port 1 defined at the magnetron-facing end and Port 2 at the reactor-facing end. No boundary condition constraining S11 to zero is applied, so both ports see reflections freely. Key model parameters:</p>
       <table style="width:100%;border-collapse:collapse;font-size:0.875rem;margin:1.25rem 0 1.75rem;">
         <thead>
@@ -621,12 +621,12 @@
           </tr>
         </tbody>
       </table>
-      <img src="/photos/4_stub_cst.png" alt="4-stub tuner model in CST Studio Suite" class="project-img" />
+      <img src="/images/4_stub_cst.png" alt="4-stub tuner model in CST Studio Suite" class="project-img" />
     </div>
 
     <!-- Section 4: Lessons Learned -->
     <div class="content-section">
-      <h2>Lessons learned</h2>
+      <h2>Lessons Learned</h2>
 
       <div style="border: 1px solid var(--border); border-radius: 4px; overflow: hidden; margin-top: 1.5rem;">
 
