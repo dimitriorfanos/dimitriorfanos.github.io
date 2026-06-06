@@ -63,9 +63,6 @@
   <text x="715" y="275" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="20px" font-weight="bold" fill="#000000">Hydrogen (H<tspan baseline-shift="-0.25em" font-size="15px">2</tspan>, gas)</text>
   <text x="930" y="275" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="20px" font-weight="bold" fill="#000000">Carbon (C, solid)</text>
 
-  <!-- ── Divider ── -->
-  <line x1="0" y1="320" x2="1045" y2="320" stroke="#cccccc" stroke-width="1"/>
-
   <!-- ── Title (Mechanism) ── -->
   <text x="375" y="356" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="30px" font-weight="bold" fill="#000000" text-decoration="underline">Methane Pyrolysis (Mechanism &amp; Intermediates)</text>
 
