@@ -56,7 +56,7 @@
 
   <!-- ── Labels below ── -->
   <text x="130" y="278" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="20px" font-weight="bold" fill="#000000">Methane (CH<tspan baseline-shift="-0.25em" font-size="15px">4</tspan>)</text>
-  <text x="360" y="279" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="20px" font-weight="bold" fill="#000000">Energy (from Microwave Plasma)</text>
+  <text x="360" y="270" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="20px" font-weight="bold" fill="#000000">Energy<tspan x="360" dy="22">(from Microwave Plasma)</tspan></text>
   <text x="715" y="275" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="20px" font-weight="bold" fill="#000000">Hydrogen (H<tspan baseline-shift="-0.25em" font-size="15px">2</tspan>, gas)</text>
   <text x="930" y="275" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="20px" font-weight="bold" fill="#000000">Carbon (C, solid)</text>
 
