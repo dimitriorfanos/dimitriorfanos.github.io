@@ -4,13 +4,13 @@
   <g transform="translate(0,-385)">
 
     <!-- ── Step labels ── -->
-    <text x="154" y="402" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="14px" font-weight="bold" fill="#000000">Recombination</text>
-    <text x="366" y="402" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="14px" font-weight="bold" fill="#000000">Dehydrogenation</text>
-    <text x="598" y="402" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="14px" font-weight="bold" fill="#000000">Dehydrogenation</text>
-    <text x="822" y="402" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="14px" font-weight="bold" fill="#000000">Dehydrogenation</text>
+    <text x="74" y="402" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="14px" font-weight="bold" fill="#000000">Recombination</text>
+    <text x="286" y="402" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="14px" font-weight="bold" fill="#000000">Dehydrogenation</text>
+    <text x="518" y="402" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="14px" font-weight="bold" fill="#000000">Dehydrogenation</text>
+    <text x="742" y="402" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="14px" font-weight="bold" fill="#000000">Dehydrogenation</text>
 
     <!-- ── Reaction chain ── -->
-    <text x="520" y="443" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="28px" font-weight="bold" fill="#000000">
+    <text x="440" y="443" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="28px" font-weight="bold" fill="#000000">
       2CH<tspan baseline-shift="-0.25em" font-size="20px">4</tspan>
       <tspan baseline-shift="0"> → C</tspan><tspan baseline-shift="-0.25em" font-size="20px">2</tspan><tspan baseline-shift="0">H</tspan><tspan baseline-shift="-0.25em" font-size="20px">6</tspan>
       <tspan baseline-shift="0"> + H</tspan><tspan baseline-shift="-0.25em" font-size="20px">2</tspan>
@@ -21,12 +21,14 @@
       <tspan baseline-shift="0"> → 2C + 4H</tspan><tspan baseline-shift="-0.25em" font-size="20px">2</tspan>
     </text>
 
+    <!-- ── PAHs annotation, beside the chain's final 4H2 ── -->
+    <text x="840" y="434" text-anchor="start" font-family="Helvetica, Arial, sans-serif" font-size="18px" font-weight="bold" fill="#000000">+ Polycyclic Aromatic</text>
+    <text x="840" y="455" text-anchor="start" font-family="Helvetica, Arial, sans-serif" font-size="18px" font-weight="bold" fill="#000000">Compounds (PAHs)</text>
+
     <!-- ── Compound names ── -->
-    <text x="218" y="491" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="18px" font-weight="bold" fill="#000000">Ethane</text>
-    <text x="434" y="485" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="18px" font-weight="bold" fill="#000000">Ethene</text>
-    <text x="658" y="485" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="18px" font-weight="bold" fill="#000000">Acetylene</text>
-    <text x="930" y="498" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="18px" font-weight="bold" fill="#000000">+ Polycyclic Aromatic</text>
-    <text x="930" y="518" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="18px" font-weight="bold" fill="#000000">Compounds (PAHs)</text>
+    <text x="138" y="491" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="18px" font-weight="bold" fill="#000000">Ethane</text>
+    <text x="354" y="485" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="18px" font-weight="bold" fill="#000000">Ethene</text>
+    <text x="578" y="485" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="18px" font-weight="bold" fill="#000000">Acetylene</text>
 
   </g>
 </svg>
