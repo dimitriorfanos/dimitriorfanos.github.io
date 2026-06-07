@@ -1,0 +1,953 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Running — Dimitri Orfanos</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/tabler-icons.min.css" />
+
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg:           #FFFFFF;
+      --surface:      #F5F5F5;
+      --text:         #111111;
+      --text-muted:   #666666;
+      --accent:       #1D4D3E;
+      --accent-light: #2A6B56;
+      --border:       #E0E0E0;
+
+      --font-display: 'Syne', system-ui, sans-serif;
+      --font-body:    'DM Sans', system-ui, sans-serif;
+
+      --max-w:  1160px;
+      --pad-x:  clamp(1.5rem, 5vw, 4rem);
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: var(--font-body);
+      background: var(--bg);
+      color: var(--text);
+      font-size: 16px;
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* ── NAV ──────────────────────────────────────────── */
+    nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 100;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 1.25rem var(--pad-x);
+      background: rgba(255, 255, 255, 0.90);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border-bottom: 1px solid transparent;
+      transition: border-color 0.3s;
+    }
+    nav.scrolled { border-bottom-color: var(--border); }
+
+    .nav-logo {
+      font-family: var(--font-display);
+      font-weight: 600;
+      font-size: 1rem;
+      letter-spacing: 0.02em;
+      color: var(--text);
+      text-decoration: none;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 2.5rem;
+      list-style: none;
+    }
+
+    .nav-links a {
+      font-size: 0.78rem;
+      font-weight: 400;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+    .nav-links a:hover { color: var(--accent); }
+
+    @media (max-width: 768px) {
+      .nav-links { display: none; }
+    }
+
+    /* ── PAGE LAYOUT ─────────────────────────────────── */
+    .page-wrap {
+      padding-top: 80px;
+    }
+
+    /* ── PAGE HERO ───────────────────────────────────── */
+    .page-hero {
+      padding: 5rem var(--pad-x) 4rem;
+      max-width: calc(var(--max-w) + var(--pad-x) * 2);
+      margin: 0 auto;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .back-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      font-size: 0.72rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      text-decoration: none;
+      margin-bottom: 2.5rem;
+      transition: color 0.2s;
+    }
+    .back-link:hover { color: var(--accent); }
+    .back-link .ti { font-size: 0.9rem; }
+
+    .section-label {
+      font-size: 0.68rem;
+      font-weight: 500;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 1rem;
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+    }
+    .section-label::after {
+      content: '';
+      display: block;
+      width: 2.5rem;
+      height: 1px;
+      background: var(--accent);
+      opacity: 0.4;
+    }
+
+    .page-title {
+      font-family: var(--font-display);
+      font-size: clamp(2.8rem, 7vw, 5.5rem);
+      font-weight: 700;
+      line-height: 1;
+      letter-spacing: -0.03em;
+      margin-bottom: 1.25rem;
+    }
+
+    .page-sub {
+      font-size: 1rem;
+      color: var(--text-muted);
+      max-width: 480px;
+      line-height: 1.75;
+    }
+
+    /* ── STAT STRIP ──────────────────────────────────── */
+    .stat-strip {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .stat-cell {
+      padding: 2.5rem var(--pad-x);
+      border-right: 1px solid var(--border);
+      opacity: 0;
+      transform: translateY(10px);
+      transition: opacity 0.5s ease, transform 0.5s ease;
+    }
+    .stat-cell:last-child { border-right: none; }
+    .stat-cell.visible { opacity: 1; transform: translateY(0); }
+    .stat-cell:nth-child(2) { transition-delay: 0.06s; }
+    .stat-cell:nth-child(3) { transition-delay: 0.12s; }
+    .stat-cell:nth-child(4) { transition-delay: 0.18s; }
+
+    .stat-value {
+      font-family: var(--font-display);
+      font-size: 2.2rem;
+      font-weight: 700;
+      line-height: 1;
+      letter-spacing: -0.02em;
+      color: var(--text);
+      margin-bottom: 0.35rem;
+    }
+
+    .stat-label {
+      font-size: 0.7rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+    }
+
+    @media (max-width: 768px) {
+      .stat-strip { grid-template-columns: repeat(2, 1fr); }
+      .stat-cell:nth-child(2) { border-right: none; }
+    }
+
+    /* ── CONTENT SECTIONS ────────────────────────────── */
+    .content-section {
+      padding: 5rem var(--pad-x);
+      max-width: calc(var(--max-w) + var(--pad-x) * 2);
+      margin: 0 auto;
+    }
+
+    .content-section + .content-section {
+      border-top: 1px solid var(--border);
+    }
+
+    .content-section.surface {
+      background: var(--surface);
+      max-width: 100%;
+      border-top: 1px solid var(--border);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .content-section.surface .inner {
+      max-width: calc(var(--max-w) + var(--pad-x) * 2);
+      margin: 0 auto;
+      padding: 0 var(--pad-x);
+    }
+
+    .subsection-title {
+      font-family: var(--font-display);
+      font-size: 1.5rem;
+      font-weight: 600;
+      letter-spacing: -0.02em;
+      margin-bottom: 2rem;
+    }
+
+    /* ── CHART ───────────────────────────────────────── */
+    .chart-controls {
+      display: flex;
+      gap: 0.5rem;
+      margin-bottom: 2rem;
+    }
+
+    .chart-btn {
+      font-family: var(--font-body);
+      font-size: 0.72rem;
+      font-weight: 500;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      padding: 0.4rem 0.9rem;
+      border: 1px solid var(--border);
+      background: transparent;
+      color: var(--text-muted);
+      cursor: pointer;
+      border-radius: 2px;
+      transition: all 0.15s;
+    }
+    .chart-btn:hover { color: var(--text); border-color: #999; }
+    .chart-btn.active {
+      background: var(--accent);
+      color: #fff;
+      border-color: var(--accent);
+    }
+
+    .chart-outer {
+      border: 1px solid var(--border);
+      background: var(--bg);
+      padding: 2rem;
+    }
+
+    .chart-canvas-wrap {
+      position: relative;
+      height: 220px;
+    }
+
+    canvas#mileageChart {
+      display: block;
+    }
+
+    /* ── PR GRID ─────────────────────────────────────── */
+    .pr-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      border: 1px solid var(--border);
+      gap: 1px;
+      background: var(--border);
+    }
+
+    .pr-card {
+      background: var(--bg);
+      padding: 2rem 1.75rem;
+      opacity: 0;
+      transform: translateY(8px);
+      transition: opacity 0.4s ease, transform 0.4s ease, background 0.2s;
+    }
+    .pr-card.visible { opacity: 1; transform: translateY(0); }
+    .pr-card:nth-child(2) { transition-delay: 0.06s; }
+    .pr-card:nth-child(3) { transition-delay: 0.12s; }
+    .pr-card:nth-child(4) { transition-delay: 0.18s; }
+    .pr-card:hover { background: var(--surface); }
+
+    .pr-distance {
+      font-size: 0.68rem;
+      font-weight: 500;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 0.6rem;
+    }
+
+    .pr-time {
+      font-family: var(--font-display);
+      font-size: 2.4rem;
+      font-weight: 700;
+      line-height: 1;
+      letter-spacing: -0.03em;
+      color: var(--text);
+      margin-bottom: 0.75rem;
+    }
+
+    .pr-meta {
+      display: flex;
+      flex-direction: column;
+      gap: 0.3rem;
+    }
+
+    .pr-meta-row {
+      display: flex;
+      justify-content: space-between;
+      font-size: 0.72rem;
+      color: var(--text-muted);
+      letter-spacing: 0.04em;
+    }
+
+    .pr-meta-row span {
+      color: var(--text);
+      font-weight: 500;
+    }
+
+    @media (max-width: 900px) {
+      .pr-grid { grid-template-columns: repeat(2, 1fr); }
+    }
+    @media (max-width: 480px) {
+      .pr-grid { grid-template-columns: 1fr; }
+    }
+
+    /* ── RACE TABLE ──────────────────────────────────── */
+    .race-table {
+      border: 1px solid var(--border);
+    }
+
+    .race-row {
+      display: grid;
+      grid-template-columns: 60px 1fr 100px 90px 80px;
+      align-items: center;
+      padding: 1.1rem 1.5rem;
+      border-bottom: 1px solid var(--border);
+      transition: background 0.15s;
+    }
+    .race-row:last-child { border-bottom: none; }
+    .race-row:not(.race-header):hover { background: var(--surface); }
+
+    .race-header {
+      background: var(--surface);
+      font-size: 0.68rem;
+      font-weight: 500;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+    }
+
+    .race-col-year {
+      font-family: var(--font-display);
+      font-size: 0.85rem;
+      font-weight: 600;
+      color: var(--text-muted);
+    }
+
+    .race-col-name {
+      font-size: 0.95rem;
+      color: var(--text);
+    }
+
+    .race-col-time {
+      font-family: var(--font-display);
+      font-size: 1.05rem;
+      font-weight: 600;
+      color: var(--text);
+      letter-spacing: -0.01em;
+    }
+
+    .race-col-pace {
+      font-size: 0.85rem;
+      color: var(--text-muted);
+    }
+
+    .race-col-delta {
+      font-size: 0.8rem;
+      font-weight: 500;
+      text-align: right;
+    }
+
+    .race-delta-pos { color: var(--accent); }
+    .race-delta-neutral { color: var(--text-muted); }
+
+    .race-header .race-col-year,
+    .race-header .race-col-name,
+    .race-header .race-col-time,
+    .race-header .race-col-pace,
+    .race-header .race-col-delta {
+      font-family: var(--font-body);
+      font-size: 0.68rem;
+      font-weight: 500;
+      color: var(--text-muted);
+    }
+
+    @media (max-width: 640px) {
+      .race-row {
+        grid-template-columns: 52px 1fr 90px;
+        gap: 0.5rem;
+      }
+      .race-col-pace, .race-col-delta { display: none; }
+    }
+
+    /* ── ANNUAL BARS ──────────────────────────────────── */
+    .year-rows {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .year-row {
+      display: grid;
+      grid-template-columns: 52px 1fr 90px;
+      align-items: center;
+      gap: 1.5rem;
+      padding: 1.1rem 0;
+      border-bottom: 1px solid var(--border);
+      opacity: 0;
+      transform: translateX(-6px);
+      transition: opacity 0.4s ease, transform 0.4s ease;
+    }
+    .year-row:first-child { border-top: 1px solid var(--border); }
+    .year-row.visible { opacity: 1; transform: translateX(0); }
+    .year-row:nth-child(2) { transition-delay: 0.06s; }
+    .year-row:nth-child(3) { transition-delay: 0.12s; }
+    .year-row:nth-child(4) { transition-delay: 0.18s; }
+
+    .year-label {
+      font-family: var(--font-display);
+      font-size: 0.85rem;
+      font-weight: 600;
+      color: var(--text-muted);
+      text-align: right;
+    }
+
+    .year-bar-track {
+      height: 4px;
+      background: var(--border);
+      border-radius: 2px;
+      overflow: hidden;
+    }
+
+    .year-bar-fill {
+      height: 100%;
+      background: var(--accent);
+      border-radius: 2px;
+      width: 0;
+      transition: width 1s cubic-bezier(0.16, 1, 0.3, 1) 0.2s;
+    }
+
+    .year-value {
+      font-size: 0.8rem;
+      color: var(--text-muted);
+      text-align: right;
+      white-space: nowrap;
+    }
+
+    /* ── FOOTNOTE ────────────────────────────────────── */
+    .footnote {
+      font-size: 0.72rem;
+      color: var(--text-muted);
+      letter-spacing: 0.05em;
+      padding-top: 1.5rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    /* ── FOOTER ──────────────────────────────────────── */
+    footer {
+      padding: 1.75rem var(--pad-x);
+      border-top: 1px solid var(--border);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 0.72rem;
+      color: var(--text-muted);
+      letter-spacing: 0.06em;
+    }
+
+    /* ── FADE IN ─────────────────────────────────────── */
+    .fade-in {
+      opacity: 0;
+      transform: translateY(16px);
+      transition: opacity 0.6s ease, transform 0.6s ease;
+    }
+    .fade-in.visible { opacity: 1; transform: translateY(0); }
+  </style>
+</head>
+<body>
+
+  <!-- NAV -->
+  <nav id="main-nav">
+    <a href="../index.html" class="nav-logo">DIMITRI ORFANOS</a>
+    <ul class="nav-links">
+      <li><a href="../index.html#about">About</a></li>
+      <li><a href="../index.html#projects">Work</a></li>
+      <li><a href="../index.html#experience">Experience</a></li>
+      <li><a href="../index.html#skills">Skills</a></li>
+      <li><a href="../index.html#contact">Contact</a></li>
+    </ul>
+  </nav>
+
+  <div class="page-wrap">
+
+    <!-- PAGE HERO -->
+    <div class="page-hero">
+      <a href="../index.html" class="back-link">
+        <i class="ti ti-arrow-left"></i> Back
+      </a>
+      <div class="section-label">Personal</div>
+      <h1 class="page-title">Running</h1>
+      <p class="page-sub">225 runs logged since July 2023. Mostly roads around Somerville and Cambridge, occasionally longer routes into the Fells.</p>
+    </div>
+
+    <!-- STAT STRIP -->
+    <div class="stat-strip">
+      <div class="stat-cell">
+        <div class="stat-value">1,328</div>
+        <div class="stat-label">Miles total</div>
+      </div>
+      <div class="stat-cell">
+        <div class="stat-value">225</div>
+        <div class="stat-label">Runs logged</div>
+      </div>
+      <div class="stat-cell">
+        <div class="stat-value">1:30:51</div>
+        <div class="stat-label">Half marathon PR</div>
+      </div>
+      <div class="stat-cell">
+        <div class="stat-value">5.9 mi</div>
+        <div class="stat-label">Avg per run</div>
+      </div>
+    </div>
+
+    <!-- CHART -->
+    <section class="content-section surface">
+      <div class="inner">
+        <div class="fade-in">
+          <div class="section-label">Volume</div>
+          <div class="subsection-title" style="margin-bottom:1.5rem;">Monthly Mileage</div>
+          <div class="chart-controls">
+            <button class="chart-btn active" data-view="all">All time</button>
+            <button class="chart-btn" data-view="2024">2024</button>
+            <button class="chart-btn" data-view="2025">2025</button>
+            <button class="chart-btn" data-view="2026">2026</button>
+          </div>
+          <div class="chart-outer">
+            <div class="chart-canvas-wrap">
+              <canvas id="mileageChart"></canvas>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- PRs -->
+    <section class="content-section">
+      <div class="fade-in">
+        <div class="section-label">Records</div>
+        <div class="subsection-title">Personal Bests</div>
+      </div>
+      <div class="pr-grid fade-in">
+        <div class="pr-card">
+          <div class="pr-distance">5K</div>
+          <div class="pr-time">22:25</div>
+          <div class="pr-meta">
+            <div class="pr-meta-row">Pace <span>7:13 /mi</span></div>
+            <div class="pr-meta-row">Date <span>Apr 2026</span></div>
+          </div>
+        </div>
+        <div class="pr-card">
+          <div class="pr-distance">10K</div>
+          <div class="pr-time">44:23</div>
+          <div class="pr-meta">
+            <div class="pr-meta-row">Pace <span>7:08 /mi</span></div>
+            <div class="pr-meta-row">Date <span>Oct 2025</span></div>
+          </div>
+        </div>
+        <div class="pr-card">
+          <div class="pr-distance">Half Marathon</div>
+          <div class="pr-time">1:30:51</div>
+          <div class="pr-meta">
+            <div class="pr-meta-row">Pace <span>6:55 /mi</span></div>
+            <div class="pr-meta-row">Date <span>Nov 2025</span></div>
+          </div>
+        </div>
+        <div class="pr-card">
+          <div class="pr-distance">Long Run</div>
+          <div class="pr-time">15.3 mi</div>
+          <div class="pr-meta">
+            <div class="pr-meta-row">Time <span>2:01:59</span></div>
+            <div class="pr-meta-row">Date <span>Nov 2024</span></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- RACES -->
+    <section class="content-section">
+      <div class="fade-in">
+        <div class="section-label">Race history</div>
+        <div class="subsection-title">Half Marathons</div>
+      </div>
+      <div class="race-table fade-in">
+        <div class="race-row race-header">
+          <div class="race-col-year">Year</div>
+          <div class="race-col-name">Race</div>
+          <div class="race-col-time">Time</div>
+          <div class="race-col-pace">Pace</div>
+          <div class="race-col-delta">vs. prev</div>
+        </div>
+        <div class="race-row">
+          <div class="race-col-year">2023</div>
+          <div class="race-col-name">Central Park Half Marathon</div>
+          <div class="race-col-time">1:50:33</div>
+          <div class="race-col-pace">8:15 /mi</div>
+          <div class="race-col-delta race-delta-neutral">—</div>
+        </div>
+        <div class="race-row">
+          <div class="race-col-year">2024</div>
+          <div class="race-col-name">Cambridgeside Half Marathon</div>
+          <div class="race-col-time">1:40:02</div>
+          <div class="race-col-pace">7:36 /mi</div>
+          <div class="race-col-delta race-delta-pos">−10:31</div>
+        </div>
+        <div class="race-row">
+          <div class="race-col-year">2025</div>
+          <div class="race-col-name">Cambridgeside Half Marathon</div>
+          <div class="race-col-time">1:31:02</div>
+          <div class="race-col-pace">6:55 /mi</div>
+          <div class="race-col-delta race-delta-pos">−9:00</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ANNUAL TOTALS -->
+    <section class="content-section surface">
+      <div class="inner">
+        <div class="fade-in">
+          <div class="section-label">Year over year</div>
+          <div class="subsection-title">Annual Mileage</div>
+        </div>
+        <div class="year-rows fade-in">
+          <div class="year-row">
+            <div class="year-label">2023</div>
+            <div class="year-bar-track"><div class="year-bar-fill" data-pct="23"></div></div>
+            <div class="year-value">139 mi</div>
+          </div>
+          <div class="year-row">
+            <div class="year-label">2024</div>
+            <div class="year-bar-track"><div class="year-bar-fill" data-pct="73"></div></div>
+            <div class="year-value">433 mi</div>
+          </div>
+          <div class="year-row">
+            <div class="year-label">2025</div>
+            <div class="year-bar-track"><div class="year-bar-fill" data-pct="100"></div></div>
+            <div class="year-value">597 mi</div>
+          </div>
+          <div class="year-row">
+            <div class="year-label">2026</div>
+            <div class="year-bar-track"><div class="year-bar-fill" data-pct="27"></div></div>
+            <div class="year-value">159 mi *</div>
+          </div>
+        </div>
+        <div class="footnote fade-in">* 2026 through June &nbsp;·&nbsp; Data via Strava export &nbsp;·&nbsp; Distances in miles</div>
+      </div>
+    </section>
+
+  </div>
+
+  <!-- FOOTER -->
+  <footer>
+    <span>© 2026 Dimitri Orfanos</span>
+    <span>Cambridge, MA</span>
+  </footer>
+
+  <script>
+    // ── data ──────────────────────────────────────────────
+    const monthly = [
+      { m: '2023-07', mi: 3.7 },  { m: '2023-08', mi: 6.8 },
+      { m: '2023-09', mi: 22.0 }, { m: '2023-10', mi: 50.7 },
+      { m: '2023-11', mi: 33.7 }, { m: '2023-12', mi: 22.1 },
+      { m: '2024-01', mi: 6.8 },  { m: '2024-02', mi: 27.6 },
+      { m: '2024-03', mi: 30.3 }, { m: '2024-04', mi: 19.6 },
+      { m: '2024-05', mi: 43.4 }, { m: '2024-06', mi: 36.0 },
+      { m: '2024-07', mi: 17.9 }, { m: '2024-08', mi: 52.5 },
+      { m: '2024-09', mi: 77.8 }, { m: '2024-10', mi: 53.9 },
+      { m: '2024-11', mi: 47.0 }, { m: '2024-12', mi: 19.7 },
+      { m: '2025-01', mi: 28.0 }, { m: '2025-02', mi: 30.1 },
+      { m: '2025-03', mi: 52.1 }, { m: '2025-04', mi: 47.5 },
+      { m: '2025-05', mi: 63.3 }, { m: '2025-06', mi: 68.4 },
+      { m: '2025-07', mi: 59.2 }, { m: '2025-08', mi: 48.7 },
+      { m: '2025-09', mi: 39.5 }, { m: '2025-10', mi: 58.6 },
+      { m: '2025-11', mi: 59.6 }, { m: '2025-12', mi: 42.1 },
+      { m: '2026-01', mi: 9.1 },  { m: '2026-02', mi: 16.5 },
+      { m: '2026-03', mi: 20.8 }, { m: '2026-04', mi: 53.2 },
+      { m: '2026-05', mi: 44.9 }, { m: '2026-06', mi: 14.6 },
+    ];
+
+    const MON = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+    function fmtLabel(m) {
+      const [y, mo] = m.split('-');
+      return MON[+mo - 1] + " '" + y.slice(2);
+    }
+
+    // ── chart ──────────────────────────────────────────────
+    const canvas = document.getElementById('mileageChart');
+    const ctx = canvas.getContext('2d');
+    let hoveredBar = -1;
+
+    function buildChart(view) {
+      const data = view === 'all' ? monthly : monthly.filter(d => d.m.startsWith(view));
+      drawChart(data);
+    }
+
+    function drawChart(data) {
+      const dpr = window.devicePixelRatio || 1;
+      const W = canvas.parentElement.offsetWidth;
+      const H = 220;
+      canvas.width = W * dpr;
+      canvas.height = H * dpr;
+      canvas.style.width = W + 'px';
+      canvas.style.height = H + 'px';
+      ctx.scale(dpr, dpr);
+
+      const pL = 40, pR = 12, pT = 16, pB = 44;
+      const cW = W - pL - pR;
+      const cH = H - pT - pB;
+      const vals = data.map(d => d.mi);
+      const maxV = Math.max(...vals) * 1.12;
+      const n = vals.length;
+      const slot = cW / n;
+      const barW = Math.max(3, slot * 0.55);
+
+      const bars = data.map((d, i) => ({
+        x: pL + i * slot + (slot - barW) / 2,
+        targetH: (d.mi / maxV) * cH,
+        label: fmtLabel(d.m),
+        value: d.mi,
+      }));
+
+      // animate
+      const start = performance.now();
+      const dur = 550;
+
+      function draw(now) {
+        const p = Math.min((now - start) / dur, 1);
+        const ease = 1 - Math.pow(1 - p, 3);
+        ctx.clearRect(0, 0, W, H);
+
+        // grid
+        const gridLines = 4;
+        for (let i = 1; i <= gridLines; i++) {
+          const y = pT + cH - (i / gridLines) * cH;
+          ctx.strokeStyle = '#E0E0E0';
+          ctx.lineWidth = 1;
+          ctx.setLineDash([]);
+          ctx.beginPath(); ctx.moveTo(pL, y); ctx.lineTo(pL + cW, y); ctx.stroke();
+          ctx.fillStyle = '#999';
+          ctx.font = `10px 'DM Sans', sans-serif`;
+          ctx.textAlign = 'right';
+          const gridVal = Math.round((i / gridLines) * (maxV / 1.12));
+          ctx.fillText(gridVal, pL - 6, y + 3);
+        }
+
+        // baseline
+        ctx.strokeStyle = '#E0E0E0';
+        ctx.lineWidth = 1;
+        ctx.beginPath();
+        ctx.moveTo(pL, pT + cH);
+        ctx.lineTo(pL + cW, pT + cH);
+        ctx.stroke();
+
+        bars.forEach((b, i) => {
+          const h = b.targetH * ease;
+          const by = pT + cH - h;
+          const isH = i === hoveredBar;
+
+          ctx.fillStyle = isH ? '#2A6B56' : '#1D4D3E';
+          const r = 2;
+          ctx.beginPath();
+          ctx.moveTo(b.x + r, by);
+          ctx.lineTo(b.x + barW - r, by);
+          ctx.quadraticCurveTo(b.x + barW, by, b.x + barW, by + r);
+          ctx.lineTo(b.x + barW, pT + cH);
+          ctx.lineTo(b.x, pT + cH);
+          ctx.lineTo(b.x, by + r);
+          ctx.quadraticCurveTo(b.x, by, b.x + r, by);
+          ctx.closePath();
+          ctx.fill();
+
+          // x labels (sparse)
+          const showLabel = n <= 12 || i % Math.ceil(n / 12) === 0;
+          if (showLabel) {
+            ctx.fillStyle = '#999';
+            ctx.font = `9px 'DM Sans', sans-serif`;
+            ctx.textAlign = 'center';
+            ctx.fillText(b.label, b.x + barW / 2, pT + cH + 16);
+          }
+
+          // tooltip
+          if (isH && p >= 1) {
+            const tx = Math.min(Math.max(b.x + barW / 2, 36), W - 36);
+            const ty = by - 8;
+            const txt = b.value.toFixed(1) + ' mi';
+            ctx.font = `500 11px 'DM Sans', sans-serif`;
+            const tw = ctx.measureText(txt).width + 16;
+            const th = 22;
+            ctx.fillStyle = '#111';
+            ctx.beginPath();
+            ctx.roundRect(tx - tw / 2, ty - th, tw, th, 3);
+            ctx.fill();
+            ctx.fillStyle = '#fff';
+            ctx.textAlign = 'center';
+            ctx.fillText(txt, tx, ty - 6);
+          }
+        });
+
+        if (p < 1) requestAnimationFrame(draw);
+      }
+      requestAnimationFrame(draw);
+
+      // hover
+      canvas.onmousemove = (e) => {
+        const rect = canvas.getBoundingClientRect();
+        const mx = e.clientX - rect.left;
+        const my = e.clientY - rect.top;
+        let found = -1;
+        bars.forEach((b, i) => {
+          if (mx >= b.x && mx <= b.x + barW && my >= pT && my <= pT + cH) found = i;
+        });
+        if (found !== hoveredBar) {
+          hoveredBar = found;
+          // redraw at end state
+          const now = performance.now();
+          drawStatic(bars, pL, pR, pT, pB, cW, cH, W, H, maxV, n);
+        }
+      };
+      canvas.onmouseleave = () => {
+        hoveredBar = -1;
+        drawStatic(bars, pL, pR, pT, pB, cW, cH, W, H, maxV, n);
+      };
+    }
+
+    function drawStatic(bars, pL, pR, pT, pB, cW, cH, W, H, maxV, n) {
+      ctx.clearRect(0, 0, W, H);
+      const gridLines = 4;
+      for (let i = 1; i <= gridLines; i++) {
+        const y = pT + cH - (i / gridLines) * cH;
+        ctx.strokeStyle = '#E0E0E0'; ctx.lineWidth = 1;
+        ctx.beginPath(); ctx.moveTo(pL, y); ctx.lineTo(pL + cW, y); ctx.stroke();
+        ctx.fillStyle = '#999';
+        ctx.font = `10px 'DM Sans', sans-serif`;
+        ctx.textAlign = 'right';
+        ctx.fillText(Math.round((i / gridLines) * (maxV / 1.12)), pL - 6, y + 3);
+      }
+      ctx.strokeStyle = '#E0E0E0'; ctx.lineWidth = 1;
+      ctx.beginPath(); ctx.moveTo(pL, pT + cH); ctx.lineTo(pL + cW, pT + cH); ctx.stroke();
+
+      const barW = bars.length > 1 ? bars[1].x - bars[0].x - (bars[1].x - bars[0].x) * 0.45 : 8;
+      // recalc barW from slot
+      const slot = cW / bars.length;
+      const bW = Math.max(3, slot * 0.55);
+
+      bars.forEach((b, i) => {
+        const h = b.targetH;
+        const by = pT + cH - h;
+        const isH = i === hoveredBar;
+        ctx.fillStyle = isH ? '#2A6B56' : '#1D4D3E';
+        const r = 2;
+        ctx.beginPath();
+        ctx.moveTo(b.x + r, by);
+        ctx.lineTo(b.x + bW - r, by);
+        ctx.quadraticCurveTo(b.x + bW, by, b.x + bW, by + r);
+        ctx.lineTo(b.x + bW, pT + cH);
+        ctx.lineTo(b.x, pT + cH);
+        ctx.lineTo(b.x, by + r);
+        ctx.quadraticCurveTo(b.x, by, b.x + r, by);
+        ctx.closePath();
+        ctx.fill();
+        const showLabel = bars.length <= 12 || i % Math.ceil(bars.length / 12) === 0;
+        if (showLabel) {
+          ctx.fillStyle = '#999';
+          ctx.font = `9px 'DM Sans', sans-serif`;
+          ctx.textAlign = 'center';
+          ctx.fillText(b.label, b.x + bW / 2, pT + cH + 16);
+        }
+        if (isH) {
+          const tx = Math.min(Math.max(b.x + bW / 2, 36), W - 36);
+          const ty = by - 8;
+          const txt = b.value.toFixed(1) + ' mi';
+          ctx.font = `500 11px 'DM Sans', sans-serif`;
+          const tw = ctx.measureText(txt).width + 16;
+          const th = 22;
+          ctx.fillStyle = '#111';
+          ctx.beginPath(); ctx.roundRect(tx - tw / 2, ty - th, tw, th, 3); ctx.fill();
+          ctx.fillStyle = '#fff'; ctx.textAlign = 'center';
+          ctx.fillText(txt, tx, ty - 6);
+        }
+      });
+    }
+
+    // chart tab controls
+    document.querySelectorAll('.chart-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        document.querySelectorAll('.chart-btn').forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        hoveredBar = -1;
+        buildChart(btn.dataset.view);
+      });
+    });
+
+    // ── intersection observer ──────────────────────────────
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(el => {
+        if (el.isIntersecting) {
+          el.target.classList.add('visible');
+          el.target.querySelectorAll('.year-bar-fill').forEach(fill => {
+            fill.style.width = fill.dataset.pct + '%';
+          });
+          observer.unobserve(el.target);
+        }
+      });
+    }, { threshold: 0.08 });
+
+    document.querySelectorAll('.stat-cell, .pr-card, .year-row, .fade-in').forEach(el => observer.observe(el));
+
+    // nav scroll
+    const nav = document.getElementById('main-nav');
+    window.addEventListener('scroll', () => {
+      nav.classList.toggle('scrolled', window.scrollY > 40);
+    }, { passive: true });
+
+    // build + resize
+    buildChart('all');
+    window.addEventListener('resize', () => {
+      hoveredBar = -1;
+      buildChart(document.querySelector('.chart-btn.active')?.dataset.view || 'all');
+    });
+  </script>
+</body>
+</html>
