@@ -444,7 +444,8 @@
       border: 1px solid var(--border);
     }
 
-    .project-figure img {
+    .project-figure img,
+    .project-figure video {
       width: 100%;
       height: 160px;
       object-fit: cover;
@@ -659,6 +660,12 @@
           </div>
           <h3 class="project-title">Microwave Plasma Experiments</h3>
           <p class="project-desc">Ran bench-scale microwave plasma experiments for dry reforming and pyrolysis to evaluate performance, stability, and product quality. Owned and operated the 2.45GHz test skid end-to-end, with key findings on reflected power and arcing driving reactor modifications. Scaled from 1kW to 6kW; impedance matching insights carried to the 915MHz pilot, enabling stable operation at 100kW.</p>
+          <p class="project-desc">High-speed footage of plasma ignition in the 2.45GHz reactor, capturing the breakdown and arc formation that drove later reactor modifications.</p>
+          <figure class="project-figure">
+            <video autoplay loop muted playsinline>
+              <source src="videos/IgnitionFastFrame16x.mp4" type="video/mp4">
+            </video>
+          </figure>
           <div class="project-tags">
             <span class="tag">Microwave Plasma</span>
             <span class="tag">Experimental Design</span>
