@@ -4,7 +4,7 @@
   <meta charset="UTF-8" /><meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Automatic Ramp Program — Dimitri Orfanos</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" /><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet" />
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
     :root { --bg: #FFFFFF; --surface: #F5F5F5; --text: #111111; --text-muted: #666666; --accent: #1D4D3E; --border: #E0E0E0; --font-display: 'Syne', system-ui, sans-serif; --font-body: 'DM Sans', system-ui, sans-serif; --max-w: 1200px; --pad-x: clamp(1.5rem, 5vw, 4rem); }
@@ -64,6 +64,133 @@
     .step-marker { font-family: var(--font-display); font-size: 1.1rem; font-weight: 700; color: var(--border); letter-spacing: -0.04em; flex-shrink: 0; width: 28px; padding-top: 0.05rem; }
     .step-title { font-family: var(--font-display); font-size: 0.875rem; font-weight: 600; color: var(--text); margin-bottom: 0.4rem; letter-spacing: -0.01em; }
     .step-desc { font-size: 0.875rem; color: var(--text-muted); line-height: 1.75; }
+
+    /* ── Ramp Simulation ──────────────────────────────────────── */
+    --font-mono: 'IBM Plex Mono', monospace;
+    .sim-section { margin-bottom: 4rem; }
+    .sim-layout {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1px;
+      background: var(--border);
+      border: 1px solid var(--border);
+      margin-top: 1.5rem;
+    }
+    @media (max-width: 760px) { .sim-layout { grid-template-columns: 1fr; } }
+    .sim-panel { background: var(--bg); padding: 1.75rem; }
+    .sim-panel-title {
+      font-size: 0.68rem; font-weight: 600; letter-spacing: 0.18em;
+      text-transform: uppercase; color: var(--accent); margin-bottom: 1.25rem;
+    }
+
+    /* params */
+    .params-grid { display: flex; flex-direction: column; gap: 1rem; }
+    .param-row { display: grid; grid-template-columns: 90px 1fr 68px; align-items: center; gap: 0.75rem; }
+    .param-label { font-family: 'IBM Plex Mono', monospace; font-size: 0.73rem; color: var(--text-muted); line-height: 1.3; }
+    .param-label em { font-style: normal; font-size: 0.63rem; display: block; color: #bbb; }
+    .param-track { position: relative; height: 5px; background: #EBEBEB; border-radius: 1px; }
+    .param-fill {
+      position: absolute; left: 0; top: 0; height: 100%;
+      background: var(--accent); border-radius: 1px;
+      transition: width 0.45s ease;
+    }
+    .param-fill.active-channel { background: #B45309; }
+    .param-sp {
+      position: absolute; top: -5px;
+      width: 1px; height: 15px;
+      background: #BBBBBB;
+      transition: left 0.3s ease;
+    }
+    .param-val {
+      font-family: 'IBM Plex Mono', monospace; font-size: 0.73rem;
+      color: var(--text-muted); text-align: right; white-space: nowrap;
+    }
+    .param-val.v-settling { color: #B45309; }
+    .param-val.v-settled  { color: var(--accent); }
+
+    /* channel badge row */
+    .channel-badge-row {
+      display: flex; gap: 0.35rem; flex-wrap: wrap;
+      margin-top: 1.25rem; padding-top: 1.25rem;
+      border-top: 1px solid var(--border);
+    }
+    .ch-badge {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 0.63rem; letter-spacing: 0.06em;
+      padding: 0.2rem 0.45rem; border-radius: 2px;
+      border: 1px solid var(--border);
+      color: var(--text-muted); background: var(--surface);
+      transition: background 0.2s, color 0.2s, border-color 0.2s;
+    }
+    .ch-badge.ch-active  { background: rgba(180,83,9,0.08); border-color: #B45309; color: #B45309; }
+    .ch-badge.ch-done    { background: rgba(29,77,62,0.07); border-color: var(--accent); color: var(--accent); }
+
+    /* sequence table */
+    .seq-status {
+      font-family: 'IBM Plex Mono', monospace; font-size: 0.75rem;
+      color: var(--text-muted); margin-bottom: 1rem; min-height: 1.1em;
+    }
+    .seq-status .s-run   { color: #B45309; }
+    .seq-status .s-ok    { color: var(--accent); }
+    .seq-status .s-fault { color: #C0392B; }
+
+    .seq-table-wrap { overflow-x: auto; margin-bottom: 1.5rem; }
+    .seq-table {
+      width: 100%; border-collapse: collapse;
+      font-family: 'IBM Plex Mono', monospace; font-size: 0.75rem;
+    }
+    .seq-table th {
+      text-align: right; padding: 0.4rem 0.65rem;
+      font-size: 0.62rem; font-weight: 500; letter-spacing: 0.08em;
+      text-transform: uppercase; color: var(--text-muted);
+      background: var(--surface); border-bottom: 1px solid var(--border);
+      white-space: nowrap;
+    }
+    .seq-table th:first-child { text-align: left; }
+    .seq-table td {
+      padding: 0.4rem 0.65rem; text-align: right;
+      border-bottom: 1px solid var(--border);
+      color: #BBBBBB; white-space: nowrap;
+      transition: background 0.25s, color 0.25s;
+    }
+    .seq-table td:first-child { text-align: left; }
+    .seq-table tbody tr.row-active td { color: var(--text); background: rgba(29,77,62,0.04); }
+    .seq-table tbody tr.row-active td:first-child { color: var(--accent); font-weight: 500; }
+    .seq-table tbody tr.row-done td { color: #DDDDDD; }
+
+    /* controls */
+    .sim-controls {
+      display: flex; flex-wrap: wrap; gap: 0.45rem;
+      margin-top: 1.25rem; padding-top: 1.25rem;
+      border-top: 1px solid var(--border);
+    }
+    .s-btn {
+      font-family: var(--font-display); font-size: 0.68rem; font-weight: 600;
+      letter-spacing: 0.1em; text-transform: uppercase;
+      padding: 0.42rem 0.85rem; border-radius: 2px;
+      border: 1px solid var(--border); background: var(--bg);
+      color: var(--text); cursor: pointer;
+      transition: background 0.15s, color 0.15s, border-color 0.15s;
+    }
+    .s-btn:hover:not(:disabled) { background: var(--surface); }
+    .s-btn.s-primary { background: var(--accent); color: #fff; border-color: var(--accent); }
+    .s-btn.s-primary:hover:not(:disabled) { background: #163d31; border-color: #163d31; }
+    .s-btn.s-fault  { color: #C0392B; border-color: #C0392B; }
+    .s-btn.s-fault:hover:not(:disabled)  { background: rgba(192,57,43,0.06); }
+    .s-btn:disabled { opacity: 0.3; cursor: default; }
+
+    /* fault banner */
+    .fault-banner {
+      display: none; align-items: center; gap: 0.6rem;
+      border: 1px solid rgba(192,57,43,0.3);
+      background: rgba(192,57,43,0.05);
+      padding: 0.6rem 0.9rem; border-radius: 2px;
+      font-family: 'IBM Plex Mono', monospace; font-size: 0.75rem;
+      color: #C0392B; margin-bottom: 1.25rem;
+    }
+    .fault-banner.on { display: flex; }
+    .fault-blink { width: 7px; height: 7px; border-radius: 50%; background: #C0392B; flex-shrink: 0; animation: fblink 1s step-start infinite; }
+    @keyframes fblink { 0%,100%{opacity:1} 50%{opacity:0} }
   </style>
 </head>
 <body>
@@ -213,11 +340,331 @@
       <p><!-- REPLACE: Any additional context on operational impact or what this enabled. --></p>
 
     </div>
-  </div>
+
+    <!-- ── RAMP SIMULATION ────────────────────────────────────── -->
+    <div class="content-section sim-section">
+      <h2>Interactive Simulation</h2>
+      <p style="font-size:0.95rem;color:var(--text-muted);line-height:1.8;margin-bottom:0">Step through a 6-step ramp profile at 5× speed. Each channel settles in sequence — CO₂, then CH₄, then Power, then Stubs — before the step advances. Pause at any point or trigger a fault interrupt.</p>
+
+      <div id="faultBanner" class="fault-banner">
+        <span class="fault-blink"></span>
+        FAULT — Auto-Ramp interrupted. Setpoints held at last completed step.
+      </div>
+
+      <div class="sim-layout">
+
+        <!-- LEFT: Process Parameters -->
+        <div class="sim-panel">
+          <div class="sim-panel-title">Process Parameters — Actual vs. Setpoint</div>
+          <div class="params-grid">
+            <div class="param-row">
+              <div class="param-label">CO₂ Flow<em>slpm</em></div>
+              <div class="param-track"><div class="param-fill" id="fill-co2"></div><div class="param-sp" id="sp-co2"></div></div>
+              <div class="param-val" id="val-co2">—</div>
+            </div>
+            <div class="param-row">
+              <div class="param-label">CH₄ Flow<em>slpm</em></div>
+              <div class="param-track"><div class="param-fill" id="fill-ch4"></div><div class="param-sp" id="sp-ch4"></div></div>
+              <div class="param-val" id="val-ch4">—</div>
+            </div>
+            <div class="param-row">
+              <div class="param-label">RF Power<em>kW</em></div>
+              <div class="param-track"><div class="param-fill" id="fill-pwr"></div><div class="param-sp" id="sp-pwr"></div></div>
+              <div class="param-val" id="val-pwr">—</div>
+            </div>
+            <div class="param-row">
+              <div class="param-label">Stub 1<em>mm</em></div>
+              <div class="param-track"><div class="param-fill" id="fill-s1"></div><div class="param-sp" id="sp-s1"></div></div>
+              <div class="param-val" id="val-s1">—</div>
+            </div>
+            <div class="param-row">
+              <div class="param-label">Stub 2<em>mm</em></div>
+              <div class="param-track"><div class="param-fill" id="fill-s2"></div><div class="param-sp" id="sp-s2"></div></div>
+              <div class="param-val" id="val-s2">—</div>
+            </div>
+            <div class="param-row">
+              <div class="param-label">Stub 3<em>mm</em></div>
+              <div class="param-track"><div class="param-fill" id="fill-s3"></div><div class="param-sp" id="sp-s3"></div></div>
+              <div class="param-val" id="val-s3">—</div>
+            </div>
+          </div>
+          <!-- channel settling badges -->
+          <div class="channel-badge-row">
+            <span class="ch-badge" id="badge-co2">CO₂</span>
+            <span class="ch-badge" id="badge-ch4">CH₄</span>
+            <span class="ch-badge" id="badge-pwr">Power</span>
+            <span class="ch-badge" id="badge-s1">Stub 1</span>
+            <span class="ch-badge" id="badge-s2">Stub 2</span>
+            <span class="ch-badge" id="badge-s3">Stub 3</span>
+          </div>
+        </div>
+
+        <!-- RIGHT: Ramp Sequence -->
+        <div class="sim-panel">
+          <div class="sim-panel-title">Ramp Sequence — CSV Profile</div>
+          <div class="seq-status" id="seqStatus">Waiting to start.</div>
+          <div class="seq-table-wrap">
+            <table class="seq-table">
+              <thead>
+                <tr>
+                  <th>Step</th>
+                  <th>CO₂<br>slpm</th>
+                  <th>CH₄<br>slpm</th>
+                  <th>Pwr<br>kW</th>
+                  <th>S1<br>mm</th>
+                  <th>S2<br>mm</th>
+                  <th>S3<br>mm</th>
+                </tr>
+              </thead>
+              <tbody id="seqBody"></tbody>
+            </table>
+          </div>
+          <div class="sim-controls">
+            <button class="s-btn s-primary" id="btnStart">Start Ramp</button>
+            <button class="s-btn" id="btnPause" disabled>Pause</button>
+            <button class="s-btn s-fault" id="btnFault" disabled>Simulate Fault</button>
+            <button class="s-btn" id="btnReset" disabled>Reset</button>
+          </div>
+        </div>
+
+      </div><!-- /sim-layout -->
+    </div><!-- /sim-section -->
+
+  </div><!-- /project-body -->
   <div class="project-nav">
     <a href="tuner-spacer.html">← Tuner Spacer Design</a>
     <span></span>
   </div>
   <footer><span>© 2026 Dimitri Orfanos</span><span>Cambridge, MA</span></footer>
+  <script>
+  // ── Ramp profile (6 steps, CO₂→CH₄→Power→Stubs order per step) ──
+  // Ranges: co2 20–75 slpm, ch4 5–45 slpm, pwr 20–100 kW, stubs 10–70 mm
+  const STEPS = [
+    { co2: 20, ch4:  5, pwr: 20, s1: 10, s2: 15, s3: 12 },
+    { co2: 33, ch4: 13, pwr: 36, s1: 20, s2: 28, s3: 24 },
+    { co2: 45, ch4: 21, pwr: 52, s1: 32, s2: 40, s3: 36 },
+    { co2: 55, ch4: 29, pwr: 68, s1: 44, s2: 52, s3: 48 },
+    { co2: 65, ch4: 37, pwr: 84, s1: 56, s2: 60, s3: 58 },
+    { co2: 75, ch4: 45, pwr:100, s1: 65, s2: 68, s3: 66 },
+  ];
+
+  // Channel order within each step — matches real VI sequence
+  const CH_ORDER = ['co2','ch4','pwr','s1','s2','s3'];
+  const CH_LABEL = { co2:'CO₂', ch4:'CH₄', pwr:'Power', s1:'Stub 1', s2:'Stub 2', s3:'Stub 3' };
+  const CH_UNIT  = { co2:'slpm', ch4:'slpm', pwr:'kW', s1:'mm', s2:'mm', s3:'mm' };
+  // Full-scale maxima for bar scaling
+  const CH_MAX   = { co2:80, ch4:50, pwr:100, s1:80, s2:80, s3:80 };
+
+  const TICK_MS = 100;
+  const SLEW    = 0.14;   // fraction of error closed per tick
+  const NOISE   = 0.12;
+  const TOL     = 0.6;    // settled tolerance (display units)
+
+  // ── State ────────────────────────────────────────────────────
+  const initActual = () => ({ ...STEPS[0] });
+  let S = {
+    running: false, paused: false, fault: false,
+    step: 0,              // which CSV row we're targeting
+    chIdx: 0,             // which channel within the step we're settling
+    actual: initActual(),
+    setpoint: { ...STEPS[0] },  // target for current channel only; others hold
+    spTarget: { ...STEPS[0] },  // full step target (for table display)
+    timer: null,
+  };
+
+  // ── DOM ──────────────────────────────────────────────────────
+  const $fill  = k => document.getElementById('fill-'+k);
+  const $sp    = k => document.getElementById('sp-'+k);
+  const $val   = k => document.getElementById('val-'+k);
+  const $badge = k => document.getElementById('badge-'+k);
+  const seqStatus  = document.getElementById('seqStatus');
+  const seqBody    = document.getElementById('seqBody');
+  const faultBanner= document.getElementById('faultBanner');
+  const btnStart   = document.getElementById('btnStart');
+  const btnPause   = document.getElementById('btnPause');
+  const btnFault   = document.getElementById('btnFault');
+  const btnReset   = document.getElementById('btnReset');
+
+  // ── Build table ──────────────────────────────────────────────
+  function buildTable() {
+    seqBody.innerHTML = '';
+    STEPS.forEach((s, i) => {
+      const tr = document.createElement('tr');
+      tr.id = 'row-'+i;
+      tr.innerHTML = `<td>${i+1}</td><td>${s.co2}</td><td>${s.ch4}</td><td>${s.pwr}</td><td>${s.s1}</td><td>${s.s2}</td><td>${s.s3}</td>`;
+      seqBody.appendChild(tr);
+    });
+  }
+
+  // ── Render ───────────────────────────────────────────────────
+  function pct(k, v) { return Math.max(0, Math.min(100, v / CH_MAX[k] * 100)); }
+
+  function renderParams() {
+    CH_ORDER.forEach(k => {
+      const a = S.actual[k], sp = S.spTarget[k];
+      const ap = pct(k, a), spp = pct(k, sp);
+      $fill(k).style.width = ap.toFixed(1) + '%';
+      $sp(k).style.left    = spp.toFixed(1) + '%';
+      const isActive = S.running && !S.paused && CH_ORDER[S.chIdx] === k;
+      const settled  = Math.abs(a - S.setpoint[k]) < TOL;
+      $fill(k).classList.toggle('active-channel', isActive && !settled);
+      const valEl = $val(k);
+      valEl.textContent = a.toFixed(0) + ' ' + CH_UNIT[k];
+      valEl.className = 'param-val' + (S.running && isActive && !settled ? ' v-settling' : S.running ? ' v-settled' : '');
+    });
+  }
+
+  function renderBadges() {
+    CH_ORDER.forEach((k, i) => {
+      const b = $badge(k);
+      if (!S.running) { b.className = 'ch-badge'; return; }
+      const chI = S.chIdx;
+      if (i < chI) { b.className = 'ch-badge ch-done'; }
+      else if (i === chI) { b.className = 'ch-badge ch-active'; }
+      else { b.className = 'ch-badge'; }
+    });
+    // On step advance, badges reset — handled in advanceChannel
+  }
+
+  function renderTable() {
+    STEPS.forEach((_, i) => {
+      const tr = document.getElementById('row-'+i);
+      if (!tr) return;
+      tr.className = i < S.step ? 'row-done' : i === S.step ? 'row-active' : '';
+    });
+    const active = document.getElementById('row-'+S.step);
+    if (active) active.scrollIntoView({ block: 'nearest', behavior: 'smooth' });
+  }
+
+  function setStatus(html) { seqStatus.innerHTML = html; }
+
+  function renderButtons() {
+    btnStart.disabled = S.running && !S.paused;
+    btnStart.textContent = S.paused ? 'Resume' : 'Start Ramp';
+    btnPause.disabled = !S.running || S.paused || S.fault;
+    btnFault.disabled = !S.running || S.fault;
+    btnReset.disabled = !(S.fault || (!S.running && S.step > 0));
+  }
+
+  function render() {
+    renderParams();
+    renderBadges();
+    renderTable();
+    renderButtons();
+  }
+
+  // ── Simulation tick ──────────────────────────────────────────
+  function tick() {
+    if (!S.running || S.paused || S.fault) return;
+
+    const k = CH_ORDER[S.chIdx];
+
+    // Only move the active channel toward its setpoint
+    const err = S.setpoint[k] - S.actual[k];
+    S.actual[k] += err * SLEW + (Math.random() - 0.5) * NOISE;
+
+    const settled = Math.abs(S.actual[k] - S.setpoint[k]) < TOL;
+
+    if (settled) {
+      // Snap to exact setpoint for cleanliness
+      S.actual[k] = S.setpoint[k];
+      advanceChannel();
+    } else {
+      setStatus(`<span class="s-run">Step ${S.step+1}/${STEPS.length} — ${CH_LABEL[k]} settling…</span>`);
+    }
+
+    render();
+  }
+
+  function advanceChannel() {
+    if (S.chIdx < CH_ORDER.length - 1) {
+      // More channels left in this step
+      S.chIdx++;
+      const k = CH_ORDER[S.chIdx];
+      S.setpoint[k] = S.spTarget[k];
+      setStatus(`<span class="s-run">Step ${S.step+1}/${STEPS.length} — ${CH_LABEL[k]} adjusting…</span>`);
+    } else {
+      // All channels settled — advance to next step
+      if (S.step < STEPS.length - 1) {
+        S.step++;
+        S.chIdx = 0;
+        S.spTarget = { ...STEPS[S.step] };
+        // Only push the first channel setpoint; rest hold until their turn
+        S.setpoint = { ...S.actual };         // hold all actuals
+        S.setpoint[CH_ORDER[0]] = S.spTarget[CH_ORDER[0]];
+        setStatus(`<span class="s-run">Step ${S.step+1}/${STEPS.length} — ${CH_LABEL[CH_ORDER[0]]} adjusting…</span>`);
+      } else {
+        // Ramp complete
+        S.running = false;
+        clearInterval(S.timer);
+        setStatus(`<span class="s-ok">Ramp complete — all setpoints reached.</span>`);
+      }
+    }
+  }
+
+  // ── Button handlers ──────────────────────────────────────────
+  btnStart.addEventListener('click', () => {
+    if (S.paused) {
+      S.paused = false;
+      S.running = true;
+      setStatus(`<span class="s-run">Step ${S.step+1}/${STEPS.length} — resumed.</span>`);
+      render();
+      return;
+    }
+    // Fresh start
+    const init = { ...STEPS[0] };
+    S = {
+      running: true, paused: false, fault: false,
+      step: 0, chIdx: 0,
+      actual: { ...init },
+      setpoint: { ...init, co2: STEPS[0].co2 }, // first channel active
+      spTarget: { ...STEPS[0] },
+      timer: null,
+    };
+    // Only the first channel's setpoint is pushed; others match actual (start value)
+    S.setpoint = { ...S.actual };
+    S.setpoint.co2 = S.spTarget.co2;
+    faultBanner.classList.remove('on');
+    clearInterval(S.timer);
+    S.timer = setInterval(tick, TICK_MS);
+    setStatus(`<span class="s-run">Step 1/${STEPS.length} — CO₂ adjusting…</span>`);
+    render();
+  });
+
+  btnPause.addEventListener('click', () => {
+    S.paused = true;
+    setStatus(`Paused at step ${S.step+1}.`);
+    render();
+  });
+
+  btnFault.addEventListener('click', () => {
+    S.fault = true; S.running = false; S.paused = false;
+    clearInterval(S.timer);
+    faultBanner.classList.add('on');
+    setStatus(`<span class="s-fault">FAULT — sequence interrupted.</span>`);
+    render();
+  });
+
+  btnReset.addEventListener('click', () => {
+    clearInterval(S.timer);
+    const init = { ...STEPS[0] };
+    S = {
+      running: false, paused: false, fault: false,
+      step: 0, chIdx: 0,
+      actual: { ...init },
+      setpoint: { ...init },
+      spTarget: { ...init },
+      timer: null,
+    };
+    faultBanner.classList.remove('on');
+    setStatus('Waiting to start.');
+    render();
+  });
+
+  // ── Init ─────────────────────────────────────────────────────
+  buildTable();
+  render();
+  setStatus('Waiting to start.');
+  </script>
 </body>
 </html>
