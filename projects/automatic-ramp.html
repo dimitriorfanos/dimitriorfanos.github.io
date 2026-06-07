@@ -531,8 +531,6 @@
       if (!tr) return;
       tr.className = i < S.step ? 'row-done' : i === S.step ? 'row-active' : '';
     });
-    const active = document.getElementById('row-'+S.step);
-    if (active) active.scrollIntoView({ block: 'nearest', behavior: 'smooth' });
   }
 
   function setStatus(html) { seqStatus.innerHTML = html; }
