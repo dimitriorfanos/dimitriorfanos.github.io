@@ -523,7 +523,12 @@
     }
 
     /* ── SKILLS ──────────────────────────────────────── */
-    #skills { padding-top: 3rem; }
+    #skills { padding-top: 3rem; background: var(--surface); max-width: 100%; }
+
+    #skills .inner {
+      max-width: calc(var(--max-w) + var(--pad-x) * 2);
+      margin: 0 auto;
+    }
 
     .skills-grid {
       display: grid;
@@ -945,6 +950,7 @@
 
   <!-- SKILLS -->
   <section id="skills">
+    <div class="inner">
     <div class="fade-in">
       <div class="section-label">Skills</div>
     </div>
@@ -1118,6 +1124,7 @@
           <span class="software-tag-item">LLM APIs</span>
         </div>
       </div>
+    </div>
     </div>
   </section>
 
