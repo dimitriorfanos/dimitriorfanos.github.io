@@ -148,6 +148,33 @@
     footer { padding: 1.75rem var(--pad-x); border-top: 1px solid var(--border); display: flex; justify-content: space-between; font-size: 0.72rem; color: var(--text-muted); letter-spacing: 0.06em; }
 
     @media (max-width: 640px) { .summary-grid { grid-template-columns: 1fr; } }
+
+    /* ── Lessons Learned Table ── */
+    .ll-section { margin-bottom: 4rem; }
+    .ll-section h2 { font-family: var(--font-display); font-size: 1.35rem; font-weight: 600; margin-bottom: 1.5rem; letter-spacing: -0.02em; }
+    .ll-table-wrap { overflow-x: auto; }
+    .ll-table { width: 100%; border-collapse: collapse; table-layout: fixed; }
+    .ll-table th { font-size: 0.68rem; font-weight: 600; letter-spacing: 0.14em; text-transform: uppercase; padding: 0 1rem 0.75rem; text-align: left; border-bottom: 1px solid var(--border); }
+    .ll-table th.col-general { width: 30%; }
+    .ll-table th.col-dr { width: 35%; }
+    .ll-table th.col-py { width: 35%; }
+    .ll-table td { vertical-align: top; padding: 1.25rem 1rem; border-bottom: 1px solid var(--border); }
+    .ll-table tr:last-child td { border-bottom: none; }
+    .ll-pill { display: inline-block; font-size: 0.62rem; font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase; padding: 0.18rem 0.5rem; border-radius: 2px; margin-bottom: 0.75rem; }
+    .pill-general { background: rgba(29,77,62,0.08); color: var(--accent); }
+    .pill-dr { background: rgba(29,77,62,0.05); color: var(--accent-light); border: 1px solid rgba(29,77,62,0.15); }
+    .pill-py { background: #F5F5F5; color: #444; border: 1px solid var(--border); }
+    .ll-entry { margin-bottom: 1rem; }
+    .ll-entry:last-child { margin-bottom: 0; }
+    .ll-entry-label { font-size: 0.875rem; font-weight: 500; color: var(--text); margin-bottom: 0.2rem; }
+    .ll-entry-sub { font-size: 0.8rem; color: var(--text-muted); line-height: 1.6; }
+
+    @media (max-width: 700px) {
+      .ll-table, .ll-table thead, .ll-table tbody, .ll-table th, .ll-table td, .ll-table tr { display: block; }
+      .ll-table th { display: none; }
+      .ll-table td { border-bottom: none; padding: 1rem 0; }
+      .ll-table tr { border-bottom: 1px solid var(--border); padding-bottom: 0.5rem; margin-bottom: 0.5rem; }
+    }
   </style>
 </head>
 <body>
@@ -196,27 +223,85 @@
       <p>The second chemistry was methane pyrolysis, which produces solid carbon and hydrogen. The carbon can be sold as a commodity material for use in applications like tires, batteries, or construction materials depending on its morphology. The hydrogen can be sold as a clean fuel for applications like transportation or as a chemical feedstock for synthesis. Pyrolysis is a better route to decarbonization, as the carbon is removed instead of recycled as a fuel source. The dry reforming and pyrolysis chemistries compliment eachother, as the syngas produced from dry reforming needs further hydrogen addition for liquid fuel production.</p>
     </div>
 
-    <div class="content-section">
-      <h2>What I measured</h2>
-      <p>Experiments evaluated three categories of performance:</p>
-      <ul>
-        <li><strong>Performance</strong> — conversion efficiency and power absorption</li>
-        <li><strong>Stability</strong> — arcing behavior, reflection coefficient, time-to-steady-state (thermal and compositional)</li>
-        <li><strong>Product quality</strong> — morphology, particle size, crystallinity, and impurities</li>
-      </ul>
-      <p><!-- REPLACE: Add anything more specific about methodology or instrumentation you're comfortable sharing. --></p>
-    </div>
-
-    <div class="content-section">
-      <h2>Key findings</h2>
-      <p>Notable experiments on reflected power and arcing revealed that impedance mismatch was causing instability at higher power levels. These findings drove targeted reactor modifications — changes to geometry and tuner configuration — that significantly improved power transfer.</p>
-      <p><!-- REPLACE: Add more detail about what was found, what changed as a result, or what was surprising. Keep IP-safe. --></p>
-    </div>
-
-    <div class="content-section">
-      <h2>Results &amp; scale-up impact</h2>
-      <p>The bench program successfully scaled from 1kW to 6kW for both dry reforming and pyrolysis chemistries. The impedance matching methodology developed at bench scale was directly applied to the 915MHz pilot reactor, enabling stable operation at full 100kW — a 100× increase in power.</p>
-      <p><!-- REPLACE: Any additional context on what this unlocked for the broader program. --></p>
+    <div class="ll-section">
+      <h2>Lessons learned</h2>
+      <div class="ll-table-wrap">
+        <table class="ll-table">
+          <thead>
+            <tr>
+              <th class="col-general"><span class="ll-pill pill-general">General</span></th>
+              <th class="col-dr"><span class="ll-pill pill-dr">Dry Reforming</span></th>
+              <th class="col-py"><span class="ll-pill pill-py">Pyrolysis</span></th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>
+                <div class="ll-entry">
+                  <div class="ll-entry-label">Experimental design</div>
+                  <div class="ll-entry-sub">DOE, variable definition, SMART goals — working alongside experimental physicists and engineers</div>
+                </div>
+                <div class="ll-entry">
+                  <div class="ll-entry-label">Documentation</div>
+                  <div class="ll-entry-sub">BFDs, P&IDs, wiring diagrams; experimental reports and presentations</div>
+                </div>
+                <div class="ll-entry">
+                  <div class="ll-entry-label">Hardware troubleshooting</div>
+                  <div class="ll-entry-sub">Electrical, pneumatic, and fluid systems; vendor coordination; maintaining equipment uptime at a startup</div>
+                </div>
+                <div class="ll-entry">
+                  <div class="ll-entry-label">Safety mindset</div>
+                  <div class="ll-entry-sub">Hazardous and combustible gases (CO, CH₄, C₂H₂); nanomaterial handling (carbon black)</div>
+                </div>
+                <div class="ll-entry">
+                  <div class="ll-entry-label">Technical depth</div>
+                  <div class="ll-entry-sub">Literature search, data synthesis, going deep on new problem areas as they arise</div>
+                </div>
+              </td>
+              <td>
+                <div class="ll-entry">
+                  <div class="ll-entry-label">Scale-up: 6 kW → 100 kW</div>
+                  <div class="ll-entry-sub">Bench-to-pilot scale-up supporting a 1,000-hour pilot demonstration campaign</div>
+                </div>
+                <div class="ll-entry">
+                  <div class="ll-entry-label">Reactor design iteration</div>
+                  <div class="ll-entry-sub">Observation → ideation → CAD → physical part; testing and evaluating modifications to improve process stability</div>
+                </div>
+                <div class="ll-entry">
+                  <div class="ll-entry-label">Gas analysis instrumentation</div>
+                  <div class="ll-entry-sub">Calibration and maintenance of NDIR analyzers for in-situ gas-phase composition measurement</div>
+                </div>
+                <div class="ll-entry">
+                  <div class="ll-entry-label">High-temperature materials</div>
+                  <div class="ll-entry-sub">Selecting ceramics and metals to meet thermal design criteria in harsh plasma environments</div>
+                </div>
+              </td>
+              <td>
+                <div class="ll-entry">
+                  <div class="ll-entry-label">Gas chromatography (GC)</div>
+                  <div class="ll-entry-sub">Method development for intermediate species quantification; data used for mass-energy balances and reaction mechanism validation</div>
+                </div>
+                <div class="ll-entry">
+                  <div class="ll-entry-label">DOE + root cause analysis</div>
+                  <div class="ll-entry-sub">Identified key process variables and disturbances; extended reactor runtime from 1 hr to 12+ hrs</div>
+                </div>
+                <div class="ll-entry">
+                  <div class="ll-entry-label">Carbon product characterization</div>
+                  <div class="ll-entry-sub">SEM/TEM (morphology), Raman spectroscopy (structure/crystallinity), TGA (volatile content) — at Harvard CNS</div>
+                </div>
+                <div class="ll-entry">
+                  <div class="ll-entry-label">Sample preparation</div>
+                  <div class="ll-entry-sub">Nanoparticle dispersion onto TEM grids, carbon tape, silicon wafers; ISO/ASTM standards</div>
+                </div>
+                <div class="ll-entry">
+                  <div class="ll-entry-label">Dual-phase systems</div>
+                  <div class="ll-entry-sub">Gas-solid phase engineering challenges specific to carbon-producing plasma reactors</div>
+                </div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
     </div>
 
   </div>
