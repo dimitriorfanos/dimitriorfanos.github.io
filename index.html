@@ -8,6 +8,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@800&family=Syne:wght@400;500;600;700&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/tabler-icons.min.css" />
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
@@ -68,13 +69,9 @@
       gap: 0.5rem;
     }
 
-    .nav-logo svg {
-      width: 20px;
-      height: 23px;
-      flex-shrink: 0;
-    }
+    .nav-logo svg { width: 20px; height: 23px; flex-shrink: 0; }
 
-    /* ── SPLASH SCREEN ──────────────────────────────── */
+    /* ── SPLASH SCREEN ───────────────────────────────── */
     #splash {
       position: fixed;
       inset: 0;
@@ -127,17 +124,12 @@
 
     .splash-sp { display: inline-block; width: 0.35em; }
 
-    .splash-ch {
-      display: inline-block;
-      opacity: 0;
-    }
-
-    .splash-ch.from-right { transform: translateX(14px); }
+    .splash-ch { display: inline-block; opacity: 0; transform: translateX(14px); }
 
     .splash-ch.v {
       opacity: 1;
       transform: none;
-      transition: opacity 0.25s ease, transform 0.3s ease;
+      transition: opacity 0.28s ease, transform 0.32s ease;
     }
 
     .page-content { opacity: 0; transition: opacity 0.4s ease; }
@@ -160,6 +152,73 @@
     }
 
     .nav-links a:hover { color: var(--accent); }
+
+    .nav-dropdown { position: relative; }
+
+    .nav-dropdown-toggle {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.3rem;
+      font-size: 0.78rem;
+      font-weight: 400;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      cursor: pointer;
+      transition: color 0.2s;
+    }
+
+    .nav-dropdown-toggle .ti {
+      font-size: 0.85rem;
+      transition: transform 0.2s;
+    }
+
+    .nav-dropdown:hover .nav-dropdown-toggle,
+    .nav-dropdown:focus-within .nav-dropdown-toggle {
+      color: var(--accent);
+    }
+
+    .nav-dropdown:hover .nav-dropdown-toggle .ti,
+    .nav-dropdown:focus-within .nav-dropdown-toggle .ti {
+      transform: rotate(180deg);
+    }
+
+    .nav-dropdown-menu {
+      position: absolute;
+      top: 100%;
+      left: 50%;
+      margin-top: 0.85rem;
+      min-width: 130px;
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: 2px;
+      box-shadow: 0 12px 28px rgba(0,0,0,0.08);
+      list-style: none;
+      padding: 0.35rem;
+      opacity: 0;
+      visibility: hidden;
+      transform: translateX(-50%) translateY(4px);
+      transition: opacity 0.15s ease, transform 0.15s ease, visibility 0.15s;
+    }
+
+    .nav-dropdown:hover .nav-dropdown-menu,
+    .nav-dropdown:focus-within .nav-dropdown-menu {
+      opacity: 1;
+      visibility: visible;
+      transform: translateX(-50%) translateY(0);
+    }
+
+    .nav-dropdown-menu li a {
+      display: block;
+      padding: 0.5rem 0.75rem;
+      border-radius: 2px;
+      white-space: nowrap;
+    }
+
+    .nav-dropdown-menu li a:hover {
+      background: var(--surface);
+      color: var(--accent);
+    }
 
     /* ── HERO ────────────────────────────────────────── */
     .photo-backdrop {
@@ -523,7 +582,8 @@
       border: 1px solid var(--border);
     }
 
-    .project-figure img {
+    .project-figure img,
+    .project-figure video {
       width: 100%;
       height: 160px;
       object-fit: cover;
@@ -563,6 +623,10 @@
       margin-bottom: 0.3rem;
     }
 
+    .exp-duration {
+      opacity: 0.6;
+    }
+
     .exp-company {
       font-family: var(--font-display);
       font-size: 0.9rem;
@@ -594,6 +658,138 @@
       left: 0;
       color: var(--border);
     }
+
+    /* ── SKILLS ──────────────────────────────────────── */
+    #skills { padding-top: 3rem; background: var(--surface); max-width: 100%; }
+
+    #skills .inner {
+      max-width: calc(var(--max-w) + var(--pad-x) * 2);
+      margin: 0 auto;
+    }
+
+    .skills-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 1px;
+      background: var(--border);
+      border: 1px solid var(--border);
+    }
+
+    .skill-group { background: var(--bg); }
+
+    .skill-group-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 1.1rem 1.4rem;
+      cursor: pointer;
+      user-select: none;
+      transition: background 0.15s;
+    }
+
+    .skill-group-header:hover { background: var(--surface); }
+
+    .skill-group-left {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+    }
+
+    .skill-group-icon {
+      font-size: 16px;
+      color: var(--accent);
+    }
+
+    .skill-group-name {
+      font-family: var(--font-display);
+      font-size: 0.9rem;
+      font-weight: 600;
+      letter-spacing: 0.01em;
+      color: var(--text);
+    }
+
+    .skill-chevron {
+      font-size: 14px;
+      color: var(--text-muted);
+      transition: transform 0.2s;
+      flex-shrink: 0;
+    }
+
+    .skill-group.open .skill-chevron { transform: rotate(180deg); }
+
+    .skill-group-body {
+      display: none;
+      padding: 0 1.4rem 1.2rem 3.3rem;
+      border-top: 1px solid var(--border);
+    }
+
+    .skill-group.open .skill-group-body { display: block; }
+
+    .skill-items {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.35rem;
+      padding-top: 0.85rem;
+    }
+
+    .skill-tag-item {
+      font-size: 0.62rem;
+      font-weight: 500;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      padding: 0.2rem 0.5rem;
+      border: 1px solid var(--border);
+      color: var(--text-muted);
+      border-radius: 2px;
+    }
+
+    .skill-tag-item.primary {
+      border-color: rgba(29, 77, 62, 0.35);
+      color: var(--accent);
+      background: rgba(29, 77, 62, 0.06);
+    }
+
+    .skills-software { margin-top: 2.5rem; }
+
+    .software-row-label {
+      font-size: 0.68rem;
+      font-weight: 500;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      margin-bottom: 1rem;
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+    }
+
+    .software-row-label::after {
+      content: '';
+      display: block;
+      width: 2rem;
+      height: 1px;
+      background: var(--border);
+    }
+
+    .software-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.4rem;
+    }
+
+    .software-tag-item {
+      font-size: 0.66rem;
+      font-weight: 500;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      padding: 0.22rem 0.6rem;
+      border: 1px solid var(--border);
+      color: var(--text-muted);
+      border-radius: 2px;
+      transition: border-color 0.15s, color 0.15s;
+    }
+
+    .software-tag-item:hover { border-color: var(--accent); color: var(--accent); }
 
     /* ── CONTACT ─────────────────────────────────────── */
     #contact { text-align: left; padding-top: 2rem; padding-bottom: 2rem; }
@@ -686,6 +882,14 @@
       <li><a href="#about">About</a></li>
       <li><a href="#projects">Work</a></li>
       <li><a href="#experience">Experience</a></li>
+      <li><a href="#skills">Skills</a></li>
+      <li class="nav-dropdown">
+        <span class="nav-dropdown-toggle" tabindex="0">Personal <i class="ti ti-chevron-down" aria-hidden="true"></i></span>
+        <ul class="nav-dropdown-menu">
+          <li><a href="personal/baking.html">Baking</a></li>
+          <li><a href="personal/running.html">Running</a></li>
+        </ul>
+      </li>
       <li><a href="#contact">Contact</a></li>
     </ul>
   </nav>
@@ -752,13 +956,18 @@
       <div class="projects-grid fade-in">
 
         <!-- 01 -->
-        <a class="project-card project-wip">
+        <a href="projects/microwave-plasma.html" class="project-card">
           <div class="project-card-header">
             <span class="project-number">01</span>
             <span class="project-type type-project">Project</span>
           </div>
           <h3 class="project-title">Microwave Plasma Experiments</h3>
-          <p class="project-desc">Ran bench-scale microwave plasma experiments for dry reforming and pyrolysis to evaluate performance, stability, and product quality. Owned and operated the 2.45GHz test skid end-to-end, with key findings on reflected power and arcing driving reactor modifications. Scaled from 1kW to 6kW; impedance matching insights carried to the 915MHz pilot, enabling stable operation at 100kW.</p>
+          <p class="project-desc">Lab and pilot-scale experiments across dry reforming and pyrolysis chemistries, and the skills developed</p>
+          <figure class="project-figure">
+            <video autoplay loop muted playsinline>
+              <source src="videos/IgnitionFastFrame16x.mp4" type="video/mp4">
+            </video>
+          </figure>
           <div class="project-tags">
             <span class="tag">Microwave Plasma</span>
             <span class="tag">Experimental Design</span>
@@ -774,7 +983,10 @@
             <span class="project-type type-project">Project</span>
           </div>
           <h3 class="project-title">SCADA Development</h3>
-          <p class="project-desc">Maintained and developed SCADA systems for bench and pilot-scale plasma reactors. Integrated new sensors, redesigned the front panel for operator clarity, and built a safety interlock system with alarm and automatic fault-shutdown logic. Improved observability reduced monitoring fatigue and enabled autonomous operation.</p>
+          <p class="project-desc">Developed and maintained SCADA systems, front panel displays, and safety interlock programs.</p>
+          <figure class="project-figure">
+            <img src="images/process-display-blur.png" alt="Pilot-scale process display" loading="lazy" />
+          </figure>
           <div class="project-tags">
             <span class="tag">LabVIEW</span>
             <span class="tag">cRIO</span>
@@ -798,7 +1010,6 @@
             <span class="tag">RF Engineering</span>
             <span class="tag">Impedance Matching</span>
             <span class="tag">S-Parameters</span>
-            <span class="tag">Smith Chart</span>
           </div>
         </a>
 
@@ -828,7 +1039,10 @@
             <span class="project-type type-case-study">Case Study</span>
           </div>
           <h3 class="project-title">Automatic Ramp Program</h3>
-          <p class="project-desc">Pilot process ramp from ignition to full power was manual, variable, and limited to trained operators. Built a LabVIEW SubVI that reads a CSV ramp plan, sequences setpoint changes for power, flow rates, and tuning, and waits for measured values to settle before advancing — with pause and fault-interrupt capability. Ramp is now repeatable and operator-independent.</p>
+          <p class="project-desc">Developed automatic ramp program to ensure repeatable process start-up</p>
+          <figure class="project-figure">
+            <img src="images/ramp-simulation.png" alt="Interactive simulation of the automatic ramp sequence" loading="lazy" />
+          </figure>
           <div class="project-tags">
             <span class="tag">LabVIEW</span>
             <span class="tag">SCADA</span>
@@ -851,7 +1065,7 @@
 
       <div class="exp-item">
         <div class="exp-meta">
-          <div class="exp-period">Jun 2023 – Present</div>
+          <div class="exp-period">Jun 2023 – Present <span class="exp-duration">(3 yrs)</span></div>
           <div class="exp-company"><a href="https://www.maatenergy.com" target="_blank" rel="noopener">MAAT Energy</a></div>
         </div>
         <div>
@@ -868,7 +1082,7 @@
 
       <div class="exp-item">
         <div class="exp-meta">
-          <div class="exp-period">Jul 2022 – Dec 2022</div>
+          <div class="exp-period">Jul 2022 – Dec 2022 <span class="exp-duration">(6 mos)</span></div>
           <div class="exp-company"><a href="https://www.continuuspharma.com" target="_blank" rel="noopener">CONTINUUS Pharmaceuticals</a></div>
         </div>
         <div>
@@ -883,19 +1097,199 @@
 
       <div class="exp-item">
         <div class="exp-meta">
-          <div class="exp-period">Jul 2021 – Jun 2022</div>
+          <div class="exp-period">Jul 2021 – Jun 2022 <span class="exp-duration">(1 yr)</span></div>
           <div class="exp-company"><a href="https://www.maatenergy.com" target="_blank" rel="noopener">MAAT Energy</a></div>
         </div>
         <div>
           <h3 class="exp-role">Engineering Co-op</h3>
           <ul class="exp-bullets">
             <li>Contributed to early-stage R&amp;D on microwave plasma systems for CO₂ and CH₄ conversion to syngas and hydrogen as one of the company's first engineers.</li>
-            <li>Writing SOPs for safe and repeatable process operation to ensure repeatbale results and compliance with safety standards.</li>
+            <li>Writing SOPs for safe and repeatable process operation to ensure repeatable results and compliance with safety standards.</li>
             <li>Built and modified reactor hardware and plumbing systems; developed hands-on experience with process assembly, instrumentation, and system diagnostics.</li>
           </ul>
         </div>
       </div>
 
+    </div>
+  </section>
+
+  <!-- SKILLS -->
+  <section id="skills">
+    <div class="inner">
+    <div class="fade-in">
+      <div class="section-label">Skills</div>
+    </div>
+    <div class="fade-in">
+      <div class="skills-grid">
+
+        <div class="skill-group">
+          <div class="skill-group-header" onclick="toggleSkill(this.parentElement)">
+            <div class="skill-group-left">
+              <i class="ti ti-adjustments skill-group-icon" aria-hidden="true"></i>
+              <span class="skill-group-name">Process &amp; Systems</span>
+            </div>
+            <i class="ti ti-chevron-down skill-chevron" aria-hidden="true"></i>
+          </div>
+          <div class="skill-group-body">
+            <div class="skill-items">
+              <span class="skill-tag-item primary">P&amp;IDs</span>
+              <span class="skill-tag-item primary">Block flow diagrams</span>
+              <span class="skill-tag-item">System troubleshooting</span>
+              <span class="skill-tag-item">Root cause analysis</span>
+              <span class="skill-tag-item">Scale-up</span>
+              <span class="skill-tag-item">Transport phenomena</span>
+              <span class="skill-tag-item">Mass-energy balances</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="skill-group">
+          <div class="skill-group-header" onclick="toggleSkill(this.parentElement)">
+            <div class="skill-group-left">
+              <i class="ti ti-antenna skill-group-icon" aria-hidden="true"></i>
+              <span class="skill-group-name">Microwave &amp; RF</span>
+            </div>
+            <i class="ti ti-chevron-down skill-chevron" aria-hidden="true"></i>
+          </div>
+          <div class="skill-group-body">
+            <div class="skill-items">
+              <span class="skill-tag-item primary">2.45 GHz plasma systems</span>
+              <span class="skill-tag-item primary">915 MHz plasma systems</span>
+              <span class="skill-tag-item">Impedance matching</span>
+              <span class="skill-tag-item">Stub tuners</span>
+              <span class="skill-tag-item">VNA</span>
+              <span class="skill-tag-item">S-parameters</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="skill-group">
+          <div class="skill-group-header" onclick="toggleSkill(this.parentElement)">
+            <div class="skill-group-left">
+              <i class="ti ti-cpu skill-group-icon" aria-hidden="true"></i>
+              <span class="skill-group-name">Instrumentation &amp; Controls</span>
+            </div>
+            <i class="ti ti-chevron-down skill-chevron" aria-hidden="true"></i>
+          </div>
+          <div class="skill-group-body">
+            <div class="skill-items">
+              <span class="skill-tag-item primary">SCADA design</span>
+              <span class="skill-tag-item primary">LabVIEW</span>
+              <span class="skill-tag-item">cRIO</span>
+              <span class="skill-tag-item">4–20 mA sensors</span>
+              <span class="skill-tag-item">Safety interlocks</span>
+              <span class="skill-tag-item">Digital logic</span>
+              <span class="skill-tag-item">Network devices</span>
+              <span class="skill-tag-item">Multimeter</span>
+              <span class="skill-tag-item">Oscilloscope</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="skill-group">
+          <div class="skill-group-header" onclick="toggleSkill(this.parentElement)">
+            <div class="skill-group-left">
+              <i class="ti ti-flask skill-group-icon" aria-hidden="true"></i>
+              <span class="skill-group-name">Experimental Work</span>
+            </div>
+            <i class="ti ti-chevron-down skill-chevron" aria-hidden="true"></i>
+          </div>
+          <div class="skill-group-body">
+            <div class="skill-items">
+              <span class="skill-tag-item primary">DOE methodology</span>
+              <span class="skill-tag-item">First-principles modeling</span>
+              <span class="skill-tag-item">Reactor operations</span>
+              <span class="skill-tag-item">Atmospheric pressure systems</span>
+              <span class="skill-tag-item">High-temperature systems</span>
+              <span class="skill-tag-item">SOP writing</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="skill-group">
+          <div class="skill-group-header" onclick="toggleSkill(this.parentElement)">
+            <div class="skill-group-left">
+              <i class="ti ti-microscope skill-group-icon" aria-hidden="true"></i>
+              <span class="skill-group-name">Material Characterization</span>
+            </div>
+            <i class="ti ti-chevron-down skill-chevron" aria-hidden="true"></i>
+          </div>
+          <div class="skill-group-body">
+            <div class="skill-items">
+              <span class="skill-tag-item primary">SEM</span>
+              <span class="skill-tag-item primary">TEM</span>
+              <span class="skill-tag-item primary">Raman spectroscopy</span>
+              <span class="skill-tag-item">SAED</span>
+              <span class="skill-tag-item">TGA</span>
+              <span class="skill-tag-item">Sample prep</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="skill-group">
+          <div class="skill-group-header" onclick="toggleSkill(this.parentElement)">
+            <div class="skill-group-left">
+              <i class="ti ti-chart-dots skill-group-icon" aria-hidden="true"></i>
+              <span class="skill-group-name">Gas Phase Analysis</span>
+            </div>
+            <i class="ti ti-chevron-down skill-chevron" aria-hidden="true"></i>
+          </div>
+          <div class="skill-group-body">
+            <div class="skill-items">
+              <span class="skill-tag-item primary">Gas chromatography</span>
+              <span class="skill-tag-item primary">NDIR spectroscopy</span>
+              <span class="skill-tag-item">Method development</span>
+              <span class="skill-tag-item">Agilent 490 Micro GC</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="skill-group">
+          <div class="skill-group-header" onclick="toggleSkill(this.parentElement)">
+            <div class="skill-group-left">
+              <i class="ti ti-test-pipe skill-group-icon" aria-hidden="true"></i>
+              <span class="skill-group-name">Safety &amp; Lab Techniques</span>
+            </div>
+            <i class="ti ti-chevron-down skill-chevron" aria-hidden="true"></i>
+          </div>
+          <div class="skill-group-body">
+            <div class="skill-items">
+              <span class="skill-tag-item">TLC</span>
+              <span class="skill-tag-item">UV-Vis spectroscopy</span>
+              <span class="skill-tag-item">ReactIR</span>
+              <span class="skill-tag-item">ReactRaman</span>
+              <span class="skill-tag-item">Column chromatography</span>
+              <span class="skill-tag-item">Drilling</span>
+              <span class="skill-tag-item">Hand-tapping</span>
+              <span class="skill-tag-item">Compression fittings</span>
+              <span class="skill-tag-item">Compressed gas handling</span>
+              <span class="skill-tag-item">Hazardous gas handling</span>
+              <span class="skill-tag-item">Nanomaterial handling</span>
+              <span class="skill-tag-item">PPE protocols</span>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+      <div class="skills-software">
+        <div class="software-row-label">Software &amp; Tools</div>
+        <div class="software-tags">
+          <span class="software-tag-item">LabVIEW</span>
+          <span class="software-tag-item">Python</span>
+          <span class="software-tag-item">CST Studio Suite</span>
+          <span class="software-tag-item">SolidWorks</span>
+          <span class="software-tag-item">COMSOL</span>
+          <span class="software-tag-item">Aspen Plus</span>
+          <span class="software-tag-item">MATLAB</span>
+          <span class="software-tag-item">AutoCAD</span>
+          <span class="software-tag-item">MS Office</span>
+          <span class="software-tag-item">MS Visio</span>
+          <span class="software-tag-item">C++</span>
+          <span class="software-tag-item">LLM APIs</span>
+        </div>
+      </div>
+    </div>
     </div>
   </section>
 
@@ -906,7 +1300,7 @@
       <h2 class="section-title">Let's Talk!</h2>
       <p class="contact-sub">Always open to interesting technical conversations — and selectively open to new opportunities in R&D, process engineering, and instrumentation.</p>
       <!-- REPLACE with your actual email -->
-      <a href="mailto:your@email.com" class="contact-email">daorfanos@gmail.com</a>
+      <a href="mailto:daorfanos@gmail.com" class="contact-email">daorfanos@gmail.com</a>
       <div class="contact-links">
         <!-- REPLACE hrefs with your actual LinkedIn and GitHub URLs -->
         <a href="https://www.linkedin.com/in/dimitri-orfanos/" class="btn btn-outline" target="_blank" rel="noopener">LinkedIn ↗</a>
@@ -921,6 +1315,10 @@
   </footer>
 
   <script>
+    function toggleSkill(group) {
+      group.classList.toggle('open');
+    }
+
     // Auto-populate tags from individual project pages
     document.querySelectorAll('.project-card[data-tags-src]').forEach(card => {
       const src = card.getAttribute('data-tags-src');
@@ -995,7 +1393,6 @@
         void sg.offsetHeight;
         sg.classList.add('out');
 
-        // Show name container and immediately reveal D and O anchors
         nameEl.style.opacity = '1';
         var spans = nameEl.children;
         spans[D_IDX].classList.add('v');
@@ -1012,11 +1409,9 @@
           if (i < O_IDX) dGroup.push(i);
           else oGroup.push(i);
         }
-        // Sort each group outward from its anchor
         dGroup.sort(function (a, b) { return Math.abs(a - D_IDX) - Math.abs(b - D_IDX); });
         oGroup.sort(function (a, b) { return Math.abs(a - O_IDX) - Math.abs(b - O_IDX); });
 
-        // Interleave: one from D side, one from O side, alternating
         var seq = [], maxLen = Math.max(dGroup.length, oGroup.length);
         for (var j = 0; j < maxLen; j++) {
           if (j < dGroup.length) seq.push(dGroup[j]);
@@ -1026,18 +1421,16 @@
           setTimeout(function () { spans[idx].classList.add('v'); }, i * 50);
         });
 
-        // Dismiss splash and reveal page after cascade finishes
-        var total = seq.length * 50 + 400;
         setTimeout(function () {
           splash.classList.add('done');
           page.classList.add('visible');
-        }, total);
+        }, seq.length * 50 + 400);
       }
 
       document.fonts.ready.then(function () { setTimeout(run, 200); });
     })();
   </script>
 
-</div><!-- end .page-content -->
+  </div><!-- end .page-content -->
 </body>
 </html>
