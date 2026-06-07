@@ -224,6 +224,8 @@
     .stat-strip {
       display: grid;
       grid-template-columns: repeat(4, 1fr);
+      max-width: calc(var(--max-w) + var(--pad-x) * 2);
+      margin: 0 auto;
       border-bottom: 1px solid var(--border);
     }
 
