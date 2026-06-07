@@ -583,5 +583,21 @@
     <a href="impedance-matching.html">Next: Impedance Matching →</a>
   </div>
   <footer><span>© 2026 Dimitri Orfanos</span><span>Cambridge, MA</span></footer>
+
+<div id="lightbox" onclick="this.style.display='none'" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.85);z-index:999;cursor:zoom-out;align-items:center;justify-content:center;">
+  <img id="lightbox-img" style="max-width:90vw;max-height:90vh;object-fit:contain;border-radius:2px;" />
+</div>
+
+<script>
+  document.querySelectorAll('.evolution-img, .project-img').forEach(img => {
+    img.style.cursor = 'zoom-in';
+    img.addEventListener('click', () => {
+      const lb = document.getElementById('lightbox');
+      document.getElementById('lightbox-img').src = img.src;
+      lb.style.display = 'flex';
+    });
+  });
+</script>
+
 </body>
 </html>
