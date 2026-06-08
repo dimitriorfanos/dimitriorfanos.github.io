@@ -88,7 +88,7 @@
     #splash.done {
       opacity: 0;
       pointer-events: none;
-      transition: opacity 0.45s ease;
+      transition: opacity 0.34s ease;
     }
 
     #splash-sg {
@@ -102,14 +102,14 @@
       to   { transform: rotate(360deg); }
     }
 
-    #splash-sg.spin { animation: splash-spin 0.4s cubic-bezier(.25,.1,.25,1) forwards; }
+    #splash-sg.spin { animation: splash-spin 0.3s cubic-bezier(.25,.1,.25,1) forwards; }
 
     @keyframes splash-out {
       from { opacity: 1; transform: scale(1); }
       to   { opacity: 0; transform: scale(0.35); }
     }
 
-    #splash-sg.out { animation: splash-out 0.3s cubic-bezier(.4,0,1,1) forwards; }
+    #splash-sg.out { animation: splash-out 0.23s cubic-bezier(.4,0,1,1) forwards; }
 
     #splash-name {
       position: absolute;
@@ -129,7 +129,7 @@
     .splash-ch.v {
       opacity: 1;
       transform: none;
-      transition: opacity 0.28s ease, transform 0.32s ease;
+      transition: opacity 0.21s ease, transform 0.24s ease;
     }
 
     .page-content { opacity: 0; transition: opacity 0.4s ease; }
@@ -1382,7 +1382,7 @@
         buildName();
         sg.classList.remove('spin', 'out');
         void sg.offsetHeight;
-        setTimeout(function () { sg.classList.add('spin'); }, 150);
+        setTimeout(function () { sg.classList.add('spin'); }, 110);
         sg.onanimationend = function (e) {
           if (e.animationName === 'splash-spin') separate();
         };
@@ -1398,7 +1398,7 @@
         spans[D_IDX].classList.add('v');
         spans[O_IDX].classList.add('v');
 
-        setTimeout(revealLetters, 200);
+        setTimeout(revealLetters, 150);
       }
 
       function revealLetters() {
@@ -1418,16 +1418,16 @@
           if (j < oGroup.length) seq.push(oGroup[j]);
         }
         seq.forEach(function (idx, i) {
-          setTimeout(function () { spans[idx].classList.add('v'); }, i * 50);
+          setTimeout(function () { spans[idx].classList.add('v'); }, i * 38);
         });
 
         setTimeout(function () {
           splash.classList.add('done');
           page.classList.add('visible');
-        }, seq.length * 50 + 400);
+        }, seq.length * 38 + 300);
       }
 
-      document.fonts.ready.then(function () { setTimeout(run, 200); });
+      document.fonts.ready.then(function () { setTimeout(run, 150); });
     })();
   </script>
 
