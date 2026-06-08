@@ -62,7 +62,12 @@
       letter-spacing: 0.02em;
       color: var(--text);
       text-decoration: none;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
     }
+
+    .nav-logo svg { width: 20px; height: 23px; flex-shrink: 0; }
 
     .nav-links {
       display: flex;
@@ -398,7 +403,13 @@
 
   <!-- NAV -->
   <nav id="main-nav">
-    <a href="../index.html" class="nav-logo">DIMITRI ORFANOS</a>
+    <a href="../index.html" class="nav-logo">
+      <svg viewBox="0 0 129 150" aria-hidden="true">
+        <path d="M0,0 L48,0 C86,0 122,24 122,75 C122,126 86,150 48,150 L0,150 Z M16,18 L50,18 C76,18 96,40 96,75 C96,110 76,132 50,132 L16,132 Z" fill-rule="evenodd" fill="currentColor"/>
+        <g transform="translate(70,75) scale(0.9) translate(-70,-75)"><path d="M70,0 C108,0 128,28 128,75 C128,122 108,150 70,150 C30,150 2,122 2,75 C2,28 30,0 70,0 Z M70,18 C98,18 114,40 114,75 C114,110 98,132 70,132 C42,132 26,110 26,75 C26,40 42,18 70,18 Z" fill-rule="evenodd" fill="currentColor"/></g>
+      </svg>
+      DIMITRI ORFANOS
+    </a>
     <ul class="nav-links">
       <li><a href="../index.html#about">About</a></li>
       <li><a href="../index.html#projects">Work</a></li>

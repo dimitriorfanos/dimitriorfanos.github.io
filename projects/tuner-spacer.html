@@ -11,7 +11,8 @@
     html { scroll-behavior: smooth; }
     body { font-family: var(--font-body); background: var(--bg); color: var(--text); font-size: 16px; line-height: 1.6; -webkit-font-smoothing: antialiased; }
     nav { position: fixed; top: 0; left: 0; right: 0; z-index: 100; display: flex; align-items: center; justify-content: space-between; padding: 1.25rem var(--pad-x); background: rgba(255,255,255,0.90); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); border-bottom: 1px solid var(--border); }
-    .nav-logo { font-family: var(--font-display); font-weight: 600; font-size: 1rem; color: var(--text); text-decoration: none; }
+    .nav-logo { font-family: var(--font-display); font-weight: 600; font-size: 1rem; color: var(--text); text-decoration: none; display: flex; align-items: center; gap: 0.5rem; }
+    .nav-logo svg { width: 20px; height: 23px; flex-shrink: 0; }
     .nav-back { font-size: 0.78rem; font-weight: 400; letter-spacing: 0.1em; text-transform: uppercase; color: var(--text-muted); text-decoration: none; transition: color 0.2s; display: flex; align-items: center; gap: 0.4rem; }
     .nav-back:hover { color: var(--accent); }
     .project-hero { padding: 8rem var(--pad-x) 4rem; max-width: calc(var(--max-w) + var(--pad-x) * 2); margin: 0 auto; border-bottom: 1px solid var(--border); }
@@ -46,7 +47,13 @@
 </head>
 <body>
   <nav>
-    <a href="../index.html" class="nav-logo">DIMITRI ORFANOS</a>
+    <a href="../index.html" class="nav-logo">
+      <svg viewBox="0 0 129 150" aria-hidden="true">
+        <path d="M0,0 L48,0 C86,0 122,24 122,75 C122,126 86,150 48,150 L0,150 Z M16,18 L50,18 C76,18 96,40 96,75 C96,110 76,132 50,132 L16,132 Z" fill-rule="evenodd" fill="currentColor"/>
+        <g transform="translate(70,75) scale(0.9) translate(-70,-75)"><path d="M70,0 C108,0 128,28 128,75 C128,122 108,150 70,150 C30,150 2,122 2,75 C2,28 30,0 70,0 Z M70,18 C98,18 114,40 114,75 C114,110 98,132 70,132 C42,132 26,110 26,75 C26,40 42,18 70,18 Z" fill-rule="evenodd" fill="currentColor"/></g>
+      </svg>
+      DIMITRI ORFANOS
+    </a>
     <a href="../index.html#projects" class="nav-back">← All work</a>
   </nav>
   <div class="project-hero">
